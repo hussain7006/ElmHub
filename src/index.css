@@ -1,2 +1,27 @@
+@font-face {
+  font-family: 'Elm';
+  src: url('/fonts/Elm-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Elm';
+  src: url('/fonts/Elm-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Elm';
+  src: url('/fonts/Elm-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Elm', sans-serif;
+}
+
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
