@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=WDXL+Lubrifont+TC&display=swap');
 @font-face {
   font-family: 'Elm';
   src: url('/fonts/Elm-Light.woff2') format('woff2');
@@ -5,22 +7,24 @@
   font-style: normal;
 }
 
-@font-face {
+
+/* @font-face {
   font-family: 'Elm';
   src: url('/fonts/Elm-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-}
+} */
 
-@font-face {
+/* @font-face {
   font-family: 'Elm';
   src: url('/fonts/Elm-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
-}
+} */
 
 body {
-  font-family: 'Elm', sans-serif;
+  /* font-family: 'Elm', sans-serif; */
+  font-family: 'Inter', sans-serif;
 }
 
 @import "tailwindcss";

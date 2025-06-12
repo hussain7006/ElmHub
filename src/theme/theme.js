@@ -5,7 +5,7 @@ export const colors = {
     background: '#F9FAFB', // Gray 50 (unchanged)
     surface: '#FFFFFF',
     textPrimary: '#0c1d46', // Dark navy blue
-    textSecondary: '#6B7280', // Gray 500 (unchanged)
+    textSecondary: '#9CA3AF', // Gray 400 (lighter)
     buttonBackground: '#0070c7', // Bright blue
     inputBackground: '#FFFFFF', // Unchanged
     borderColor: '#D1D5DB', // Unchanged

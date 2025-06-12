@@ -1,11 +1,13 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./Routes";
-import './App.css'
+import './App.css';
 
 function App() {
   return (
-    <RouterProvider router={router} />
-  )
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
-export default App
+export default App;
