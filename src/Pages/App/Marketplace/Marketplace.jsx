@@ -9,7 +9,8 @@ import {
     VideoCameraIcon,
     ViewfinderCircleIcon,
     CpuChipIcon,
-    CubeIcon
+    CubeIcon,
+    ChartBarIcon
 } from '@heroicons/react/24/outline';
 import ProductSection from '../../../Components/App/Marketplace/ProductSection';
 
@@ -73,8 +74,17 @@ const Marketplace = () => {
         }
     ];
 
+    const insightProducts = [
+        {
+            icon: ChartBarIcon,
+            title: "Advanced Analytics Dashboard",
+            description: "Convert your voice to text easily with our speech-to-text AI, enhancing productivity.",
+            isEnabled: true
+        }
+    ];
+
     return (
-        <div className="p-6">
+        <div className="p-6 ">
             <motion.h1
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -85,7 +95,7 @@ const Marketplace = () => {
                 Explore <span style={{ color: colors.accent, fontFamily: 'WDXL Lubrifont TC', fontSize: '2.5rem' }}>elm</span>'s AI Solution Marketplace
             </motion.h1>
 
-            <div className="space-y-8 overflow-y-auto">
+            <div className="space-y-8">
                 <ProductSection
                     title="Speech Related"
                     products={speechProducts}
@@ -101,6 +111,12 @@ const Marketplace = () => {
                 <ProductSection
                     title="Large Language Models (LLM)"
                     products={llmProducts}
+                    colors={colors}
+                />
+
+                <ProductSection
+                    title="Insight Related"
+                    products={insightProducts}
                     colors={colors}
                 />
             </div>
