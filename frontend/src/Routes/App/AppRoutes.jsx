@@ -1,6 +1,7 @@
 import { lazy } from "react";
 
 const Dashboard = lazy(() => import("../../Pages/App/Dashboard"));
+const DashboardElm = lazy(() => import("../../Pages/App/DashboardElm"));
 const Marketplace = lazy(() => import("../../Pages/App/Marketplace/Marketplace"));
 
 export const appRoutes = [
@@ -13,5 +14,9 @@ export const appRoutes = [
         element: <Marketplace />
       }
     ]
+  },
+  {
+    path: "/task-track",
+    element: <DashboardElm />
   }
 ];

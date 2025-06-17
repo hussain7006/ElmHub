@@ -92,7 +92,22 @@ const Marketplace = () => {
                 className="text-3xl font-bold mb-8 text-center"
                 style={{ color: colors.textPrimary }}
             >
-                Explore <span style={{ color: colors.accent, fontFamily: 'WDXL Lubrifont TC', fontSize: '2.5rem' }}>elm</span>'s AI Solution Marketplace
+                <div className="flex flex-wrap gap-2.5 justify-center items-center w-full text-3xl font-bold text-slate-700 max-md:max-w-full">
+                    <span className="self-stretch my-auto text-slate-700">
+                        Explore
+                    </span>
+                    <img
+                        src="https://cdn.builder.io/api/v1/image/assets/a13b0fc47a26423f9462e4bb1b87e766/9c903654d053a21353d017082c0cea2c64e64f3c?placeholderIfAbsent=true"
+                        className="object-contain shrink-0 self-stretch my-auto aspect-[2.48] w-[67px]"
+                        alt="Logo"
+                    />
+                    <span className="self-stretch my-auto text-slate-700">
+                        's
+                    </span>
+                    <span className="self-stretch my-auto text-slate-700">
+                        {" "}AI Solutions Marketplace
+                    </span>
+                </div>
             </motion.h1>
 
             <div className="space-y-8">

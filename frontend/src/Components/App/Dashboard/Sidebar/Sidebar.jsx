@@ -28,7 +28,7 @@ const Sidebar = () => {
       title: 'Products',
       items: [
         { name: 'Smart Home', icon: HomeIcon, path: '/marketplace' },
-        { name: 'Task Tracker', icon: ClipboardDocumentListIcon, path: '/task-tracker' },
+        { name: 'Task Tracker', icon: ClipboardDocumentListIcon, path: '/task-track' },
         { name: 'Fitness Pro', icon: ChartBarIcon, path: '/fitness-pro' },
         { name: 'EduLearn', icon: AcademicCapIcon, path: '/edulearn' },
         { name: 'Health Monitor', icon: HeartIcon, path: '/health-monitor' },
