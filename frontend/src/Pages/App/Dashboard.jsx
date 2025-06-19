@@ -11,7 +11,7 @@ export default function Dashboard() {
   const { isCollapsed } = useSidebarStore();
 
   return (
-    <div className="flex h-screen bg-gray-200" >
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900" >
       <Sidebar />
       <motion.div
         initial={false}

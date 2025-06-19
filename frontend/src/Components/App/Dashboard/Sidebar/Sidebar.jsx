@@ -13,7 +13,9 @@ import {
   UserGroupIcon,
   CircleStackIcon,
   BellIcon,
-  CodeBracketIcon
+  CodeBracketIcon,
+  BeakerIcon,
+  CogIcon
 } from '@heroicons/react/24/outline';
 import logo from '/images/logo.png'
 
@@ -27,12 +29,28 @@ const Sidebar = () => {
     {
       title: 'Products',
       items: [
-        { name: 'Smart Home', icon: HomeIcon, path: '/marketplace' },
-        { name: 'Task Tracker', icon: ClipboardDocumentListIcon, path: '/task-tracker' },
-        { name: 'Fitness Pro', icon: ChartBarIcon, path: '/fitness-pro' },
-        { name: 'EduLearn', icon: AcademicCapIcon, path: '/edulearn' },
-        { name: 'Health Monitor', icon: HeartIcon, path: '/health-monitor' },
-        { name: 'Finance Buddy', icon: CurrencyDollarIcon, path: '/finance-buddy' },
+        { name: 'Home', icon: HomeIcon, path: '/marketplace' },
+        { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center' },
+        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics' },
+        // { name: 'Fitness Pro', icon: ChartBarIcon, path: '/fitness-pro' },
+        // { name: 'EduLearn', icon: AcademicCapIcon, path: '/edulearn' },
+        // { name: 'Health Monitor', icon: HeartIcon, path: '/health-monitor' },
+        // { name: 'Finance Buddy', icon: CurrencyDollarIcon, path: '/finance-buddy' },
+      ]
+    },
+    {
+      title: 'Product Demos',
+      items: [
+        { 
+          name: 'Examination Center', 
+          icon: BeakerIcon, 
+          path: '/product-showcase/examination-center'
+        },
+        { 
+          name: 'People Analytics', 
+          icon: ClipboardDocumentListIcon, 
+          path: '/product-showcase/people-analytics'
+        }
       ]
     },
     {
@@ -164,37 +182,39 @@ const Sidebar = () => {
                 )}
               </AnimatePresence>
               {section.items.map((item, itemIndex) => (
-                <motion.button
-                  key={itemIndex}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate(item.path)}
-                  className={`w-full flex items-center px-4 py-2 transition-colors cursor-pointer ${
-                    isCollapsed ? 'justify-center' : 'justify-start'
-                  } ${location.pathname === item.path ? 'bg-opacity-10' : ''}`}
-                  style={{
-                    color: colors.textPrimary,
-                    backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
-                    ':hover': { backgroundColor: colors.accent }
-                  }}
-                >
-                  <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
-                    <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
-                  </div>
-                  <AnimatePresence mode="wait">
-                    {!isCollapsed && (
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className={`truncate text-sm text-gray-600 ${location.pathname === item.path ? 'text-white' : ''}`}
-                      >
-                        {item.name}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </motion.button>
+                <div key={itemIndex}>
+                  {/* Main Product Item */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => navigate(item.path)}
+                    className={`w-full flex items-center px-4 py-2 transition-colors cursor-pointer ${
+                      isCollapsed ? 'justify-center' : 'justify-start'
+                    } ${location.pathname === item.path ? 'bg-opacity-10' : ''}`}
+                    style={{
+                      color: colors.textPrimary,
+                      backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
+                      ':hover': { backgroundColor: colors.accent }
+                    }}
+                  >
+                    <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
+                      <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
+                    </div>
+                    <AnimatePresence mode="wait">
+                      {!isCollapsed && (
+                        <motion.span
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className={`truncate text-sm text-gray-600 ${location.pathname === item.path ? 'text-white' : ''}`}
+                        >
+                          {item.name}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </motion.button>
+                </div>
               ))}
             </div>
           ))}
