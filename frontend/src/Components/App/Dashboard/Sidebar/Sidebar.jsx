@@ -29,9 +29,9 @@ const Sidebar = () => {
     {
       title: 'Products',
       items: [
-        { name: 'Home', icon: HomeIcon, path: '/marketplace' },
-        { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center' },
-        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics' },
+        { name: 'Home', icon: HomeIcon, path: '/marketplace', disabled: false },
+        { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
+        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: true },
         // { name: 'Fitness Pro', icon: ChartBarIcon, path: '/fitness-pro' },
         // { name: 'EduLearn', icon: AcademicCapIcon, path: '/edulearn' },
         // { name: 'Health Monitor', icon: HeartIcon, path: '/health-monitor' },
@@ -41,30 +41,32 @@ const Sidebar = () => {
     {
       title: 'Product Demos',
       items: [
-        { 
-          name: 'Examination Center', 
-          icon: BeakerIcon, 
-          path: '/product-showcase/examination-center'
+        {
+          name: 'Examination Center',
+          icon: BeakerIcon,
+          path: '/product-showcase/examination-center',
+          disabled: false
         },
-        { 
-          name: 'People Analytics', 
-          icon: ClipboardDocumentListIcon, 
-          path: '/product-showcase/people-analytics'
+        {
+          name: 'People Analytics',
+          icon: ClipboardDocumentListIcon,
+          path: '/product-showcase/people-analytics',
+          disabled: false
         }
       ]
     },
     {
       title: 'Settings',
       items: [
-        { name: 'User Management', icon: UserGroupIcon, path: '/user-management' },
-        { name: 'Data Resources', icon: CircleStackIcon, path: '/data-resources' },
+        { name: 'User Management', icon: UserGroupIcon, path: '/user-management', disabled: true },
+        { name: 'Data Resources', icon: CircleStackIcon, path: '/data-resources', disabled: true },
       ]
     },
     {
       title: 'Analytics Dashboard',
       items: [
-        { name: 'Notifications', icon: BellIcon, path: '/notifications' },
-        { name: 'API Management', icon: CodeBracketIcon, path: '/api-management' },
+        { name: 'Notifications', icon: BellIcon, path: '/notifications', disabled: true },
+        { name: 'API Management', icon: CodeBracketIcon, path: '/api-management', disabled: true },
       ]
     }
   ];
@@ -99,7 +101,7 @@ const Sidebar = () => {
             className="p-2 rounded-lg transition-colors flex-shrink-0 cursor-pointer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            style={{ 
+            style={{
               backgroundColor: 'transparent',
               color: colors.textPrimary,
               ':hover': { backgroundColor: colors.accent }
@@ -185,16 +187,17 @@ const Sidebar = () => {
                 <div key={itemIndex}>
                   {/* Main Product Item */}
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: item.disabled ? 1 : 1.02 }}
+                    whileTap={{ scale: item.disabled ? 1 : 0.98 }}
                     onClick={() => navigate(item.path)}
-                    className={`w-full flex items-center px-4 py-2 transition-colors cursor-pointer ${
-                      isCollapsed ? 'justify-center' : 'justify-start'
-                    } ${location.pathname === item.path ? 'bg-opacity-10' : ''}`}
+                    disabled={item.disabled}
+                    className={`w-full flex items-center px-4 py-1 transition-colors cursor-pointer ${isCollapsed ? 'justify-center' : 'justify-start'
+                      } ${location.pathname === item.path ? 'bg-opacity-10' : ''}`}
                     style={{
                       color: colors.textPrimary,
                       backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
-                      ':hover': { backgroundColor: colors.accent }
+                      ':hover': { backgroundColor: colors.accent },
+                      cursor: item.disabled ? 'not-allowed' : 'pointer'
                     }}
                   >
                     <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
@@ -207,7 +210,10 @@ const Sidebar = () => {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className={`truncate text-sm text-gray-600 ${location.pathname === item.path ? 'text-white' : ''}`}
+                          className={`truncate text-sm`}
+                          style={{
+                            color: location.pathname === item.path ? colors.surface : colors.textSecondary
+                          }}
                         >
                           {item.name}
                         </motion.span>
@@ -216,17 +222,20 @@ const Sidebar = () => {
                   </motion.button>
                 </div>
               ))}
+
+              {/* Divider */}
+              <div className="h-1 w-full border-b mb-3" style={{ borderColor: colors.borderColor }}></div>
             </div>
           ))}
         </div>
 
         {/* Theme Toggle */}
-        <div className="p-4 border-t" style={{ borderColor: colors.borderColor }}>
+        <div className="p-4 border-t " style={{ borderColor: colors.borderColor }}>
           <motion.button
             onClick={toggleTheme}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full flex items-center justify-center p-2 rounded-lg transition-colors"
+            className="cursor-pointer w-full flex items-center justify-center p-2 rounded-lg transition-colors"
             style={{
               color: colors.textPrimary,
               ':hover': { backgroundColor: colors.accent }

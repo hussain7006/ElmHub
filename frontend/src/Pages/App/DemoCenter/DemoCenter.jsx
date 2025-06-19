@@ -3,310 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import useThemeStore from '../../../store/themeStore';
 import {
-    BeakerIcon,
-    ClipboardDocumentListIcon,
     PlayIcon,
     PauseIcon,
     SpeakerWaveIcon,
     SpeakerXMarkIcon,
-    ArrowLeftIcon,
-    InformationCircleIcon,
-    CheckCircleIcon,
-    ClockIcon,
-    UserIcon,
-    CpuChipIcon,
-    EyeIcon,
-    DevicePhoneMobileIcon,
-    IdentificationIcon,
-    MapPinIcon,
-    VideoCameraIcon,
-    DocumentTextIcon,
-    ChartBarIcon,
-    CogIcon,
     XMarkIcon
 } from '@heroicons/react/24/outline';
-import {demos} from "../../../Constants/demos"
+import { demos } from "../../../Constants/demos"
 
 export default function DemoCenter() {
     const { colors } = useThemeStore();
     const navigate = useNavigate();
     const { demoType: routeDemoType } = useParams();
-    const location = useLocation();
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
-    const [activeTab, setActiveTab] = useState('overview');
-    const [selectedDemo, setSelectedDemo] = useState('basic'); // Default to first demo
     const [selectedVideo, setSelectedVideo] = useState(null);
-
-    // Demo configurations with nested structure
-    // const demos = {
-    //     'examination-center': {
-    //         title: "Examination Center",
-    //         subtitle: "AI-Powered Detection & Analysis",
-    //         icon: BeakerIcon,
-    //         color: "#3B82F6",
-    //         description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
-    //         demos: {
-    //             '1': {
-    //                 name: "Basic Demo",
-    //                 subtitle: "Introduction to AI Detection",
-    //                 description: "Get started with our AI detection system through this comprehensive introduction.",
-    //                 duration: "3-5 minutes",
-    //                 difficulty: "Beginner",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-    //                 features: [
-    //                     "Head Detection Overview",
-    //                     "Basic Image Processing",
-    //                     "Simple Detection Results"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "Stable internet connection"
-    //                 ],
-    //                 instructions: [
-    //                     "Watch the introduction video",
-    //                     "Learn about basic detection features",
-    //                     "Understand the user interface"
-    //                 ],
-    //                 videoUrl: "/videos/examinationCenter/1.mp4",
-    //                 technicalSpecs: {
-    //                     "API Endpoints": "2 Basic endpoints",
-    //                     "Response Time": "< 1 second",
-    //                     "Accuracy": "90%+ detection rate"
-    //                 }
-    //             },
-    //             '2': {
-    //                 name: "API Testing Demo",
-    //                 subtitle: "Interactive API Testing",
-    //                 description: "Test our AI detection APIs with real-time image uploads and instant results.",
-    //                 duration: "5-8 minutes",
-    //                 difficulty: "Intermediate",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/2.png",
-    //                 features: [
-    //                     "Real-time API Testing",
-    //                     "Image Upload & Processing",
-    //                     "Detailed Results Analysis",
-    //                     "Error Handling"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "Stable internet connection",
-    //                     "Sample images for testing"
-    //                 ],
-    //                 instructions: [
-    //                     "Upload test images",
-    //                     "Test different API endpoints",
-    //                     "Analyze detection results",
-    //                     "Review error scenarios"
-    //                 ],
-    //                 videoUrl: "/videos/examinationCenter/2.mp4",
-    //                 technicalSpecs: {
-    //                     "API Endpoints": "6 RESTful endpoints",
-    //                     "Response Time": "< 2 seconds",
-    //                     "Accuracy": "95%+ detection rate",
-    //                     "Supported Formats": "JPEG, PNG, WebP",
-    //                     "Max File Size": "10MB per image"
-    //                 }
-    //             },
-    //             '3': {
-    //                 name: "Real-time Demo",
-    //                 subtitle: "Live Detection Processing",
-    //                 description: "Experience real-time AI detection with live video feeds and instant processing.",
-    //                 duration: "8-12 minutes",
-    //                 difficulty: "Advanced",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/3.png",
-    //                 features: [
-    //                     "Live Video Processing",
-    //                     "Real-time Detection",
-    //                     "Multi-object Tracking",
-    //                     "Performance Monitoring"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "High-speed internet",
-    //                     "Webcam access (optional)"
-    //                 ],
-    //                 instructions: [
-    //                     "Connect to live video feed",
-    //                     "Observe real-time processing",
-    //                     "Monitor detection accuracy",
-    //                     "Analyze performance metrics"
-    //                 ],
-    //                 videoUrl: "/videos/examinationCenter/3.mp4",
-    //                 technicalSpecs: {
-    //                     "Processing Speed": "Real-time (30 FPS)",
-    //                     "Detection Range": "Multiple objects",
-    //                     "Accuracy": "97%+ detection rate",
-    //                     "Latency": "< 100ms"
-    //                 }
-    //             },
-    //             '4': {
-    //                 name: "Real-time Demo",
-    //                 subtitle: "Live Detection Processing",
-    //                 description: "Experience real-time AI detection with live video feeds and instant processing.",
-    //                 duration: "8-12 minutes",
-    //                 difficulty: "Advanced",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/3.png",
-    //                 features: [
-    //                     "Live Video Processing",
-    //                     "Real-time Detection",
-    //                     "Multi-object Tracking",
-    //                     "Performance Monitoring"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "High-speed internet",
-    //                     "Webcam access (optional)"
-    //                 ],
-    //                 instructions: [
-    //                     "Connect to live video feed",
-    //                     "Observe real-time processing",
-    //                     "Monitor detection accuracy",
-    //                     "Analyze performance metrics"
-    //                 ],
-    //                 videoUrl: "/videos/examinationCenter/3.mp4",
-    //                 technicalSpecs: {
-    //                     "Processing Speed": "Real-time (30 FPS)",
-    //                     "Detection Range": "Multiple objects",
-    //                     "Accuracy": "97%+ detection rate",
-    //                     "Latency": "< 100ms"
-    //                 }
-    //             },
-    //             '5': {
-    //                 name: "Real-time Demo",
-    //                 subtitle: "Live Detection Processing",
-    //                 description: "Experience real-time AI detection with live video feeds and instant processing.",
-    //                 duration: "8-12 minutes",
-    //                 difficulty: "Advanced",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/3.png",
-    //                 features: [
-    //                     "Live Video Processing",
-    //                     "Real-time Detection",
-    //                     "Multi-object Tracking",
-    //                     "Performance Monitoring"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "High-speed internet",
-    //                     "Webcam access (optional)"
-    //                 ],
-    //                 instructions: [
-    //                     "Connect to live video feed",
-    //                     "Observe real-time processing",
-    //                     "Monitor detection accuracy",
-    //                     "Analyze performance metrics"
-    //                 ],
-    //                 videoUrl: "/videos/examinationCenter/3.mp4",
-    //                 technicalSpecs: {
-    //                     "Processing Speed": "Real-time (30 FPS)",
-    //                     "Detection Range": "Multiple objects",
-    //                     "Accuracy": "97%+ detection rate",
-    //                     "Latency": "< 100ms"
-    //                 }
-    //             }
-    //         }
-    //     },
-    //     'people-analytics': {
-    //         title: "People Analytics",
-    //         subtitle: "Advanced Human Behavior Analysis",
-    //         icon: ClipboardDocumentListIcon,
-    //         color: "#10B981",
-    //         description: "Discover how our AI system analyzes human behavior patterns, crowd dynamics, and social interactions in real-time.",
-    //         demos: {
-    //             'overview': {
-    //                 name: "Overview Demo",
-    //                 subtitle: "Introduction to People Analytics",
-    //                 description: "Learn about our people analytics capabilities and use cases.",
-    //                 duration: "4-6 minutes",
-    //                 difficulty: "Beginner",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-    //                 features: [
-    //                     "Behavioral Analysis Overview",
-    //                     "Crowd Detection Basics",
-    //                     "Analytics Dashboard Preview"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "Stable internet connection"
-    //                 ],
-    //                 instructions: [
-    //                     "Watch the overview presentation",
-    //                     "Understand use cases",
-    //                     "Explore dashboard features"
-    //                 ],
-    //                 videoUrl: "https://example.com/analytics-overview-demo.mp4",
-    //                 technicalSpecs: {
-    //                     "Processing Speed": "Real-time",
-    //                     "Detection Range": "Up to 50 people",
-    //                     "Accuracy": "90%+ classification"
-    //                 }
-    //             },
-    //             'advanced': {
-    //                 name: "Advanced Analytics",
-    //                 subtitle: "Deep Dive into Analytics",
-    //                 description: "Explore advanced analytics features including behavioral classification and pattern recognition.",
-    //                 duration: "6-10 minutes",
-    //                 difficulty: "Intermediate",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/2.png",
-    //                 features: [
-    //                     "Advanced Behavioral Analysis",
-    //                     "Pattern Recognition",
-    //                     "Predictive Analytics",
-    //                     "Custom Metrics"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "Stable internet connection",
-    //                     "Sample data sets"
-    //                 ],
-    //                 instructions: [
-    //                     "Review advanced features",
-    //                     "Analyze behavioral patterns",
-    //                     "Explore predictive models",
-    //                     "Customize analytics parameters"
-    //                 ],
-    //                 videoUrl: "https://example.com/analytics-advanced-demo.mp4",
-    //                 technicalSpecs: {
-    //                     "Processing Speed": "Real-time (30 FPS)",
-    //                     "Detection Range": "Up to 100 people",
-    //                     "Accuracy": "92%+ behavior classification",
-    //                     "Data Retention": "Configurable (30-365 days)"
-    //                 }
-    //             },
-    //             'dashboard': {
-    //                 name: "Dashboard Demo",
-    //                 subtitle: "Analytics Dashboard Walkthrough",
-    //                 description: "Navigate through our comprehensive analytics dashboard with real-time data visualization.",
-    //                 duration: "5-8 minutes",
-    //                 difficulty: "Intermediate",
-    //                 thumbnailImage: "/images/thumbnail/examinationCenter/3.png",
-    //                 features: [
-    //                     "Real-time Dashboard",
-    //                     "Interactive Charts",
-    //                     "Data Export",
-    //                     "Custom Reports"
-    //                 ],
-    //                 requirements: [
-    //                     "Modern web browser",
-    //                     "Stable internet connection"
-    //                 ],
-    //                 instructions: [
-    //                     "Navigate dashboard interface",
-    //                     "Explore data visualizations",
-    //                     "Generate custom reports",
-    //                     "Export analytics data"
-    //                 ],
-    //                 videoUrl: "https://example.com/analytics-dashboard-demo.mp4",
-    //                 technicalSpecs: {
-    //                     "Dashboard Updates": "Real-time",
-    //                     "Chart Types": "15+ visualization types",
-    //                     "Export Formats": "PDF, CSV, Excel",
-    //                     "Integration": "REST API + WebSocket"
-    //                 }
-    //             }
-    //         }
-    //     }
-    // };
 
     // Get current product from URL
     const getCurrentProduct = () => {
@@ -343,7 +54,6 @@ export default function DemoCenter() {
     }
 
     const { product, productType } = currentProductData;
-    const demo = product.demos[selectedDemo];
     const availableDemos = Object.entries(product.demos);
 
     const togglePlay = () => {
@@ -432,7 +142,7 @@ export default function DemoCenter() {
                                 {/* Close Button */}
                                 <button
                                     onClick={() => setSelectedVideo(null)}
-                                    className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition-all"
+                                    className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition-all cursor-pointer hover:scale-115"
                                 >
                                     <XMarkIcon className="w-6 h-6" />
                                 </button>
@@ -442,7 +152,7 @@ export default function DemoCenter() {
                                     {/* Actual Video Player */}
                                     {selectedVideo.videoUrl && (
                                         <video
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-contain"
                                             controls
                                             poster={`/images/thumbnail/examinationCenter/${selectedVideo.index}.png`}
                                         >
@@ -595,38 +305,6 @@ export default function DemoCenter() {
                             </motion.div>
                         ))}
                     </div>
-
-                    {/* Key Features Section */}
-                    {/* <motion.div
-                        variants={itemVariants}
-                        className="mt-8"
-                    >
-                        <div 
-                            className="rounded-lg p-6"
-                            style={{ backgroundColor: colors.surface, border: `1px solid ${colors.borderColor}` }}
-                        >
-                            <h3 className="text-xl font-semibold mb-4" style={{ color: colors.textPrimary }}>
-                                Key Features
-                            </h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                {demo.features.map((feature, index) => (
-                                    <div 
-                                        key={index}
-                                        className="flex items-center space-x-3 p-3 rounded-lg"
-                                        style={{ backgroundColor: colors.background }}
-                                    >
-                                        <div 
-                                            className="w-2 h-2 rounded-full flex-shrink-0"
-                                            style={{ backgroundColor: product.color }}
-                                        />
-                                        <span className="text-sm" style={{ color: colors.textPrimary }}>
-                                            {feature}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div> */}
                 </motion.div>
             </div>
         </div>

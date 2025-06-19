@@ -123,8 +123,8 @@ export const demos = {
                 description: "Learn about our people analytics capabilities and use cases.",
                 duration: "4-6 minutes",
                 difficulty: "Beginner",
-                thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-                videoUrl: "/videos/examinationCenter/1.mp4",
+                thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
+                videoUrl: "/videos/peopleAnalytics/1.mp4",
                 features: [
                     "Behavioral Analysis Overview",
                     "Crowd Detection Basics",
@@ -152,8 +152,8 @@ export const demos = {
                 description: "Explore advanced analytics features including behavioral classification and pattern recognition.",
                 duration: "6-10 minutes",
                 difficulty: "Intermediate",
-                thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-                videoUrl: "/videos/examinationCenter/1.mp4",
+                thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
+                videoUrl: "/videos/peopleAnalytics/1.mp4",
                 features: [
                     "Advanced Behavioral Analysis",
                     "Pattern Recognition",
@@ -184,8 +184,8 @@ export const demos = {
                 description: "Navigate through our comprehensive analytics dashboard with real-time data visualization.",
                 duration: "5-8 minutes",
                 difficulty: "Intermediate",
-                thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-                videoUrl: "https://example.com/analytics-advanced-demo.mp4",
+                thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
+                videoUrl: "/videos/peopleAnalytics/1.mp4",
                 features: [
                     "Real-time Dashboard",
                     "Interactive Charts",
