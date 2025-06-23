@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import useThemeStore from '../../../store/themeStore';
 import ProductHeader from '../../../Components/App/_component/ProductHeader';
 import ApiTestingCard from '../../../Components/App/_component/ApiTestingCard';
-import { ExaminationCenterApis } from '../../../Constants/products';
+import {PeopleAnalyticsApis} from "../../../Constants/products"
 
-export default function ExaminationCenter() {
+export default function PeopleAnalytics() {
+    
     const [expandedApi, setExpandedApi] = useState(null);
     const [loading, setLoading] = useState(null);
     const [results, setResults] = useState({});
@@ -14,7 +14,6 @@ export default function ExaminationCenter() {
 
 
     const handleApiClick = (apiKey) => {
-        console.log("in handleApiClick")
         setExpandedApi(expandedApi === apiKey ? null : apiKey);
         if (expandedApi === apiKey) {
             // Clear results when collapsing
@@ -24,7 +23,6 @@ export default function ExaminationCenter() {
     };
 
     const handleFileChange = (apiKey, event) => {
-        console.log("in handleFileChange")
         const file = event.target.files[0];
         if (file) {
             // Store file for API call
@@ -32,13 +30,11 @@ export default function ExaminationCenter() {
                 ...prev,
                 [apiKey]: { ...prev[apiKey], file }
             }));
-            
         }
     };
 
     const testApi = async (apiKey) => {
-        console.log("in testApi")
-        const api = ExaminationCenterApis.endpoints[apiKey];
+        const api = apis.endpoints[apiKey];
         const file = results[apiKey]?.file;
 
         if (!file) {
@@ -54,13 +50,9 @@ export default function ExaminationCenter() {
 
         try {
             const formData = new FormData();
-            formData.append('file', file);
+            formData.append('image', file);
 
-            // console.log(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint || `/${apiKey}`}`);
-            
-
-            // const response = await fetch(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint || `/${apiKey}`}`, {
-            const response = await fetch(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint || `/predict`}`, {
+            const response = await fetch(`${apis.url}${api.endpoint}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -70,7 +62,6 @@ export default function ExaminationCenter() {
             }
 
             const data = await response.json();
-            console.log("data", data);
             setResults(prev => ({
                 ...prev,
                 [apiKey]: { ...prev[apiKey], response: data }
@@ -89,20 +80,17 @@ export default function ExaminationCenter() {
         navigator.clipboard.writeText(JSON.stringify(text, null, 2));
     };
 
-
-
-
-
     return (
         <div className="p-3 sm:p-4 md:p-6 mx-auto">
+
             <ProductHeader
-                title="Examination Center API Testing"
-                subtitle="Test and validate our AI-powered detection APIs with real-time results"
+                title="People Analytics API Testing"
+                subtitle="Test and validate our AI-powered people analytics APIs with real-time results"
             />
 
             {/* API Cards Grid */}
             <ApiTestingCard
-                apis={ExaminationCenterApis}
+                apis={PeopleAnalyticsApis}
                 handleApiClick={handleApiClick}
                 handleFileChange={handleFileChange}
                 testApi={testApi}

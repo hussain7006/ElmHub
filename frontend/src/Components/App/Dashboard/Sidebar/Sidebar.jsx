@@ -15,7 +15,13 @@ import {
   BellIcon,
   CodeBracketIcon,
   BeakerIcon,
-  CogIcon
+  CogIcon,
+  CheckCircleIcon,
+  DocumentTextIcon,
+  BriefcaseIcon,
+  ChartBarSquareIcon,
+  ShoppingBagIcon,
+  DocumentIcon
 } from '@heroicons/react/24/outline';
 import logo from '/images/logo.png'
 
@@ -31,11 +37,22 @@ const Sidebar = () => {
       items: [
         { name: 'Home', icon: HomeIcon, path: '/marketplace', disabled: false },
         { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
-        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: true },
+        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: false },
         // { name: 'Fitness Pro', icon: ChartBarIcon, path: '/fitness-pro' },
         // { name: 'EduLearn', icon: AcademicCapIcon, path: '/edulearn' },
         // { name: 'Health Monitor', icon: HeartIcon, path: '/health-monitor' },
         // { name: 'Finance Buddy', icon: CurrencyDollarIcon, path: '/finance-buddy' },
+      ]
+    },
+    {
+      title: 'My Applications',
+      items: [
+        { name: 'Examination Center', icon: BeakerIcon, path: '/products/examination', disabled: false },
+        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/products/peopleanalytics', disabled: false },
+        // { name: 'Portfolio', icon: BriefcaseIcon, path: '/products/portfolio', disabled: false },
+        // { name: 'Analytics Dashboard', icon: ChartBarSquareIcon, path: '/products/dashboard', disabled: false },
+        // { name: 'E-Commerce Store', icon: ShoppingBagIcon, path: '/products/ecommerce', disabled: false },
+        // { name: 'Content Management', icon: DocumentIcon, path: '/products/cms', disabled: false },
       ]
     },
     {
