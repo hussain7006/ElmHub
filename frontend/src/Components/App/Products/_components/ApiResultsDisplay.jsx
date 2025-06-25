@@ -151,7 +151,7 @@ export default function ApiResultsDisplay({ results, copyToClipboard }) {
                             handleTabChange(tab.id);
                         }}
                         className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium \
-                            transition-all duration-200 cursor-pointer hover:scale-105 transition-all duration-200
+                            transition-all duration-200 cursor-pointer hover:scale-105 \
                             ${activeTab === tab.id ? 'text-white' : ''
                             }`}
                         style={{
