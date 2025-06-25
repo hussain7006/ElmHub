@@ -1,16 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
-import useThemeStore from '../../../store/themeStore';
+import { useRef, useEffect } from 'react';
+import useThemeStore from '../../../../store/themeStore';
 
-export default function ImageCanvasDisplay({ 
-    results, 
-    imageUrl, 
-    classificationResult, 
-    detectedClasses, 
+export default function ImageCanvasDisplay({
+    results,
+    imageUrl,
+    classificationResult,
+    detectedClasses,
     keypointResult,
     colorPalette,
     onImageLoad,
     isDrawing,
-    imageLoaded 
+    imageLoaded
 }) {
     const { colors } = useThemeStore();
     const canvasRef = useRef(null);
@@ -54,7 +54,7 @@ export default function ImageCanvasDisplay({
         // // Draw overlay at bottom - very compact
         // // const overlayHeight = 20;
         // // const overlayY = canvas.height - overlayHeight;
-        
+
         // // ctx.fillStyle = gradient;
         // // ctx.fillRect(0, overlayY, canvas.width, overlayHeight);
 
@@ -98,19 +98,19 @@ export default function ImageCanvasDisplay({
 
         // Color palette for different people
         const personColors = [
-            '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', 
+            '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF',
             '#00FFFF', '#FFA500', '#800080', '#008000', '#FFC0CB'
         ];
 
         // Draw keypoints for each person
         keypointResult.xy.forEach((person, personIndex) => {
             const personColor = personColors[personIndex % personColors.length];
-            
+
             // Draw each keypoint
             person.forEach((point, pointIndex) => {
                 if (Array.isArray(point) && point.length === 2) {
                     const [x, y] = point;
-                    
+
                     // Scale coordinates
                     const scaledX = x * scaleX;
                     const scaledY = y * scaleY;
@@ -266,8 +266,8 @@ export default function ImageCanvasDisplay({
                         </div>
                         <p className="text-sm text-gray-600 mt-3 font-medium">
                             {!imageLoaded ? 'Loading image...' : (
-                                classificationResult ? 'Processing classification...' : 
-                                keypointResult ? 'Drawing keypoints...' : 'Drawing bounding boxes...'
+                                classificationResult ? 'Processing classification...' :
+                                    keypointResult ? 'Drawing keypoints...' : 'Drawing bounding boxes...'
                             )}
                         </p>
                         {isDrawing && (

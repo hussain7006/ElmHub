@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 // import useThemeStore from '../../../store/themeStore';
-import ProductHeader from '../../../../Components/App/_component/ProductHeader';
-import ApiTestingCard from '../../../../Components/App/_component/ApiTestingCard';
+import ProductHeader from '../../../../Components/App/Products/_components/ProductHeader';
+import ApiTestingCard from '../../../../Components/App/Products/_components/ApiTestingCard';
 import { ExaminationCenterApis } from '../../../../Constants/products';
 
 export default function ExaminationCenter() {

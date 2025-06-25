@@ -1,7 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPinIcon } from '@heroicons/react/24/outline';
-import useThemeStore from '../../../store/themeStore';
 
 export default function KeypointDisplay({ keypointResult, colors }) {
     const totalPoints = keypointResult.xy.reduce((total, person) => total + person.length, 0);

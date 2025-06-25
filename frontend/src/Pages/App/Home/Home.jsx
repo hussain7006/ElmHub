@@ -12,7 +12,7 @@ import {
     CubeIcon,
     ChartBarIcon
 } from '@heroicons/react/24/outline';
-import ProductSection from '../../../Components/App/Marketplace/ProductSection';
+import ProductSection from '../../../Components/App/Products/Home/ProductSection';
 
 const Marketplace = () => {
     const { colors } = useThemeStore();

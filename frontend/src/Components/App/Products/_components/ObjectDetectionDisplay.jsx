@@ -1,6 +1,4 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import useThemeStore from '../../../store/themeStore';
 
 export default function ObjectDetectionDisplay({ detectedClasses, results, colors, colorPalette }) {
     return (

@@ -2,7 +2,7 @@ import { lazy } from "react";
 
 const Dashboard = lazy(() => import("../../Pages/App/Dashboard"));
 const DashboardElm = lazy(() => import("../../Pages/App/DashboardElm"));
-const Marketplace = lazy(() => import("../../Pages/App/Marketplace/Marketplace"));
+const Home = lazy(() => import("../../Pages/App/Home/Home"));
 const ExaminationCenter = lazy(() => import("../../Pages/App/Products/ExaminationCenter/ExaminationCenter"));
 const PeopleAnalytics = lazy(() => import("../../Pages/App/Products/PeopleAnalytics/PeopleAnalytics"));
 const ProductDemos = lazy(() => import("../../Pages/App/ProductDemos/ProductDemos"));
@@ -16,8 +16,8 @@ export const appRoutes = [
     element: <Dashboard />,
     children: [
       {
-        path: "marketplace",
-        element: <Marketplace />
+        path: "",
+        element: <Home />
       },
       {
         path: "examination-center",
@@ -28,7 +28,7 @@ export const appRoutes = [
         element: <PeopleAnalytics />
       },
       {
-        path: "product-showcase/:demoType",
+        path: "demo/:demoType",
         element: <ProductDemos />
       },
       // External app integrations - dynamic routing

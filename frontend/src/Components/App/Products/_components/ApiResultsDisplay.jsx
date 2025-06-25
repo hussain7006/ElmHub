@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useThemeStore from '../../../store/themeStore';
+import useThemeStore from '../../../../store/themeStore'
 import {
     CheckCircleIcon,
     ClipboardDocumentIcon,
@@ -37,7 +37,7 @@ export default function ApiResultsDisplay({ results, copyToClipboard }) {
             setImageUrl(url);
             setImageLoaded(false);
             setIsDrawing(false);
-            
+
             // Reset states when new file is uploaded
             setClassificationResult(null);
             setDetectedClasses([]);
@@ -54,7 +54,7 @@ export default function ApiResultsDisplay({ results, copyToClipboard }) {
     useEffect(() => {
         if (results?.response && Array.isArray(results.response) && results.response.length > 0) {
             const firstResult = results.response[0];
-            
+
             // Check if this is a classification result
             if (firstResult.type === 'classification') {
                 setClassificationResult(firstResult);
@@ -107,12 +107,12 @@ export default function ApiResultsDisplay({ results, copyToClipboard }) {
         },
         {
             id: 'visual',
-            name: classificationResult ? 'Classification Result' : 
-                  keypointResult ? 'Keypoint Result' : 'Visual Output',
-            icon: classificationResult ? UserIcon : 
-                  keypointResult ? MapPinIcon : PhotoIcon,
-            color: classificationResult ? '#EC4899' : 
-                   keypointResult ? '#F59E0B' : '#10B981'
+            name: classificationResult ? 'Classification Result' :
+                keypointResult ? 'Keypoint Result' : 'Visual Output',
+            icon: classificationResult ? UserIcon :
+                keypointResult ? MapPinIcon : PhotoIcon,
+            color: classificationResult ? '#EC4899' :
+                keypointResult ? '#F59E0B' : '#10B981'
         }
     ];
 

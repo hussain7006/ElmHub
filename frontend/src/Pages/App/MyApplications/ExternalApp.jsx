@@ -7,8 +7,8 @@ import {
     UserGroupIcon,
     GlobeAltIcon
 } from '@heroicons/react/24/outline';
-import ExaminationCenter from '../../../Components/App/Applications/ExaminationCenter';
-import PeopleAnalytics from '../../../Components/App/Applications/PeopleAnalytics';
+import ExaminationCenter from '../../../Components/App/MyApplications/ExaminationCenter';
+import PeopleAnalytics from '../../../Components/App/MyApplications/PeopleAnalytics';
 
 // Configuration for your personal deployed applications
 const PERSONAL_APPS = {

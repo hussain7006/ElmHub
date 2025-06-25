@@ -25,7 +25,7 @@ const Sidebar = () => {
     {
       title: 'Products',
       items: [
-        { name: 'Home', icon: HomeIcon, path: '/marketplace', disabled: false },
+        { name: 'Home', icon: HomeIcon, path: '/', disabled: false },
         { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
         { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: false },
       ]
@@ -44,13 +44,13 @@ const Sidebar = () => {
         {
           name: 'Examination Center',
           icon: BeakerIcon,
-          path: '/product-showcase/examination-center',
+          path: '/demo/examination-center',
           disabled: false
         },
         {
           name: 'People Analytics',
           icon: ClipboardDocumentListIcon,
-          path: '/product-showcase/people-analytics',
+          path: '/demo/people-analytics',
           disabled: false
         }
       ]
@@ -72,9 +72,9 @@ const Sidebar = () => {
     // }
   ];
 
-  useEffect(() => {
-    navigate('/marketplace');
-  }, []);
+  // useEffect(() => {
+  // navigate('/marketplace');
+  // }, []);
 
   return (
     <motion.div

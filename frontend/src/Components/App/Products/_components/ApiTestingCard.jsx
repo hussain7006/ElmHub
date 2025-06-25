@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDownIcon, CheckCircleIcon, XCircleIcon, ClipboardDocumentIcon, PlayIcon } from '@heroicons/react/24/outline';
-import useThemeStore from '../../../store/themeStore';
+import { ChevronDownIcon, XCircleIcon, PlayIcon } from '@heroicons/react/24/outline';
+import useThemeStore from '../../../../store/themeStore';
 import ApiResultsDisplay from './ApiResultsDisplay';
 
 export default function ApiTestingCard({
