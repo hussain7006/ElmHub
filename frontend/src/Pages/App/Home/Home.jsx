@@ -90,10 +90,12 @@ const Marketplace = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
                 className="text-3xl font-bold mb-8 text-center"
-                style={{ color: colors.textPrimary }}
+
             >
-                <div className="flex flex-wrap gap-2.5 justify-center items-center w-full text-3xl font-bold text-slate-700 max-md:max-w-full">
-                    <span className="self-stretch my-auto text-slate-700">
+                <div className="flex flex-wrap gap-2.5 justify-center items-center w-full text-3xl font-bold  max-md:max-w-full">
+                    <span className="self-stretch my-auto"
+                        style={{ color: colors.textPrimary }}
+                    >
                         Explore
                     </span>
                     <img
@@ -101,10 +103,12 @@ const Marketplace = () => {
                         className="object-contain shrink-0 self-stretch my-auto aspect-[2.48] w-[67px]"
                         alt="Logo"
                     />
-                    <span className="self-stretch my-auto text-slate-700">
+                    <span className="self-stretch my-auto "
+                        style={{ color: colors.textPrimary }}>
                         's
                     </span>
-                    <span className="self-stretch my-auto text-slate-700">
+                    <span className="self-stretch my-auto "
+                        style={{ color: colors.textPrimary }}>
                         {" "}AI Solutions Marketplace
                     </span>
                 </div>

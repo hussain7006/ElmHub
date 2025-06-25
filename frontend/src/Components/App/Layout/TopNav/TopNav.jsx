@@ -6,13 +6,13 @@ import {
     ChevronRightIcon,
     BellIcon,
     MagnifyingGlassIcon,
-    Bars3Icon
+    // Bars3Icon
 } from '@heroicons/react/24/outline';
-import useSidebarStore from '../../../../store/sidebarStore';
+// import useSidebarStore from '../../../../store/sidebarStore';
 
 const TopNav = ({ colors }) => {
     const location = useLocation();
-    const { toggleSidebar } = useSidebarStore();
+    // const { toggleSidebar } = useSidebarStore();
     const username = "Hussain"; // This should come from your auth context/store
     const initials = username.split(' ').map(n => n[0]).join('').toUpperCase();
 
@@ -76,16 +76,16 @@ const TopNav = ({ colors }) => {
     const breadcrumbs = generateBreadcrumbs();
 
     // Get current page title for mobile display
-    const getCurrentPageTitle = () => {
-        for (const section of menuItems) {
-            for (const item of section.items) {
-                if (item.path === location.pathname) {
-                    return item.name;
-                }
-            }
-        }
-        return 'Dashboard';
-    };
+    // const getCurrentPageTitle = () => {
+    //     for (const section of menuItems) {
+    //         for (const item of section.items) {
+    //             if (item.path === location.pathname) {
+    //                 return item.name;
+    //             }
+    //         }
+    //     }
+    //     return 'Dashboard';
+    // };
 
     return (
         <div className="flex flex-col shadow-sm rounded-sm"
@@ -107,8 +107,8 @@ const TopNav = ({ colors }) => {
                     {/* Section title - visible on desktop */}
                     <div className="lg:flex items-center space-x-4">
                         <span
-                            className="font-medium text-lg md:text-xl lg:text-2xl"
-                            style={{ color: colors.textSecondary }}
+                            className="text-lg md:text-xl lg:text-3xl font-bold"
+                            style={{ color: colors.textPrimary }}
                         >
                             {breadcrumbs.length > 1 ? breadcrumbs[1].name : 'Dashboard'}
                         </span>
@@ -206,8 +206,8 @@ const TopNav = ({ colors }) => {
                                 )}
                                 <span
                                     className={`text-xs md:text-sm ${index === breadcrumbs.length - 1
-                                            ? 'font-medium'
-                                            : ''
+                                        ? 'font-medium'
+                                        : ''
                                         }`}
                                     style={{
                                         color: colors.textSecondary

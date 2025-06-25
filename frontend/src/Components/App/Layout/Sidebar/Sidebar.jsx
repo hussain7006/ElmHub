@@ -2,79 +2,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useThemeStore from '../../../../store/themeStore';
 import useSidebarStore from '../../../../store/sidebarStore';
-import {
-  HomeIcon,
-  ClipboardDocumentListIcon,
-  BeakerIcon,
-  UserIcon,
-} from '@heroicons/react/24/outline';
 import logo from '/images/logo.png'
+import { sidebarItems } from '../../../../Constants/sidebarItems';
 
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebarStore();
   const { theme, toggleTheme, colors } = useThemeStore();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const menuItems = [
-    {
-      title: 'Products',
-      items: [
-        { name: 'Home', icon: HomeIcon, path: '/', disabled: false },
-        { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
-        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: false },
-      ]
-    },
-    {
-      title: 'My Applications',
-      items: [
-        { name: 'Examination Center', icon: BeakerIcon, path: '/products/examination', disabled: false },
-        { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/products/peopleanalytics', disabled: false },
-        // { name: 'Google', icon: ClipboardDocumentListIcon, path: '/products/Google', disabled: false },
-      ]
-    },
-    {
-      title: 'Product Demos',
-      items: [
-        {
-          name: 'Examination Center',
-          icon: BeakerIcon,
-          path: '/demo/examination-center',
-          disabled: false
-        },
-        {
-          name: 'People Analytics',
-          icon: ClipboardDocumentListIcon,
-          path: '/demo/people-analytics',
-          disabled: false
-        }
-      ]
-    },
-    {
-      title: 'Settings',
-      items: [
-        // { name: 'User Management', icon: UserGroupIcon, path: '/user-management', disabled: true },
-        { name: 'Profile', icon: UserIcon, path: '/user-management', disabled: true },
-        // { name: 'Data Resources', icon: CircleStackIcon, path: '/data-resources', disabled: true },
-      ]
-    },
-    // {
-    //   title: 'Analytics Dashboard',
-    //   items: [
-    //     { name: 'Notifications', icon: BellIcon, path: '/notifications', disabled: true },
-    //     { name: 'API Management', icon: CodeBracketIcon, path: '/api-management', disabled: true },
-    //   ]
-    // }
-  ];
-
-  // useEffect(() => {
-  // navigate('/marketplace');
-  // }, []);
-
+  const sidebarWidth = isCollapsed ? '80px' : '220px';
   return (
     <motion.div
       initial={false}
-      animate={{ width: isCollapsed ? '80px' : '220px' }}
+      animate={{ width: sidebarWidth }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="h-screen fixed left-0 top-0 shadow-lg z-50 overflow-hidden"
       style={{ backgroundColor: colors.surface }}
@@ -132,7 +72,7 @@ const Sidebar = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="p-4"
+              className="p-2"
             >
               <div className="relative">
                 <input
@@ -172,7 +112,7 @@ const Sidebar = () => {
             transition: 'margin-top 0.3s ease-in-out'
           }}
         >
-          {menuItems.map((section, index) => (
+          {sidebarItems.map((section, index) => (
             <div key={index} className="mb-2">
               <AnimatePresence mode="wait">
                 {!isCollapsed && (
@@ -196,10 +136,13 @@ const Sidebar = () => {
                     whileTap={{ scale: item.disabled ? 1 : 0.98 }}
                     onClick={() => navigate(item.path)}
                     disabled={item.disabled}
-                    className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer ${isCollapsed ? 'justify-center' : 'justify-start'
-                      } ${location.pathname === item.path ? 'bg-opacity-10' : ''}`}
+                    className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer 
+                      ${isCollapsed ? 'justify-center' : 'justify-start'} 
+                      ${location.pathname === item.path ? 'bg-opacity-10 font-bold tracking-wide ' : ''}`
+                    }
                     style={{
-                      color: colors.textPrimary,
+                      color: location.pathname === item.path ? colors.textPrimary : colors.textSecondary,
+
                       backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
                       ':hover': { backgroundColor: colors.accent },
                       cursor: item.disabled ? 'not-allowed' : 'pointer'
@@ -217,9 +160,6 @@ const Sidebar = () => {
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.2 }}
                           className={`truncate text-sm`}
-                          style={{
-                            color: location.pathname === item.path ? colors.surface : colors.textSecondary
-                          }}
                         >
                           {item.name}
                         </motion.span>
