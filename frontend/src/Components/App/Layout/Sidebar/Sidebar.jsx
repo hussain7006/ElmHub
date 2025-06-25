@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useThemeStore from '../../../../store/themeStore';
@@ -6,10 +5,6 @@ import useSidebarStore from '../../../../store/sidebarStore';
 import {
   HomeIcon,
   ClipboardDocumentListIcon,
-  UserGroupIcon,
-  CircleStackIcon,
-  BellIcon,
-  CodeBracketIcon,
   BeakerIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
@@ -97,7 +92,7 @@ const Sidebar = () => {
                 className="text-xl font-bold truncate"
                 style={{ color: colors.textPrimary }}
               >
-                <img src={logo} alt="ElmHub" className="w-20" />
+                <img src={theme == "dark" ? "https://cdn.mindrocketsapis.com/client/imgs/elm-logo-white.svg" : logo} alt="ElmHub" className="w-20" />
               </motion.div>
             )}
           </AnimatePresence>

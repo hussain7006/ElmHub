@@ -1,6 +1,6 @@
 import { lazy } from "react";
 
-const Dashboard = lazy(() => import("../../Pages/App/Dashboard"));
+const Layout = lazy(() => import("../../Pages/App/Layout"));
 const DashboardElm = lazy(() => import("../../Pages/App/DashboardElm"));
 const Home = lazy(() => import("../../Pages/App/Home/Home"));
 const ExaminationCenter = lazy(() => import("../../Pages/App/Products/ExaminationCenter/ExaminationCenter"));
@@ -13,7 +13,7 @@ const ExternalApp = lazy(() => import("../../Pages/App/MyApplications/ExternalAp
 export const appRoutes = [
   {
     path: "/",
-    element: <Dashboard />,
+    element: <Layout />,
     children: [
       {
         path: "",

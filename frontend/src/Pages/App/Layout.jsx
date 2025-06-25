@@ -1,10 +1,9 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '../../Components/App/Dashboard/Sidebar/Sidebar';
+import Sidebar from '../../Components/App/Layout/Sidebar/Sidebar';
 import useThemeStore from '../../store/themeStore';
 import useSidebarStore from '../../store/sidebarStore';
-import TopNav from '../../Components/App/Dashboard/TopNav/TopNav';
+import TopNav from '../../Components/App/Layout/TopNav/TopNav';
 
 export default function Dashboard() {
   const { colors } = useThemeStore();
@@ -18,10 +17,7 @@ export default function Dashboard() {
         animate={{ marginLeft: isCollapsed ? '80px' : '220px' }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="flex-1 flex flex-col "
-      // style={{
-      //   backgroundColor: colors.surface
-      // }}
-      >
+        style={{ backgroundColor: colors.background }}>
         <TopNav colors={colors} />
         <motion.main
           initial={{ opacity: 0 }}

@@ -5,7 +5,7 @@ export const colors = {
     background: '#F9FAFB', // Gray 50 (unchanged)
     surface: '#FFFFFF',
     textPrimary: '#0c1d46', // Dark navy blue
-    textSecondary: '#9CA3AF', // Gray 400 (lighter)
+    textSecondary: '#64748B', // Light grayish blue
     buttonBackground: '#0070c7', // Bright blue
     inputBackground: '#FFFFFF', // Unchanged
     borderColor: '#D1D5DB', // Unchanged
@@ -17,7 +17,7 @@ export const colors = {
     background: '#111827', // Gray 900 (unchanged)
     surface: '#1F2937', // Gray 800 (unchanged)
     textPrimary: '#F9FAFB', // Gray 50 (unchanged)
-    textSecondary: '#c18fd6', // Light purple
+    textSecondary: '#A8A29E', // Gray 400 (unchanged)
     buttonBackground: '#6e43b5', // Purple shade
     inputBackground: '#1F2937', // Unchanged
     borderColor: '#4B5563', // Unchanged
