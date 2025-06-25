@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import useThemeStore from '../../../store/themeStore';
-import ProductHeader from '../../../Components/App/_component/ProductHeader';
-import ApiTestingCard from '../../../Components/App/_component/ApiTestingCard';
-import { ExaminationCenterApis } from '../../../Constants/products';
+// import useThemeStore from '../../../store/themeStore';
+import ProductHeader from '../../../../Components/App/_component/ProductHeader';
+import ApiTestingCard from '../../../../Components/App/_component/ApiTestingCard';
+import { ExaminationCenterApis } from '../../../../Constants/products';
 
 export default function ExaminationCenter() {
     const [expandedApi, setExpandedApi] = useState(null);
@@ -27,17 +27,20 @@ export default function ExaminationCenter() {
         console.log("in handleFileChange")
         const file = event.target.files[0];
         if (file) {
-            // Store file for API call
+            // Store file for API call and clear previous response
             setResults(prev => ({
                 ...prev,
-                [apiKey]: { ...prev[apiKey], file }
+                [apiKey]: { file, response: null }
             }));
-            
+            // Clear any errors for this API
+            setErrors(prev => ({ ...prev, [apiKey]: null }));
         }
     };
 
-    const testApi = async (apiKey) => {
-        console.log("in testApi")
+    const handleSubmit = async (apiKey) => {
+        // apiKey = "head/standing/mobile/idCard/waterBottle/keyPoint"
+        console.log("examinationCenter: in handleSubmit")
+
         const api = ExaminationCenterApis.endpoints[apiKey];
         const file = results[apiKey]?.file;
 
@@ -55,12 +58,8 @@ export default function ExaminationCenter() {
         try {
             const formData = new FormData();
             formData.append('file', file);
-
-            // console.log(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint || `/${apiKey}`}`);
-            
-
-            // const response = await fetch(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint || `/${apiKey}`}`, {
-            const response = await fetch(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint || `/predict`}`, {
+            console.log(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint}`)
+            const response = await fetch(`${ExaminationCenterApis.url}${ExaminationCenterApis.endpoints[apiKey].endpoint}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -105,7 +104,7 @@ export default function ExaminationCenter() {
                 apis={ExaminationCenterApis}
                 handleApiClick={handleApiClick}
                 handleFileChange={handleFileChange}
-                testApi={testApi}
+                testApi={handleSubmit}
                 copyToClipboard={copyToClipboard}
                 expandedApi={expandedApi}
                 results={results}

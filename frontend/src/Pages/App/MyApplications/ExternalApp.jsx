@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import useThemeStore from '../../../store/themeStore';
 import {
     EyeIcon,
-    UserGroupIcon
+    UserGroupIcon,
+    GlobeAltIcon
 } from '@heroicons/react/24/outline';
 import ExaminationCenter from '../../../Components/App/Applications/ExaminationCenter';
 import PeopleAnalytics from '../../../Components/App/Applications/PeopleAnalytics';
@@ -13,7 +14,7 @@ import PeopleAnalytics from '../../../Components/App/Applications/PeopleAnalytic
 const PERSONAL_APPS = {
     examination: {
         name: 'Examination Center',
-        url: 'https://hussain7006m.web.app/',
+        url: 'https://www.examinationcenter.com.pk',
         icon: EyeIcon,
         color: '#3B82F6',
         description: 'AI-powered exam monitoring and cheating detection'
@@ -22,6 +23,13 @@ const PERSONAL_APPS = {
         name: 'People Analytics',
         url: 'https://www.google.com.pk',
         icon: UserGroupIcon,
+        color: '#10B981',
+        description: 'Advanced people detection and analysis'
+    },
+    google: {
+        name: 'Google',
+        url: 'https://www.google.com.pk',
+        icon: GlobeAltIcon,
         color: '#10B981',
         description: 'Advanced people detection and analysis'
     }
@@ -33,13 +41,15 @@ export default function ExternalApp() {
     const [isLoading, setIsLoading] = useState(true);
     console.log("appName", appName);
     
-    const appConfig = PERSONAL_APPS[appName];
+    const appConfig = PERSONAL_APPS[appName.toLowerCase()];
+
+    console.log("appConfig", appConfig);
     
     useEffect(() => {
         setIsLoading(true);
         // Simulate loading
-        const timer = setTimeout(() => setIsLoading(false), 1000);
-        return () => clearTimeout(timer);
+        // const timer = setTimeout(() => setIsLoading(false), 1000);
+        // return () => clearTimeout(timer);
     }, [appName]);
     
     if (!appConfig) {
@@ -88,11 +98,12 @@ export default function ExternalApp() {
                         </div>
                         <button 
                             onClick={() => window.open(appConfig.url, '_blank')}
-                            className="px-4 py-2 rounded-lg transition-colors"
+                            className="px-4 py-2 rounded-lg transition-colors cursor-not-allowed opacity-50"
                             style={{ 
                                 backgroundColor: colors.accent, 
                                 color: 'white' 
                             }}
+                            disabled={true}
                         >
                             Open Full App
                         </button>
@@ -136,11 +147,12 @@ export default function ExternalApp() {
                         </div>
                         <button 
                             onClick={() => window.open(appConfig.url, '_blank')}
-                            className="px-4 py-2 rounded-lg transition-colors"
+                            className="px-4 py-2 rounded-lg transition-colors cursor-not-allowed opacity-50"
                             style={{ 
                                 backgroundColor: colors.accent, 
                                 color: 'white' 
                             }}
+                            disabled={true}
                         >
                             Open Full App
                         </button>

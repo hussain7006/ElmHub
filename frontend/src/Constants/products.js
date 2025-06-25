@@ -10,15 +10,17 @@ import {
     MapPinIcon
 } from '@heroicons/react/24/outline';
 
+const baseUrl = "http://192.168.18.10";
+
 export const PeopleAnalyticsApis = {
-    url: "http://localhost:3000/api/v1",
+    url: baseUrl,
     endpoints: {
         gender: {
             name: "Gender Detection",
             description: "Analyze and classify gender from facial features in images",
             icon: UserIcon,
             color: "#3B82F6",
-            endpoint: "/gender"
+            endpoint: ":8000/predict"
         },
         ethnicity: {
             name: "Ethnicity Detection",
@@ -47,18 +49,26 @@ export const PeopleAnalyticsApis = {
             icon: FaceSmileIcon,
             color: "#06B6D4",
             endpoint: "/face"
+        },
+        keypoint: {
+            name: "Key Point Detection",
+            description: "Detect and track key points and landmarks in images",
+            icon: MapPinIcon,
+            color: "#EF4444",
+            endpoint: ":8000/predict"
         }
     }
 };
 
 export const ExaminationCenterApis = {
-    url: "http://192.168.18.10:8000",
+    url: baseUrl,
     endpoints: {
         head: {
             name: "Head Detection",
             description: "Detect and analyze head positions and movements in real-time",
             icon: EyeIcon,
             color: "#3B82F6",
+            endpoint: ":8001/predict",
             parameters: {
                 image: { type: "file", label: "Upload Image", required: true }
             }
@@ -68,6 +78,7 @@ export const ExaminationCenterApis = {
             description: "Identify standing posture and body positioning analysis",
             icon: UserIcon,
             color: "#10B981",
+            
             parameters: {
                 image: { type: "file", label: "Upload Image", required: true }
             }
@@ -104,6 +115,7 @@ export const ExaminationCenterApis = {
             description: "Detect and track key points and landmarks in images",
             icon: MapPinIcon,
             color: "#EF4444",
+            endpoint: ":8002/predict",
             parameters: {
                 image: { type: "file", label: "Upload Image", required: true }
             }

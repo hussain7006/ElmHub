@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import ProductHeader from '../../../Components/App/_component/ProductHeader';
-import ApiTestingCard from '../../../Components/App/_component/ApiTestingCard';
-import {PeopleAnalyticsApis} from "../../../Constants/products"
+import ProductHeader from '../../../../Components/App/_component/ProductHeader';
+import ApiTestingCard from '../../../../Components/App/_component/ApiTestingCard';
+import { PeopleAnalyticsApis } from "../../../../Constants/products"
 
 export default function PeopleAnalytics() {
-    
+
     const [expandedApi, setExpandedApi] = useState(null);
     const [loading, setLoading] = useState(null);
     const [results, setResults] = useState({});
@@ -25,16 +25,20 @@ export default function PeopleAnalytics() {
     const handleFileChange = (apiKey, event) => {
         const file = event.target.files[0];
         if (file) {
-            // Store file for API call
+            // Store file for API call and clear previous response
             setResults(prev => ({
                 ...prev,
-                [apiKey]: { ...prev[apiKey], file }
+                [apiKey]: { file, response: null }
             }));
+            // Clear any errors for this API
+            setErrors(prev => ({ ...prev, [apiKey]: null }));
         }
     };
 
     const testApi = async (apiKey) => {
-        const api = apis.endpoints[apiKey];
+        console.log("in testApi: ", apiKey);
+        
+        
         const file = results[apiKey]?.file;
 
         if (!file) {
@@ -50,9 +54,9 @@ export default function PeopleAnalytics() {
 
         try {
             const formData = new FormData();
-            formData.append('image', file);
-
-            const response = await fetch(`${apis.url}${api.endpoint}`, {
+            formData.append('file', file);
+            console.log(`${PeopleAnalyticsApis.url}${PeopleAnalyticsApis.endpoints[apiKey].endpoint}`)
+            const response = await fetch(`${PeopleAnalyticsApis.url}${PeopleAnalyticsApis.endpoints[apiKey].endpoint}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -62,6 +66,8 @@ export default function PeopleAnalytics() {
             }
 
             const data = await response.json();
+            console.log(data);
+            
             setResults(prev => ({
                 ...prev,
                 [apiKey]: { ...prev[apiKey], response: data }

@@ -1,14 +1,14 @@
 import { lazy } from "react";
-import PeopleAnalytics from "../../Pages/App/PeopleAnalytics/PeopleAnalytics";
 
 const Dashboard = lazy(() => import("../../Pages/App/Dashboard"));
 const DashboardElm = lazy(() => import("../../Pages/App/DashboardElm"));
 const Marketplace = lazy(() => import("../../Pages/App/Marketplace/Marketplace"));
-const ExaminationCenter = lazy(() => import("../../Pages/App/ExaminationCenter/ExaminationCenter"));
-const DemoCenter = lazy(() => import("../../Pages/App/DemoCenter/DemoCenter"));
+const ExaminationCenter = lazy(() => import("../../Pages/App/Products/ExaminationCenter/ExaminationCenter"));
+const PeopleAnalytics = lazy(() => import("../../Pages/App/Products/PeopleAnalytics/PeopleAnalytics"));
+const ProductDemos = lazy(() => import("../../Pages/App/ProductDemos/ProductDemos"));
 
 // External app integration
-const ExternalApp = lazy(() => import("../../Pages/App/Products/ExternalApp"));
+const ExternalApp = lazy(() => import("../../Pages/App/MyApplications/ExternalApp"));
 
 export const appRoutes = [
   {
@@ -29,7 +29,7 @@ export const appRoutes = [
       },
       {
         path: "product-showcase/:demoType",
-        element: <DemoCenter />
+        element: <ProductDemos />
       },
       // External app integrations - dynamic routing
       {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useThemeStore from '../../../../store/themeStore';
@@ -6,22 +6,12 @@ import useSidebarStore from '../../../../store/sidebarStore';
 import {
   HomeIcon,
   ClipboardDocumentListIcon,
-  ChartBarIcon,
-  AcademicCapIcon,
-  HeartIcon,
-  CurrencyDollarIcon,
   UserGroupIcon,
   CircleStackIcon,
   BellIcon,
   CodeBracketIcon,
   BeakerIcon,
-  CogIcon,
-  CheckCircleIcon,
-  DocumentTextIcon,
-  BriefcaseIcon,
-  ChartBarSquareIcon,
-  ShoppingBagIcon,
-  DocumentIcon
+  UserIcon,
 } from '@heroicons/react/24/outline';
 import logo from '/images/logo.png'
 
@@ -38,10 +28,6 @@ const Sidebar = () => {
         { name: 'Home', icon: HomeIcon, path: '/marketplace', disabled: false },
         { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
         { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: false },
-        // { name: 'Fitness Pro', icon: ChartBarIcon, path: '/fitness-pro' },
-        // { name: 'EduLearn', icon: AcademicCapIcon, path: '/edulearn' },
-        // { name: 'Health Monitor', icon: HeartIcon, path: '/health-monitor' },
-        // { name: 'Finance Buddy', icon: CurrencyDollarIcon, path: '/finance-buddy' },
       ]
     },
     {
@@ -49,10 +35,7 @@ const Sidebar = () => {
       items: [
         { name: 'Examination Center', icon: BeakerIcon, path: '/products/examination', disabled: false },
         { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/products/peopleanalytics', disabled: false },
-        // { name: 'Portfolio', icon: BriefcaseIcon, path: '/products/portfolio', disabled: false },
-        // { name: 'Analytics Dashboard', icon: ChartBarSquareIcon, path: '/products/dashboard', disabled: false },
-        // { name: 'E-Commerce Store', icon: ShoppingBagIcon, path: '/products/ecommerce', disabled: false },
-        // { name: 'Content Management', icon: DocumentIcon, path: '/products/cms', disabled: false },
+        // { name: 'Google', icon: ClipboardDocumentListIcon, path: '/products/Google', disabled: false },
       ]
     },
     {
@@ -75,18 +58,23 @@ const Sidebar = () => {
     {
       title: 'Settings',
       items: [
-        { name: 'User Management', icon: UserGroupIcon, path: '/user-management', disabled: true },
-        { name: 'Data Resources', icon: CircleStackIcon, path: '/data-resources', disabled: true },
+        // { name: 'User Management', icon: UserGroupIcon, path: '/user-management', disabled: true },
+        { name: 'Profile', icon: UserIcon, path: '/user-management', disabled: true },
+        // { name: 'Data Resources', icon: CircleStackIcon, path: '/data-resources', disabled: true },
       ]
     },
-    {
-      title: 'Analytics Dashboard',
-      items: [
-        { name: 'Notifications', icon: BellIcon, path: '/notifications', disabled: true },
-        { name: 'API Management', icon: CodeBracketIcon, path: '/api-management', disabled: true },
-      ]
-    }
+    // {
+    //   title: 'Analytics Dashboard',
+    //   items: [
+    //     { name: 'Notifications', icon: BellIcon, path: '/notifications', disabled: true },
+    //     { name: 'API Management', icon: CodeBracketIcon, path: '/api-management', disabled: true },
+    //   ]
+    // }
   ];
+
+  useEffect(() => {
+    navigate('/marketplace');
+  }, []);
 
   return (
     <motion.div
@@ -183,7 +171,12 @@ const Sidebar = () => {
         </AnimatePresence>
 
         {/* Menu Items */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden"
+          style={{
+            marginTop: isCollapsed ? '0px' : '0px',
+            transition: 'margin-top 0.3s ease-in-out'
+          }}
+        >
           {menuItems.map((section, index) => (
             <div key={index} className="mb-2">
               <AnimatePresence mode="wait">
@@ -208,7 +201,7 @@ const Sidebar = () => {
                     whileTap={{ scale: item.disabled ? 1 : 0.98 }}
                     onClick={() => navigate(item.path)}
                     disabled={item.disabled}
-                    className={`w-full flex items-center px-4 py-1 transition-colors cursor-pointer ${isCollapsed ? 'justify-center' : 'justify-start'
+                    className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer ${isCollapsed ? 'justify-center' : 'justify-start'
                       } ${location.pathname === item.path ? 'bg-opacity-10' : ''}`}
                     style={{
                       color: colors.textPrimary,
@@ -216,6 +209,7 @@ const Sidebar = () => {
                       ':hover': { backgroundColor: colors.accent },
                       cursor: item.disabled ? 'not-allowed' : 'pointer'
                     }}
+                    title={item.name}
                   >
                     <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
                       <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
