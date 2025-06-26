@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useThemeStore from '../../../../../store/themeStore';
+import useSearchStore from '../../../../../store/searchStore';
+import { getApplicationFeatures } from '../../../../../Constants/applications';
 import {
     UserGroupIcon,
     EyeIcon,
@@ -64,7 +66,26 @@ const PEOPLE_ANALYTICS_FEATURES = [
 
 export default function CoreFeatures() {
     const { colors } = useThemeStore();
+    const { searchQuery, isFiltering } = useSearchStore();
     const [activeFeature, setActiveFeature] = useState(null);
+
+    // Get features from the new applications structure
+    const allFeatures = getApplicationFeatures('peopleanalytics');
+
+    // Filter features based on search
+    const filteredFeatures = useMemo(() => {
+        if (!isFiltering || !searchQuery.trim()) return allFeatures;
+        
+        const searchTerm = searchQuery.toLowerCase().trim();
+        return allFeatures.filter(feature => {
+            const nameMatch = feature.name.toLowerCase().includes(searchTerm);
+            const descriptionMatch = feature.description.toLowerCase().includes(searchTerm);
+            const tagsMatch = feature.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+            const capabilitiesMatch = feature.capabilities.some(cap => cap.toLowerCase().includes(searchTerm));
+            
+            return nameMatch || descriptionMatch || tagsMatch || capabilitiesMatch;
+        });
+    }, [isFiltering, searchQuery, allFeatures]);
 
     return (
         <motion.div
@@ -82,69 +103,77 @@ export default function CoreFeatures() {
                 </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {PEOPLE_ANALYTICS_FEATURES.map((feature, index) => (
-                    <motion.div
-                        key={feature.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-                        whileHover={{ y: -5 }}
-                        className="group p-8 rounded-2xl border transition-all duration-300 cursor-pointer"
-                        style={{ 
-                            borderColor: colors.borderColor,
-                            backgroundColor: colors.surface,
-                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }}
-                        onClick={() => setActiveFeature(activeFeature === feature.id ? null : feature.id)}
-                    >
-                        <div className="flex items-start space-x-4 mb-6">
-                            <div 
-                                className="w-16 h-16 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 flex-shrink-0"
-                                style={{ backgroundColor: feature.color + '20' }}
-                            >
-                                <feature.icon className="w-8 h-8" style={{ color: feature.color }} />
-                            </div>
-                            <div className="flex-1">
-                                <h4 className="text-xl font-bold mb-2" style={{ color: colors.textPrimary }}>
-                                    {feature.name}
-                                </h4>
-                                <p className="text-sm leading-relaxed" style={{ color: colors.textSecondary }}>
-                                    {feature.description}
-                                </p>
-                            </div>
-                        </div>
-                        
-                        {/* Expandable Features */}
-                        <AnimatePresence>
-                            {activeFeature === feature.id && (
-                                <motion.div
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: 'auto' }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    className="pt-6 border-t"
-                                    style={{ borderColor: colors.borderColor }}
+            {filteredFeatures.length === 0 ? (
+                <div className="text-center py-8">
+                    <p className="text-lg" style={{ color: colors.textSecondary }}>
+                        No features found matching "{searchQuery}"
+                    </p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {filteredFeatures.map((feature, index) => (
+                        <motion.div
+                            key={feature.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
+                            whileHover={{ y: -5 }}
+                            className="group p-8 rounded-2xl border transition-all duration-300 cursor-pointer"
+                            style={{ 
+                                borderColor: colors.borderColor,
+                                backgroundColor: colors.surface,
+                                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                            }}
+                            onClick={() => setActiveFeature(activeFeature === feature.id ? null : feature.id)}
+                        >
+                            <div className="flex items-start space-x-4 mb-6">
+                                <div 
+                                    className="w-16 h-16 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 flex-shrink-0"
+                                    style={{ backgroundColor: feature.color + '20' }}
                                 >
-                                    <p className="text-xs font-semibold mb-4 uppercase tracking-wider" style={{ color: colors.textSecondary }}>
-                                        Key Capabilities
+                                    <feature.icon className="w-8 h-8" style={{ color: feature.color }} />
+                                </div>
+                                <div className="flex-1">
+                                    <h4 className="text-xl font-bold mb-2" style={{ color: colors.textPrimary }}>
+                                        {feature.name}
+                                    </h4>
+                                    <p className="text-sm leading-relaxed" style={{ color: colors.textSecondary }}>
+                                        {feature.description}
                                     </p>
-                                    <div className="grid grid-cols-1 gap-3">
-                                        {feature.features.map((capability, idx) => (
-                                            <div key={idx} className="flex items-center space-x-3 text-sm">
-                                                <div 
-                                                    className="w-2 h-2 rounded-full flex-shrink-0"
-                                                    style={{ backgroundColor: feature.color }}
-                                                ></div>
-                                                <span style={{ color: colors.textPrimary }}>{capability}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </motion.div>
-                ))}
-            </div>
+                                </div>
+                            </div>
+                            
+                            {/* Expandable Features */}
+                            <AnimatePresence>
+                                {activeFeature === feature.id && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="pt-6 border-t"
+                                        style={{ borderColor: colors.borderColor }}
+                                    >
+                                        <p className="text-xs font-semibold mb-4 uppercase tracking-wider" style={{ color: colors.textSecondary }}>
+                                            Key Capabilities
+                                        </p>
+                                        <div className="grid grid-cols-1 gap-3">
+                                            {feature.capabilities.map((capability, idx) => (
+                                                <div key={idx} className="flex items-center space-x-3 text-sm">
+                                                    <div 
+                                                        className="w-2 h-2 rounded-full flex-shrink-0"
+                                                        style={{ backgroundColor: feature.color }}
+                                                    ></div>
+                                                    <span style={{ color: colors.textPrimary }}>{capability}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
+                    ))}
+                </div>
+            )}
         </motion.div>
     );
 } 

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 
 // import useThemeStore from '../../../store/themeStore';
 import ProductHeader from '../../../../Components/App/Products/_components/ProductHeader';
 import ApiTestingCard from '../../../../Components/App/Products/_components/ApiTestingCard';
 import { ExaminationCenterApis } from '../../../../Constants/products';
+import usePageSearch from '../../../../hooks/usePageSearch';
+import useSearchStore from '../../../../store/searchStore';
 
 export default function ExaminationCenter() {
     const [expandedApi, setExpandedApi] = useState(null);
@@ -11,7 +13,52 @@ export default function ExaminationCenter() {
     const [results, setResults] = useState({});
     const [errors, setErrors] = useState({});
 
+    // Page-specific search function
+    const searchExaminationCenter = useCallback(async (query) => {
+        const searchTerm = query.toLowerCase().trim();
+        const results = [];
+        
+        // Search through API endpoints
+        Object.entries(ExaminationCenterApis.endpoints).forEach(([key, api]) => {
+            const nameMatch = api.name.toLowerCase().includes(searchTerm);
+            const descriptionMatch = api.description.toLowerCase().includes(searchTerm);
+            const keyMatch = key.toLowerCase().includes(searchTerm);
+            
+            if (nameMatch || descriptionMatch || keyMatch) {
+                results.push({
+                    id: key,
+                    name: api.name,
+                    description: api.description,
+                    icon: api.icon,
+                    color: api.color,
+                    type: 'api',
+                    relevance: nameMatch ? 0 : (keyMatch ? 1 : 2), // Name matches are most relevant
+                    path: `/products/examination#${key}`,
+                    section: 'Examination Center APIs'
+                });
+            }
+        });
+        
+        // Sort by relevance
+        return results.sort((a, b) => a.relevance - b.relevance);
+    }, []); // Empty dependency array since we're not using any external values
 
+    // Register page search function
+    usePageSearch(searchExaminationCenter);
+
+    // Filter APIs based on search
+    const { searchQuery, isFiltering } = useSearchStore();
+    const filteredEndpoints = useMemo(() => {
+        if (!isFiltering || !searchQuery.trim()) return ExaminationCenterApis.endpoints;
+        const searchTerm = searchQuery.toLowerCase().trim();
+        return Object.fromEntries(
+            Object.entries(ExaminationCenterApis.endpoints).filter(([key, api]) =>
+                api.name.toLowerCase().includes(searchTerm) ||
+                api.description.toLowerCase().includes(searchTerm) ||
+                key.toLowerCase().includes(searchTerm)
+            )
+        );
+    }, [isFiltering, searchQuery]);
 
     const handleApiClick = (apiKey) => {
         console.log("in handleApiClick")
@@ -88,10 +135,6 @@ export default function ExaminationCenter() {
         navigator.clipboard.writeText(JSON.stringify(text, null, 2));
     };
 
-
-
-
-
     return (
         <div className="p-3 sm:p-4 md:p-6 mx-auto">
             <ProductHeader
@@ -101,7 +144,7 @@ export default function ExaminationCenter() {
 
             {/* API Cards Grid */}
             <ApiTestingCard
-                apis={ExaminationCenterApis}
+                apis={{ ...ExaminationCenterApis, endpoints: filteredEndpoints }}
                 handleApiClick={handleApiClick}
                 handleFileChange={handleFileChange}
                 testApi={handleSubmit}

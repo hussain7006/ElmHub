@@ -48,6 +48,7 @@ export default function ApiTestingCard({
             {Object.entries(apis.endpoints).map(([key, api]) => (
                 <motion.div
                     key={key}
+                    id={key}
                     variants={cardVariants}
                     className="relative"
                 >

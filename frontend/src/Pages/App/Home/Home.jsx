@@ -1,87 +1,76 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import useThemeStore from '../../../store/themeStore';
-import {
-    MicrophoneIcon,
-    DocumentTextIcon,
-    ChatBubbleLeftRightIcon,
-    UserGroupIcon,
-    VideoCameraIcon,
-    ViewfinderCircleIcon,
-    CpuChipIcon,
-    CubeIcon,
-    ChartBarIcon
-} from '@heroicons/react/24/outline';
+
 import ProductSection from '../../../Components/App/Products/Home/ProductSection';
+import { speechProducts, visionProducts, llmProducts, insightProducts } from '../../../Constants/home';
+import usePageSearch from '../../../hooks/usePageSearch';
+import useSearchStore from '../../../store/searchStore';
 
 const Marketplace = () => {
     const { colors } = useThemeStore();
 
-    const speechProducts = [
-        {
-            icon: MicrophoneIcon,
-            title: "Speech to Text",
-            description: "Convert your voice to text easily with our speech-to-text AI, enhancing productivity.",
-            isEnabled: false
-        },
-        {
-            icon: DocumentTextIcon,
-            title: "Text to Speech",
-            description: "Transform written text into natural-sounding speech with our advanced AI technology.",
-            isEnabled: true
-        },
-        {
-            icon: ChatBubbleLeftRightIcon,
-            title: "Voice Translation",
-            description: "Real-time voice translation across multiple languages powered by AI.",
-            isEnabled: true
-        }
-    ];
+    // Page-specific search function
+    const searchHomePage = useCallback(async (query) => {
+        const searchTerm = query.toLowerCase().trim();
+        const results = [];
+        const searchProducts = (products, category) => {
+            products.forEach((product, index) => {
+                const titleMatch = product.title.toLowerCase().includes(searchTerm);
+                const descriptionMatch = product.description?.toLowerCase().includes(searchTerm);
+                if (titleMatch || descriptionMatch) {
+                    results.push({
+                        id: `${category}-${index}`,
+                        name: product.title,
+                        description: product.description,
+                        icon: product.icon,
+                        type: 'product',
+                        relevance: titleMatch ? 0 : 1,
+                        path: `/#${category}-${index}`,
+                        section: category,
+                        isEnabled: product.isEnabled
+                    });
+                }
+            });
+        };
+        searchProducts(speechProducts, 'Speech Related');
+        searchProducts(visionProducts, 'Computer Vision Related');
+        searchProducts(llmProducts, 'Large Language Models (LLM)');
+        searchProducts(insightProducts, 'Insight Related');
+        return results.sort((a, b) => a.relevance - b.relevance);
+    }, []);
+    usePageSearch(searchHomePage);
 
-    const visionProducts = [
-        {
-            icon: UserGroupIcon,
-            title: "Crowd Detection",
-            description: "Advanced AI system for real-time crowd analysis and density monitoring in public spaces.",
-            isEnabled: true
-        },
-        {
-            icon: VideoCameraIcon,
-            title: "Surveillance Camera Detection",
-            description: "Intelligent system to detect and analyze surveillance cameras in any environment.",
-            isEnabled: true
-        },
-        {
-            icon: ViewfinderCircleIcon,
-            title: "Object Detection",
-            description: "State-of-the-art object detection and recognition system for various applications.",
-            isEnabled: false
-        }
-    ];
+    // Filter products based on search
+    const { searchQuery, isFiltering } = useSearchStore();
+    const filterProducts = useCallback((products) => {
+        if (!isFiltering || !searchQuery.trim()) return products;
+        const searchTerm = searchQuery.toLowerCase().trim();
+        return products.filter(product =>
+            product.title.toLowerCase().includes(searchTerm) ||
+            (product.description && product.description.toLowerCase().includes(searchTerm))
+        );
+    }, [isFiltering, searchQuery]);
 
-    const llmProducts = [
+    // Only include sections with at least one matching product
+    const filteredSections = useMemo(() => [
         {
-            icon: CpuChipIcon,
-            title: "Nuha with AI chip",
-            description: "Convert your voice to text easily with our speech-to-text AI, enhancing productivity.",
-            isEnabled: true
+            title: 'Speech Related',
+            products: filterProducts(speechProducts)
         },
         {
-            icon: CubeIcon,
-            title: "Nuha avatar",
-            descrdescription: "Convert your voice to text easily with our speech-to-text AI, enhancing productivity.",
-            isEnabled: true
-        }
-    ];
-
-    const insightProducts = [
+            title: 'Computer Vision Related',
+            products: filterProducts(visionProducts)
+        },
         {
-            icon: ChartBarIcon,
-            title: "Advanced Analytics Dashboard",
-            description: "Convert your voice to text easily with our speech-to-text AI, enhancing productivity.",
-            isEnabled: true
+            title: 'Large Language Models (LLM)',
+            products: filterProducts(llmProducts)
+        },
+        {
+            title: 'Insight Related',
+            products: filterProducts(insightProducts)
         }
-    ];
+    ].filter(section => section.products.length > 0), [filterProducts]);
 
     return (
         <div className="p-6 ">
@@ -90,7 +79,6 @@ const Marketplace = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
                 className="text-3xl font-bold mb-8 text-center"
-
             >
                 <div className="flex flex-wrap gap-2.5 justify-center items-center w-full text-3xl font-bold  max-md:max-w-full">
                     <span className="self-stretch my-auto"
@@ -113,31 +101,15 @@ const Marketplace = () => {
                     </span>
                 </div>
             </motion.h1>
-
             <div className="space-y-8">
-                <ProductSection
-                    title="Speech Related"
-                    products={speechProducts}
-                    colors={colors}
-                />
-
-                <ProductSection
-                    title="Computer Vision Related"
-                    products={visionProducts}
-                    colors={colors}
-                />
-
-                <ProductSection
-                    title="Large Language Models (LLM)"
-                    products={llmProducts}
-                    colors={colors}
-                />
-
-                <ProductSection
-                    title="Insight Related"
-                    products={insightProducts}
-                    colors={colors}
-                />
+                {filteredSections.map(section => (
+                    <ProductSection
+                        key={section.title}
+                        title={section.title}
+                        products={section.products}
+                        colors={colors}
+                    />
+                ))}
             </div>
         </div>
     );

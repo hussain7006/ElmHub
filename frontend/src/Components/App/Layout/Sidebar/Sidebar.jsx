@@ -4,6 +4,7 @@ import useThemeStore from '../../../../store/themeStore';
 import useSidebarStore from '../../../../store/sidebarStore';
 import logo from '/images/logo.png'
 import { sidebarItems } from '../../../../Constants/sidebarItems';
+import { useState } from 'react';
 
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebarStore();
@@ -11,6 +12,55 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const sidebarWidth = isCollapsed ? '80px' : '220px';
+
+  const [filteredSidebarItems, setFilteredSidebarItems] = useState(sidebarItems);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (input) => {
+    setSearchQuery(input);
+
+    // Show loading state immediately
+    if (input.trim()) {
+      setIsSearching(true);
+    } else {
+      setIsSearching(false);
+    }
+
+    // Debounce search: only filter after user stops typing for 500ms
+    if (handleSearch._debounceTimeout) {
+      clearTimeout(handleSearch._debounceTimeout);
+    }
+    handleSearch._debounceTimeout = setTimeout(() => {
+      if (!input.trim()) {
+        // If search is empty, show all items
+        setFilteredSidebarItems(sidebarItems);
+        setIsSearching(false);
+        return;
+      }
+
+      const searchTerm = input.toLowerCase().trim();
+      const filteredSidebarItems = sidebarItems.map((section) => {
+        // Filter items within each section
+        const filteredItems = section.items.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm)
+        );
+
+        // Only include sections that have matching items
+        if (filteredItems.length > 0) {
+          return {
+            ...section,
+            items: filteredItems
+          };
+        }
+        return null;
+      }).filter(Boolean); // Remove null sections
+
+      setFilteredSidebarItems(filteredSidebarItems);
+      setIsSearching(false);
+    }, 400);
+  }
+
   return (
     <motion.div
       initial={false}
@@ -78,6 +128,8 @@ const Sidebar = () => {
                 <input
                   type="text"
                   placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => { handleSearch(e.target.value) }}
                   className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 transition-colors"
                   style={{
                     backgroundColor: colors.inputBackground,
@@ -86,20 +138,39 @@ const Sidebar = () => {
                     '--tw-ring-color': colors.accent,
                   }}
                 />
-                <svg
-                  className="w-5 h-5 absolute left-3 top-2.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  style={{ color: colors.textSecondary }}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                <AnimatePresence mode="wait">
+                  {isSearching ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-3 top-2.5"
+                    >
+                      <div className="w-5 h-5 border-2 border-transparent border-t-current rounded-full animate-spin"
+                        style={{ color: colors.accent }}></div>
+                    </motion.div>
+                  ) : (
+                    <motion.svg
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="w-5 h-5 absolute left-3 top-2.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      style={{ color: colors.textSecondary }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </motion.svg>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           )}
@@ -112,67 +183,139 @@ const Sidebar = () => {
             transition: 'margin-top 0.3s ease-in-out'
           }}
         >
-          {sidebarItems.map((section, index) => (
-            <div key={index} className="mb-2">
-              <AnimatePresence mode="wait">
-                {!isCollapsed && (
-                  <motion.h2
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="px-4 mb-2 text-sm font-semibold uppercase tracking-wider truncate"
-                    style={{ color: colors.textSecondary }}
+          <AnimatePresence mode="wait">
+            {isSearching ? (
+              // <motion.div
+              //   initial={{ opacity: 0 }}
+              //   animate={{ opacity: 1 }}
+              //   exit={{ opacity: 0 }}
+              //   className="flex items-center justify-center py-8 h-full w-full"
+              // >
+              //   <div className="text-center h-full flex flex-col items-center justify-center">
+              //     <div className="w-8 h-8 border-2 border-transparent border-t-current rounded-full animate-spin mx-auto mb-2" 
+              //          style={{ color: colors.accent }}></div>
+              //     <p className="text-sm" style={{ color: colors.textSecondary }}>Searching...</p>
+              //   </div>
+              // </motion.div>
+              <></>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {filteredSidebarItems.length === 0 && searchQuery.trim() ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-center py-8"
                   >
-                    {section.title}
-                  </motion.h2>
-                )}
-              </AnimatePresence>
-              {section.items.map((item, itemIndex) => (
-                <div key={itemIndex}>
-                  {/* Main Product Item */}
-                  <motion.button
-                    whileHover={{ scale: item.disabled ? 1 : 1.02 }}
-                    whileTap={{ scale: item.disabled ? 1 : 0.98 }}
-                    onClick={() => navigate(item.path)}
-                    disabled={item.disabled}
-                    className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer 
-                      ${isCollapsed ? 'justify-center' : 'justify-start'} 
-                      ${location.pathname === item.path ? 'bg-opacity-10 font-bold tracking-wide ' : ''}`
-                    }
-                    style={{
-                      color: location.pathname === item.path ? colors.textPrimary : colors.textSecondary,
-
-                      backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
-                      ':hover': { backgroundColor: colors.accent },
-                      cursor: item.disabled ? 'not-allowed' : 'pointer'
-                    }}
-                    title={item.name}
-                  >
-                    <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
-                      <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
+                    <div className="text-center">
+                      <svg
+                        className="w-12 h-12 mx-auto mb-3 opacity-50"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        style={{ color: colors.textSecondary }}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                      <p className="text-sm" style={{ color: colors.textSecondary }}>
+                        No results found for "{searchQuery}"
+                      </p>
                     </div>
-                    <AnimatePresence mode="wait">
-                      {!isCollapsed && (
-                        <motion.span
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className={`truncate text-sm`}
+                  </motion.div>
+                ) : (
+                  filteredSidebarItems.map((section, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.3,
+                        delay: index * 0.1,
+                        ease: "easeOut"
+                      }}
+                      className="mb-2"
+                    >
+                      <AnimatePresence mode="wait">
+                        {!isCollapsed && (
+                          <motion.h2
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="px-4 mb-2 text-sm font-semibold uppercase tracking-wider truncate"
+                            style={{ color: colors.textSecondary }}
+                          >
+                            {section.title}
+                          </motion.h2>
+                        )}
+                      </AnimatePresence>
+                      {section.items.map((item, itemIndex) => (
+                        <motion.div
+                          key={itemIndex}
+                          initial={{ opacity: 0, x: -5 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: (index * 0.1) + (itemIndex * 0.05),
+                            ease: "easeOut"
+                          }}
                         >
-                          {item.name}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </motion.button>
-                </div>
-              ))}
+                          {/* Main Product Item */}
+                          <motion.button
+                            whileHover={{ scale: item.disabled ? 1 : 1.02 }}
+                            whileTap={{ scale: item.disabled ? 1 : 0.98 }}
+                            onClick={() => navigate(item.path)}
+                            disabled={item.disabled}
+                            className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer 
+                              ${isCollapsed ? 'justify-center' : 'justify-start'} 
+                              ${location.pathname === item.path ? 'bg-opacity-10 font-bold tracking-wide ' : ''}`
+                            }
+                            style={{
+                              color: location.pathname === item.path ? colors.textPrimary : colors.textSecondary,
 
-              {/* Divider */}
-              <div className="h-1 w-full border-b mb-3" style={{ borderColor: colors.borderColor }}></div>
-            </div>
-          ))}
+                              backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
+                              ':hover': { backgroundColor: colors.accent },
+                              cursor: item.disabled ? 'not-allowed' : 'pointer'
+                            }}
+                            title={item.name}
+                          >
+                            <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
+                              <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
+                            </div>
+                            <AnimatePresence mode="wait">
+                              {!isCollapsed && (
+                                <motion.span
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className={`truncate text-sm`}
+                                >
+                                  {item.name}
+                                </motion.span>
+                              )}
+                            </AnimatePresence>
+                          </motion.button>
+                        </motion.div>
+                      ))}
+
+                      {/* Divider */}
+                      <div className="h-1 w-full border-b mb-3" style={{ borderColor: colors.borderColor }}></div>
+                    </motion.div>
+                  ))
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Theme Toggle */}
