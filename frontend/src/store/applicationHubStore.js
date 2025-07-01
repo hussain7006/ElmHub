@@ -11,6 +11,7 @@ const useApplicationHubStore = create((set, get) => ({
   isLoading: false,
   error: null,
   launchingApp: null,
+  iframeLoaded: false,
   
   // Navigation actions
   setActiveTab: (tabId) => set({ activeTab: tabId }),
@@ -21,15 +22,34 @@ const useApplicationHubStore = create((set, get) => ({
   setIsLoading: (loading) => set({ isLoading: loading }),
   setError: (error) => set({ error }),
   setLaunchingApp: (app) => set({ launchingApp: app }),
+  setIframeLoaded: (loaded) => set({ iframeLoaded: loaded }),
+  
+  // Handle iframe loading completion
+  onIframeLoad: () => {
+    set({
+      isLoading: false,
+      iframeLoaded: true
+    });
+  },
+  
+  // Handle iframe loading timeout (fallback)
+  onIframeTimeout: () => {
+    set({
+      isLoading: false,
+      iframeLoaded: true,
+      error: new Error('Application took too long to load. Please try again.')
+    });
+  },
   
   // Combined actions for better scalability
   launchApplication: (app) => {
     set({
       activeApp: app,
       showIframe: true,
-      isLoading: false,
+      isLoading: true, // Keep loading until iframe is loaded
       error: null,
-      launchingApp: null
+      launchingApp: null,
+      iframeLoaded: false
     });
   },
   
@@ -39,7 +59,8 @@ const useApplicationHubStore = create((set, get) => ({
       activeApp: null,
       isLoading: false,
       error: null,
-      launchingApp: null
+      launchingApp: null,
+      iframeLoaded: false
     });
   },
   
@@ -51,7 +72,8 @@ const useApplicationHubStore = create((set, get) => ({
       activeApp: null,
       isLoading: false,
       error: null,
-      launchingApp: null
+      launchingApp: null,
+      iframeLoaded: false
     });
   },
   
@@ -63,7 +85,8 @@ const useApplicationHubStore = create((set, get) => ({
       activeApp: null,
       isLoading: false,
       error: null,
-      launchingApp: null
+      launchingApp: null,
+      iframeLoaded: false
     });
   },
   
@@ -74,7 +97,8 @@ const useApplicationHubStore = create((set, get) => ({
       activeApp: null,
       isLoading: false,
       error: null,
-      launchingApp: null
+      launchingApp: null,
+      iframeLoaded: false
     });
   },
   
@@ -86,7 +110,8 @@ const useApplicationHubStore = create((set, get) => ({
       activeApp: null,
       isLoading: false,
       error: null,
-      launchingApp: null
+      launchingApp: null,
+      iframeLoaded: false
     });
   }
 }));

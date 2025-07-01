@@ -1,7 +1,7 @@
 import { CookieUtils } from "../utils/cookies";
 
 // Simple API service for Nuha AI authentication
-const API_NUHA_AI_LOGIN = 'https://nuha.ai/api/v1/auths/signin';
+const API_NUHA_AI_LOGIN = 'https://nuha.ai:3000/api/v1/auths/signin';
 const NUHA_AI_TOKEN_NAME = 'token';
 
 // Simple API functions

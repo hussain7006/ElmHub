@@ -33,11 +33,43 @@ export default function ApplicationHub() {
         setError,
         launchingApp,
         setLaunchingApp,
+        iframeLoaded,
+        setIframeLoaded,
         launchApplication,
-        closeApplication
+        closeApplication,
+        onIframeLoad
     } = useApplicationHubStore();
     
     const [isExpanded, setIsExpanded] = useState(false); // State for See More/Less
+    const [timeoutId, setTimeoutId] = useState(null);
+
+    // Handle iframe loading timeout
+    useEffect(() => {
+        if (isLoading && showIframe && activeApp) {
+            // Set a timeout for 30 seconds
+            const timeout = setTimeout(() => {
+                // Handle timeout directly
+                setIsLoading(false);
+                setIframeLoaded(true);
+                setError(new Error('Application took too long to load. Please try again.'));
+            }, 30000); // 30 seconds timeout
+            
+            setTimeoutId(timeout);
+        } else {
+            // Clear timeout if not loading
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                setTimeoutId(null);
+            }
+        }
+
+        // Cleanup on unmount
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [isLoading, showIframe, activeApp]);
 
     // Credentials for Nuha AI (in production, this should be handled securely)
 
@@ -57,29 +89,28 @@ export default function ApplicationHub() {
             const appWithIframe = {
                 ...app,
                 iframeUrl: app.iframeUrl
-                // iframeUrl: "http://138.197.186.229/"
             };
+            console.log("appWithIframe", appWithIframe);
             // Use specific API call for Nuha AI
             if (app.id === 'nuhaai') {
                 response = await ApiService.signInNuhaAI(NUHA_CREDENTIALS.email, NUHA_CREDENTIALS.password, app.id);
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 if (response.success) {
                     launchApplication(appWithIframe);
                 } else {
                     setError(new Error(response.error || 'Failed to launch application'));
+                    setIsLoading(false);
+                    setLaunchingApp(null);
                 }
                 return;
             }
 
-            console.log("appWithIframe", appWithIframe);
             launchApplication(appWithIframe);
 
         } catch (err) {
             setError(new Error('Failed to launch application. Please try again.'));
-        } finally {
-            setTimeout(() => {
-                setIsLoading(false);
-                setLaunchingApp(null);
-            }, 2000)
+            setIsLoading(false);
+            setLaunchingApp(null);
         }
     };
 
@@ -141,9 +172,30 @@ export default function ApplicationHub() {
                         </div>
                     </div>
 
-                    {/* Iframe */}
-                    <div className="w-full h-[80vh] rounded-lg overflow-hidden border"
+                    {/* Iframe Container with Loading State */}
+                    <div className="w-full h-[80vh] rounded-lg overflow-hidden border relative"
                         style={{ borderColor: colors.borderColor }}>
+                        
+                        {/* Loading Overlay - shown while iframe is loading */}
+                        {isLoading && (
+                            <div className="absolute inset-0 bg-white dark:bg-gray-800 flex items-center justify-center z-10">
+                                <div className="text-center">
+                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4"
+                                        style={{ borderColor: colors.primary }}></div>
+                                    <p className="text-sm font-medium mb-2" style={{ color: colors.textPrimary }}>
+                                        Loading {activeApp.name}
+                                    </p>
+                                    <p className="text-xs" style={{ color: colors.textSecondary }}>
+                                        Please wait while the application initializes...
+                                    </p>
+                                    <div className="mt-4 w-48 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                        <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* Iframe */}
                         <iframe
                             src={activeApp.iframeUrl}
                             title={activeApp.name}
@@ -151,6 +203,27 @@ export default function ApplicationHub() {
                             allowFullScreen
                             allow="camera; microphone; geolocation; encrypted-media"
                             sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+                            onLoad={() => {
+                                // Clear timeout when iframe loads successfully
+                                if (timeoutId) {
+                                    clearTimeout(timeoutId);
+                                    setTimeoutId(null);
+                                }
+                                onIframeLoad();
+                            }}
+                            onError={() => {
+                                // Handle iframe loading errors
+                                if (timeoutId) {
+                                    clearTimeout(timeoutId);
+                                    setTimeoutId(null);
+                                }
+                                setError(new Error(`Failed to load ${activeApp.name}. Please check your connection and try again.`));
+                                setIsLoading(false);
+                            }}
+                            style={{ 
+                                opacity: iframeLoaded ? 1 : 0,
+                                transition: 'opacity 0.3s ease-in-out'
+                            }}
                         />
                     </div>
                 </div>

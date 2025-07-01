@@ -46,7 +46,7 @@ export const APPLICATION_HUB_APPS = [
         tags: ['ai', 'assistant', 'chat', 'personal'],
         enabled: true,
         status: 'maintenance', // 'active', 'maintenance', 'beta', 'deprecated'
-        iframeUrl: 'https://nuha.ai',
+        iframeUrl: 'https://nuha.ai:3000',
         lastUpdated: '2024-01-15',
         version: '1.2.0'
     },
