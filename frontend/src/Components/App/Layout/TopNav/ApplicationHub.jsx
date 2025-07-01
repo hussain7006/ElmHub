@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDownIcon, ChevronUpIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import useThemeStore from '../../../../store/themeStore';
+import useApplicationHubStore from '../../../../store/applicationHubStore';
 import ElmTitle from './ElmTitle';
 import ApplicationLoader from './ApplicationLoader';
 import {
@@ -19,16 +20,24 @@ import { NUHA_CREDENTIALS } from '../../../../Constants/nuha';
 // The main ApplicationHub component
 export default function ApplicationHub() {
     const { colors, theme } = useThemeStore();
-    // State to keep track of the active tab. Using the default from config.
-    const [activeTab, setActiveTab] = useState(APPLICATION_HUB_CONFIG.defaultActiveTab);
+    const {
+        activeTab,
+        setActiveTab,
+        showIframe,
+        setShowIframe,
+        activeApp,
+        setActiveApp,
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        launchingApp,
+        setLaunchingApp,
+        launchApplication,
+        closeApplication
+    } = useApplicationHubStore();
+    
     const [isExpanded, setIsExpanded] = useState(false); // State for See More/Less
-
-    // Application launch states
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [launchingApp, setLaunchingApp] = useState(null);
-    const [activeApp, setActiveApp] = useState(null);
-    const [showIframe, setShowIframe] = useState(false);
 
     // Credentials for Nuha AI (in production, this should be handled securely)
 
@@ -54,27 +63,21 @@ export default function ApplicationHub() {
             if (app.id === 'nuhaai') {
                 response = await ApiService.signInNuhaAI(NUHA_CREDENTIALS.email, NUHA_CREDENTIALS.password, app.id);
                 if (response.success) {
-                    setActiveApp(appWithIframe);
-                    setShowIframe(true);
-                    setError(null);
+                    launchApplication(appWithIframe);
                 } else {
                     setError(new Error(response.error || 'Failed to launch application'));
                 }
                 return;
             }
 
-
             console.log("appWithIframe", appWithIframe);
-            setActiveApp(appWithIframe);
-            // setShowIframe(true);
-            setError(null);
+            launchApplication(appWithIframe);
 
         } catch (err) {
             setError(new Error('Failed to launch application. Please try again.'));
         } finally {
             setTimeout(() => {
                 setIsLoading(false);
-                setShowIframe(true);
                 setLaunchingApp(null);
             }, 2000)
         }
@@ -98,13 +101,11 @@ export default function ApplicationHub() {
 
     // Handle iframe back
     const handleIframeBack = () => {
-        setShowIframe(false);
-        setActiveApp(null);
-        if (activeApp.id === 'nuhaai') {
+        if (activeApp && activeApp.id === 'nuhaai') {
             console.log("handleIframeBack", activeApp);
             CookieUtils.deleteCookie('token');
-
         }
+        closeApplication();
     };
 
     // If iframe is active, show it instead of the hub

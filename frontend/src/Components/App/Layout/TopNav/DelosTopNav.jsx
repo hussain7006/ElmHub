@@ -3,10 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import useThemeStore from '../../../../store/themeStore';
 import useSidebarStore from '../../../../store/sidebarStore';
+import useApplicationHubStore from '../../../../store/applicationHubStore';
+import { PLATFORM_NAVIGATION_CONFIG, getPlatformItemConfig } from '../../../../Constants/platformNavigation';
 
 const DelosTopNav = () => {
     const { colors, theme } = useThemeStore();
     const { isCollapsed } = useSidebarStore();
+    const { navigateToApplicationTab } = useApplicationHubStore();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -14,20 +17,7 @@ const DelosTopNav = () => {
         {
             name: "Platform",
             dropdown: {
-                columns: [
-                    {
-                        title: "Applications",
-                        items: ["Applications", "Assistant", "Explore", "Scribe", "Docs", "Recap", "Trad", "Actu"]
-                    },
-                    {
-                        title: "Extension",
-                        items: ["Extension", "Companion"]
-                    },
-                    {
-                        title: "COLLABORATION",
-                        items: ["Organizations", "Teams"]
-                    }
-                ]
+                columns: PLATFORM_NAVIGATION_CONFIG.columns
             }
         },
         { name: "API" },
@@ -49,47 +39,113 @@ const DelosTopNav = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const PlatformDropdownMenu = () => (
-        <div
-            className="absolute top-full left-0 mt-2 w-xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-10 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
-            style={{
-                backgroundColor: colors.surface,
-                borderColor: colors.borderColor
-            }}
-        >
-            <div className="grid grid-cols-3 gap-8 px-8">
-                {navItems[0].dropdown.columns.map((column, columnIndex) => (
-                    <div key={column.title} className="space-y-4">
-                        <h3
-                            className="text-xs font-semibold uppercase tracking-wider"
-                            style={{ color: colors.primary }}
-                        >
-                            {column.title}
-                        </h3>
-                        <div className="space-y-3">
-                            {column.items.map((item, itemIndex) => (
-                                <motion.a
-                                    key={item}
-                                    href={`#${item.toLowerCase()}`}
-                                    className="block text-sm transition-all duration-300 ease-out"
-                                    style={{ color: colors.textSecondary }}
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.2, delay: (columnIndex * 0.1) + (itemIndex * 0.05) }}
-                                    whileHover={{
-                                        x: 8,
-                                        color: colors.primary
-                                    }}
-                                >
-                                    {item}
-                                </motion.a>
-                            ))}
+    const PlatformDropdownMenu = () => {
+        const handleApplicationClick = (item) => {
+            const itemConfig = getPlatformItemConfig(item.name);
+            
+            if (!itemConfig || !itemConfig.enabled) {
+                return; // Item is disabled or not found
+            }
+
+            // Handle different actions based on configuration
+            switch (itemConfig.action) {
+                case "navigateToApplicationTab":
+                    navigateToApplicationTab();
+                    break;
+                case "navigateToAssistant":
+                    // Future implementation
+                    console.log("Navigate to Assistant - not implemented yet");
+                    break;
+                case "navigateToExplore":
+                    // Future implementation
+                    console.log("Navigate to Explore - not implemented yet");
+                    break;
+                case "navigateToScribe":
+                    // Future implementation
+                    console.log("Navigate to Scribe - not implemented yet");
+                    break;
+                case "navigateToDocs":
+                    // Future implementation
+                    console.log("Navigate to Docs - not implemented yet");
+                    break;
+                case "navigateToRecap":
+                    // Future implementation
+                    console.log("Navigate to Recap - not implemented yet");
+                    break;
+                case "navigateToTrad":
+                    // Future implementation
+                    console.log("Navigate to Trad - not implemented yet");
+                    break;
+                case "navigateToActu":
+                    // Future implementation
+                    console.log("Navigate to Actu - not implemented yet");
+                    break;
+                case "navigateToExtension":
+                    // Future implementation
+                    console.log("Navigate to Extension - not implemented yet");
+                    break;
+                case "navigateToCompanion":
+                    // Future implementation
+                    console.log("Navigate to Companion - not implemented yet");
+                    break;
+                case "navigateToOrganizations":
+                    // Future implementation
+                    console.log("Navigate to Organizations - not implemented yet");
+                    break;
+                case "navigateToTeams":
+                    // Future implementation
+                    console.log("Navigate to Teams - not implemented yet");
+                    break;
+                default:
+                    console.log(`Action ${itemConfig.action} not implemented yet`);
+            }
+        };
+
+        return (
+            <div
+                className="absolute top-full left-0 mt-2 w-xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-10 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
+                style={{
+                    backgroundColor: colors.surface,
+                    borderColor: colors.borderColor
+                }}
+            >
+                <div className="grid grid-cols-3 gap-8 px-8">
+                    {navItems[0].dropdown.columns.map((column, columnIndex) => (
+                        <div key={column.title} className="space-y-4">
+                            <h3
+                                className="text-xs font-semibold uppercase tracking-wider"
+                                style={{ color: colors.primary }}
+                            >
+                                {column.title}
+                            </h3>
+                            <div className="space-y-3">
+                                {column.items.map((item, itemIndex) => (
+                                    <motion.button
+                                        key={item.name}
+                                        onClick={() => handleApplicationClick(item)}
+                                        disabled={!item.enabled}
+                                        className={`block text-sm transition-all duration-300 ease-out text-left w-full ${
+                                            !item.enabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                                        }`}
+                                        style={{ color: colors.textSecondary }}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.2, delay: (columnIndex * 0.1) + (itemIndex * 0.05) }}
+                                        whileHover={item.enabled ? {
+                                            x: 8,
+                                            color: colors.primary
+                                        } : {}}
+                                    >
+                                        {item.name}
+                                    </motion.button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     const SimpleDropdownMenu = ({ items }) => (
         <div

@@ -19,7 +19,7 @@ export const appRoutes = [
     children: [
       {
         path: "",
-        element: <Home />
+        element: <HomeNew />
       },
       {
         path: "examination-center",
