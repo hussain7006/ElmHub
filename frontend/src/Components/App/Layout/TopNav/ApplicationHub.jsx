@@ -14,6 +14,7 @@ import {
 } from '../../../../Constants/applicationHub';
 import { ApiService } from '../../../../services/api';
 import { CookieUtils } from '../../../../utils/cookies';
+import { NUHA_CREDENTIALS } from '../../../../Constants/nuha';
 
 // The main ApplicationHub component
 export default function ApplicationHub() {
@@ -30,10 +31,7 @@ export default function ApplicationHub() {
     const [showIframe, setShowIframe] = useState(false);
 
     // Credentials for Nuha AI (in production, this should be handled securely)
-    const NUHA_CREDENTIALS = {
-        email: "m.hussain7006@gmail.com",
-        password: "123456"
-    };
+
 
     // Handle application launch
     const handleAppLaunch = async (app) => {
@@ -53,17 +51,17 @@ export default function ApplicationHub() {
                 // iframeUrl: "http://138.197.186.229/"
             };
             // Use specific API call for Nuha AI
-            // if (app.id === 'nuhaai') {
-            //     response = await ApiService.signInNuhaAI(NUHA_CREDENTIALS.email, NUHA_CREDENTIALS.password, app.id);
-            //     if (response.success) {
-            //         setActiveApp(appWithIframe);
-            //         setShowIframe(true);
-            //         setError(null);
-            //     } else {
-            //         setError(new Error(response.error || 'Failed to launch application'));
-            //     }
-            //     return;
-            // }
+            if (app.id === 'nuhaai') {
+                response = await ApiService.signInNuhaAI(NUHA_CREDENTIALS.email, NUHA_CREDENTIALS.password, app.id);
+                if (response.success) {
+                    setActiveApp(appWithIframe);
+                    setShowIframe(true);
+                    setError(null);
+                } else {
+                    setError(new Error(response.error || 'Failed to launch application'));
+                }
+                return;
+            }
 
 
             console.log("appWithIframe", appWithIframe);
