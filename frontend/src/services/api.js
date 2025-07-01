@@ -1,4 +1,5 @@
 import { CookieUtils } from "../utils/cookies";
+import { setLocalStorage } from "../utils/localStorage";
 
 // Simple API service for Nuha AI authentication
 const API_NUHA_AI_LOGIN = 'https://nuha.ai:3000/api/v1/auths/signin';
@@ -26,7 +27,9 @@ export const ApiService = {
             }
 
             const data = await response.json();
-            CookieUtils.setCookie(NUHA_AI_TOKEN_NAME, data.token, 7);
+            // CookieUtils.setCookie(NUHA_AI_TOKEN_NAME, data.token, 7);
+            setLocalStorage(NUHA_AI_TOKEN_NAME, data.token);
+
 
             return { success: true, data };
         } catch (error) {

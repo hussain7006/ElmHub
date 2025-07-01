@@ -16,6 +16,7 @@ import {
 import { ApiService } from '../../../../services/api';
 import { CookieUtils } from '../../../../utils/cookies';
 import { NUHA_CREDENTIALS } from '../../../../Constants/nuha';
+import { removeLocalStorage } from '../../../../utils/localStorage';
 
 // The main ApplicationHub component
 export default function ApplicationHub() {
@@ -134,7 +135,8 @@ export default function ApplicationHub() {
     const handleIframeBack = () => {
         if (activeApp && activeApp.id === 'nuhaai') {
             console.log("handleIframeBack", activeApp);
-            CookieUtils.deleteCookie('token');
+            // CookieUtils.deleteCookie('token');
+            removeLocalStorage('token');
         }
         closeApplication();
     };
