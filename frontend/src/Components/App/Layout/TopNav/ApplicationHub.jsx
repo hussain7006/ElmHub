@@ -338,17 +338,20 @@ export default function ApplicationHub() {
                         className="p-4 rounded-lg"
                         style={{ backgroundColor: colors.surface }}
                     >
-                        <iframe
-                            src="https://nuha.ai/"
-                            title="Embedded App"
-                            style={{
-                                width: '100%',
-                                height: '80vh',
-                                border: '1px solid #ccc',
-                                borderRadius: '8px',
-                            }}
-                            allowFullScreen
-                        />
+
+                        <h3
+                            className="text-lg font-semibold"
+                            style={{ color: colors.textPrimary }}
+                        >
+                            {APPLICATION_HUB_CONTENT.news.title}
+                        </h3>
+                        <p
+                            className="mt-2"
+                            style={{ color: colors.textSecondary }}
+                        >
+                            {APPLICATION_HUB_CONTENT.news.description}
+                        </p>
+
                     </div>
                 );
             case 'tutorials':
