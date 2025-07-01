@@ -16,13 +16,15 @@ Make sure you have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd ElmHub
+   git clone https://github.com/hussain7006/ElmHub
+   cd ElmHub/frontend
    ```
 
 2. Install dependencies using Yarn:
+   > **Note:** Before installing dependencies, make sure you have [Node.js](https://nodejs.org/) installed on your system. You can check if Node.js is installed by running `node -v` in your terminal. If it's not installed, please download and install it from the official website.
 
    ```bash
+   npm install --global yarn
    yarn install
    ```
 

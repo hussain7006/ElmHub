@@ -3,13 +3,15 @@ import {
     ClipboardDocumentListIcon,
     BeakerIcon,
     UserIcon,
+    SparklesIcon,
 } from '@heroicons/react/24/outline';
 
 export const sidebarItems = [
     {
         title: 'Products',
         items: [
-            { name: 'Home', icon: HomeIcon, path: '/', disabled: false },
+            // { name: 'Home', icon: HomeIcon, path: '/', disabled: false },
+            { name: 'Home', icon: SparklesIcon, path: '/home-new', disabled: false },
             { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
             { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: false },
         ]

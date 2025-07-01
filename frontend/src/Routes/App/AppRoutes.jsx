@@ -1,8 +1,10 @@
 import { lazy } from "react";
 
 const Layout = lazy(() => import("../../Pages/App/Layout"));
+const HomeNewLayout = lazy(() => import("../../Pages/App/HomeNew/Layout"));
 const DashboardElm = lazy(() => import("../../Pages/App/DashboardElm"));
 const Home = lazy(() => import("../../Pages/App/Home/Home"));
+const HomeNew = lazy(() => import("../../Pages/App/HomeNew/HomeNew"));
 const ExaminationCenter = lazy(() => import("../../Pages/App/Products/ExaminationCenter/ExaminationCenter"));
 const PeopleAnalytics = lazy(() => import("../../Pages/App/Products/PeopleAnalytics/PeopleAnalytics"));
 const ProductDemos = lazy(() => import("../../Pages/App/ProductDemos/ProductDemos"));
@@ -35,6 +37,16 @@ export const appRoutes = [
       {
         path: "products/:appName",
         element: <ExternalApp />
+      }
+    ]
+  },
+  {
+    path: "/home-new",
+    element: <HomeNewLayout />,
+    children: [
+      {
+        path: "",
+        element: <HomeNew />
       }
     ]
   },
