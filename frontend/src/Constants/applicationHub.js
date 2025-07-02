@@ -75,7 +75,7 @@ export const APPLICATION_HUB_APPS = [
         enabled: true,
         status: 'active',
         lastUpdated: '2024-01-12',
-        iframeUrl: 'https://www.baleeg.com',
+        iframeUrl: 'https://nuha.ai:3001/',
     },
     // { 
     //     id: 'assistant',
