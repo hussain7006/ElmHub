@@ -74,6 +74,19 @@ export const APPLICATION_HUB_APPS = [
         lastUpdated: '2024-01-12',
     },
     {
+        id: 'CallBot',
+        name: 'CallBot',
+        description: 'Call center AI assistant.',
+        icon: ChatBubbleLeftEllipsisIcon,
+        color: 'green',
+        category: 'AI Tools',
+        tags: ['ai', 'assistant', 'chat', 'personal'],
+        enabled: true,
+        status: 'active',
+        lastUpdated: '2024-01-12',
+        iframeUrl: 'https://baleeg.com:4001',
+    },
+    {
         id: 'people-analytics',
         name: 'People Analytics',
         description: 'Gain insights into your organization.',
@@ -87,6 +100,7 @@ export const APPLICATION_HUB_APPS = [
         iframeUrl: URL.PEOPLE_ANALYTICS,
         version: '0.9.0'
     },
+    
 
 ];
 
