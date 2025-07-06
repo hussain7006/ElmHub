@@ -77,6 +77,7 @@ export const APPLICATION_HUB_APPS = [
         status: 'active',
         iframeUrl: URL.BALEEG,
         lastUpdated: '2024-01-12',
+        iframeUrl: 'https://nuha.ai:3001/',
     },
     {
         id: 'people-analytics',
