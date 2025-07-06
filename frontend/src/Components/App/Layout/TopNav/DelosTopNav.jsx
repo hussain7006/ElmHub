@@ -5,8 +5,10 @@ import useThemeStore from '../../../../store/themeStore';
 import useSidebarStore from '../../../../store/sidebarStore';
 import useApplicationHubStore from '../../../../store/applicationHubStore';
 import { PLATFORM_NAVIGATION_CONFIG, getPlatformItemConfig } from '../../../../Constants/platformNavigation';
+import { useNavigate } from 'react-router-dom';
 
 const DelosTopNav = () => {
+    const navigate = useNavigate();
     const { colors, theme } = useThemeStore();
     const { isCollapsed } = useSidebarStore();
     const { navigateToApplicationTab } = useApplicationHubStore();
@@ -24,7 +26,7 @@ const DelosTopNav = () => {
         { name: "Security" },
         { name: "Demos" },
         { name: "Pricing" },
-        { name: "About us", dropdown: ["Company", "Careers", "Contact", "Blog"] },
+        { name: "About us", dropdown: ["Company", "Contact"] },
     ];
 
     // Close dropdown when clicking outside
@@ -42,7 +44,7 @@ const DelosTopNav = () => {
     const PlatformDropdownMenu = () => {
         const handleApplicationClick = (item) => {
             const itemConfig = getPlatformItemConfig(item.name);
-            
+
             if (!itemConfig || !itemConfig.enabled) {
                 return; // Item is disabled or not found
             }
@@ -51,6 +53,7 @@ const DelosTopNav = () => {
             switch (itemConfig.action) {
                 case "navigateToApplicationTab":
                     navigateToApplicationTab();
+                    navigate('/');
                     break;
                 case "navigateToAssistant":
                     // Future implementation
@@ -103,7 +106,7 @@ const DelosTopNav = () => {
 
         return (
             <div
-                className="absolute top-full left-0 mt-2 w-xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-10 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
+                className="absolute top-full left-0 mt-0 w-xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-10 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
                 style={{
                     backgroundColor: colors.surface,
                     borderColor: colors.borderColor
@@ -124,9 +127,8 @@ const DelosTopNav = () => {
                                         key={item.name}
                                         onClick={() => handleApplicationClick(item)}
                                         disabled={!item.enabled}
-                                        className={`block text-sm transition-all duration-300 ease-out text-left w-full ${
-                                            !item.enabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-                                        }`}
+                                        className={`block text-sm transition-all duration-300 ease-out text-left w-full ${!item.enabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                                            }`}
                                         style={{ color: colors.textSecondary }}
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
@@ -147,34 +149,44 @@ const DelosTopNav = () => {
         );
     };
 
-    const SimpleDropdownMenu = ({ items }) => (
-        <div
-            className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-8 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
-            style={{
-                backgroundColor: colors.surface,
-                borderColor: colors.borderColor
-            }}
-        >
-            <span className='px-4 py-3 w-full text-xs font-semibold uppercase tracking-wide text-center' style={{ color: colors.primary }}>About us</span>
-            {items.map((item, index) => (
-                <motion.a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="block px-4 py-3 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 ease-out"
-                    style={{ color: colors.textSecondary }}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.2, delay: index * 0.05 }}
-                    whileHover={{
-                        x: 8,
-                        color: colors.primary
-                    }}
-                >
-                    {item}
-                </motion.a>
-            ))}
-        </div>
-    );
+    const SimpleDropdownMenu = ({ items, parentName }) => {
+        const handleItemClick = (item) => {
+
+            if (parentName === "About us") {
+                const route = item.toLowerCase();
+                navigate(`/about/${route}`);
+            }
+        };
+
+        return (
+            <div
+                className="absolute top-full left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-8 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
+                style={{
+                    backgroundColor: colors.surface,
+                    borderColor: colors.borderColor
+                }}
+            >
+                <span className='px-4 py-3 w-full text-xs font-semibold uppercase tracking-wide text-center' style={{ color: colors.primary }}>{parentName}</span>
+                {items.map((item, index) => (
+                    <motion.button
+                        key={item}
+                        onClick={() => handleItemClick(item)}
+                        className="block px-4 py-3 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 ease-out w-full text-left cursor-pointer"
+                        style={{ color: colors.textSecondary }}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.2, delay: index * 0.05 }}
+                        whileHover={{
+                            x: 8,
+                            color: colors.primary
+                        }}
+                    >
+                        {item}
+                    </motion.button>
+                ))}
+            </div>
+        );
+    };
 
     return (
         <motion.nav
@@ -199,9 +211,16 @@ const DelosTopNav = () => {
                                 key={item.name}
                                 className="relative group"
                             >
-                                <motion.a
-                                    href={`#${item.name.toLowerCase().replace(' ', '-')}`}
-                                    className="text-sm transition-colors duration-300 relative flex items-center py-3 px-2"
+                                <motion.button
+                                    onClick={() => {
+                                        if (item.name === "Demos") {
+                                            navigate('/demos');
+                                        }
+                                        if (item.name === "API") {
+                                            navigate('/api');
+                                        }
+                                    }}
+                                    className="text-sm transition-colors duration-300 relative flex items-center py-3 px-2 cursor-pointer"
                                     style={{ color: colors.textSecondary }}
                                     whileHover={{
                                         color: colors.primary
@@ -224,14 +243,14 @@ const DelosTopNav = () => {
                                         whileHover={{ scaleX: 1 }}
                                         transition={{ duration: 0.2 }}
                                     />
-                                </motion.a>
+                                </motion.button>
 
                                 {/* Dropdown menu */}
                                 {item.dropdown && (
                                     item.name === "Platform" ? (
                                         <PlatformDropdownMenu />
                                     ) : (
-                                        <SimpleDropdownMenu items={item.dropdown} />
+                                        <SimpleDropdownMenu items={item.dropdown} parentName={item.name} />
                                     )
                                 )}
                             </div>
@@ -287,7 +306,7 @@ const DelosTopNav = () => {
                             backgroundColor: colors.surface,
                             borderTop: `1px solid ${colors.borderColor}`
                         }}
-                        className="md:hidden"
+                        className="md:hidden max-h-[calc(100vh-80px)] overflow-y-auto"
                     >
                         <div className="px-2 pt-2 pb-3 space-y-1">
                             {navItems.map((item, index) => (
@@ -297,9 +316,16 @@ const DelosTopNav = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.2, delay: index * 0.1 }}
                                 >
-                                    <motion.a
-                                        href={`#${item.name.toLowerCase().replace(' ', '-')}`}
-                                        className="block px-3 py-2 text-base font-medium rounded-md transition-colors duration-300 relative group"
+                                    <motion.button
+                                        onClick={() => {
+                                            if (item.name === "Demos") {
+                                                navigate('/demos');
+                                            } else if (item.name === "API") {
+                                                navigate('/api');
+                                            }
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className="block px-3 py-2 text-base font-medium rounded-md transition-colors duration-300 relative group w-full text-left"
                                         style={{
                                             color: colors.textSecondary,
                                             '--tw-text-opacity': '1'
@@ -308,7 +334,6 @@ const DelosTopNav = () => {
                                             color: colors.primary,
                                             backgroundColor: theme === 'dark' ? 'rgba(55, 65, 81, 0.5)' : 'rgba(243, 244, 246, 0.5)'
                                         }}
-                                        onClick={() => setIsMenuOpen(false)}
                                     >
                                         {item.name}
                                         {/* Mobile animated underline */}
@@ -319,7 +344,7 @@ const DelosTopNav = () => {
                                             whileHover={{ scaleX: 1 }}
                                             transition={{ duration: 0.2 }}
                                         />
-                                    </motion.a>
+                                    </motion.button>
 
                                     {/* Mobile dropdown items */}
                                     {item.dropdown && (
@@ -335,38 +360,67 @@ const DelosTopNav = () => {
                                                             {column.title}
                                                         </h4>
                                                         {column.items.map((dropdownItem, dropdownIndex) => (
-                                                            <motion.a
-                                                                key={dropdownItem}
-                                                                href={`#${dropdownItem.toLowerCase()}`}
-                                                                className="block px-3 py-1 text-sm transition-colors duration-300"
+                                                            <motion.button
+                                                                key={dropdownItem.name}
+                                                                onClick={() => {
+                                                                    const itemConfig = getPlatformItemConfig(dropdownItem.name);
+
+                                                                    if (itemConfig && itemConfig.enabled) {
+                                                                        switch (itemConfig.action) {
+                                                                            case "navigateToApplicationTab":
+                                                                                navigateToApplicationTab();
+                                                                                navigate('/');
+                                                                                break;
+                                                                            default:
+                                                                                console.log(`Action ${itemConfig.action} not implemented yet`);
+                                                                        }
+                                                                    }
+                                                                    setIsMenuOpen(false);
+                                                                }}
+                                                                disabled={!dropdownItem.enabled}
+                                                                whileHover={dropdownItem.enabled ? {
+                                                                    x: 8,
+                                                                    color: colors.primary
+                                                                } : {}}
+                                                                className={`block px-3 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 ease-out w-full text-left t ${!dropdownItem.enabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                                                                 style={{ color: colors.textSecondary }}
-                                                                whileHover={{ color: colors.primary }}
                                                                 initial={{ opacity: 0, x: -10 }}
                                                                 animate={{ opacity: 1, x: 0 }}
-                                                                transition={{ duration: 0.2, delay: (index * 0.1) + (columnIndex * 0.05) + (dropdownIndex * 0.02) }}
-                                                                onClick={() => setIsMenuOpen(false)}
+                                                                transition={{ duration: 0.1, delay: index * 0.05 }}
+                                                                // whileHover={{
+                                                                //     x: 8,
+                                                                //     color: colors.primary
+                                                                // }}
                                                             >
-                                                                {dropdownItem}
-                                                            </motion.a>
+                                                                {dropdownItem.name}
+                                                            </motion.button>
                                                         ))}
                                                     </div>
                                                 ))
                                             ) : (
                                                 // Simple dropdown in mobile
                                                 item.dropdown.map((dropdownItem, dropdownIndex) => (
-                                                    <motion.a
+                                                    <motion.button
                                                         key={dropdownItem}
-                                                        href={`#${dropdownItem.toLowerCase()}`}
-                                                        className="block px-3 py-1 text-sm transition-colors duration-300"
+                                                        onClick={() => {
+                                                            if (item.name === "About us") {
+                                                                const route = dropdownItem.toLowerCase();
+                                                                navigate(`/about/${route}`);
+                                                            }
+                                                            setIsMenuOpen(false);
+                                                        }}
+                                                        className="block px-3 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 ease-out w-full text-left cursor-pointer"
                                                         style={{ color: colors.textSecondary }}
-                                                        whileHover={{ color: colors.primary }}
                                                         initial={{ opacity: 0, x: -10 }}
                                                         animate={{ opacity: 1, x: 0 }}
-                                                        transition={{ duration: 0.2, delay: (index * 0.1) + (dropdownIndex * 0.05) }}
-                                                        onClick={() => setIsMenuOpen(false)}
+                                                        transition={{ duration: 0.1, delay: index * 0.05 }}
+                                                        whileHover={{
+                                                            x: 8,
+                                                            color: colors.primary
+                                                        }}
                                                     >
                                                         {dropdownItem}
-                                                    </motion.a>
+                                                    </motion.button>
                                                 ))
                                             )}
                                         </div>

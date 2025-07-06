@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDownIcon, ChevronUpIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import useThemeStore from '../../../../store/themeStore';
@@ -20,6 +20,7 @@ import { removeLocalStorage } from '../../../../utils/localStorage';
 
 // The main ApplicationHub component
 export default function ApplicationHub() {
+    const iframeRef = useRef(null);
     const { colors, theme } = useThemeStore();
     const {
         activeTab,
@@ -40,7 +41,7 @@ export default function ApplicationHub() {
         closeApplication,
         onIframeLoad
     } = useApplicationHubStore();
-    
+
     const [isExpanded, setIsExpanded] = useState(false); // State for See More/Less
     const [timeoutId, setTimeoutId] = useState(null);
 
@@ -54,7 +55,7 @@ export default function ApplicationHub() {
                 setIframeLoaded(true);
                 setError(new Error('Application took too long to load. Please try again.'));
             }, 30000); // 30 seconds timeout
-            
+
             setTimeoutId(timeout);
         } else {
             // Clear timeout if not loading
@@ -71,6 +72,72 @@ export default function ApplicationHub() {
             }
         };
     }, [isLoading, showIframe, activeApp]);
+
+    // PostMessage theme communication effect
+    useEffect(() => {
+        // Create dynamic theme object based on current theme state
+        const postTheme = {
+            type: "elmhub",
+            theme: {
+                mode: theme,
+                primaryColor: colors.primary,
+                backgroundColor: colors.background,
+                textColor: colors.textPrimary,
+                surfaceColor: colors.surface,
+                borderColor: "red",
+                textSecondaryColor: colors.textSecondary
+            },
+            colors: colors,
+            showHeader: false,
+        };
+
+        const sendThemeToChild = () => {
+            console.log("Sending theme to iframe:", postTheme);
+
+            if (iframeRef.current?.contentWindow) {
+                try {
+                    iframeRef.current.contentWindow.postMessage(postTheme, "*");
+                } catch (error) {
+                    console.error("Failed to send theme to iframe:", error);
+                }
+            }
+        };
+
+        // Listen for messages from iframe
+        const handleMessage = (event) => {
+            // Basic origin validation (you can make this more strict)
+            if (event.source !== iframeRef.current?.contentWindow) {
+                return;
+            }
+
+            if (event.data === "READY_FOR_ELMHUB_MESSAGE") {
+                console.log("Iframe is ready. Sending theme...");
+                sendThemeToChild();
+            } else if (event.data?.type === "THEME_REQUEST") {
+                console.log("Iframe requested theme. Sending...");
+                sendThemeToChild();
+            }
+        };
+
+        window.addEventListener("message", handleMessage);
+
+        // Send theme immediately if iframe is already loaded
+        if (iframeLoaded && iframeRef.current?.contentWindow) {
+            sendThemeToChild();
+        }
+
+        // Fallback: send after 1 second if no response
+        const fallbackTimeout = setTimeout(() => {
+            if (iframeLoaded) {
+                sendThemeToChild();
+            }
+        }, 1000);
+
+        return () => {
+            window.removeEventListener("message", handleMessage);
+            clearTimeout(fallbackTimeout);
+        };
+    }, [theme, colors, iframeLoaded]); // Dependencies ensure theme updates are sent
 
     // Credentials for Nuha AI (in production, this should be handled securely)
 
@@ -93,18 +160,18 @@ export default function ApplicationHub() {
             };
             console.log("appWithIframe", appWithIframe);
             // Use specific API call for Nuha AI
-            if (app.id === 'nuhaai') {
-                response = await ApiService.signInNuhaAI(NUHA_CREDENTIALS.email, NUHA_CREDENTIALS.password, app.id);
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                if (response.success) {
-                    launchApplication(appWithIframe);
-                } else {
-                    setError(new Error(response.error || 'Failed to launch application'));
-                    setIsLoading(false);
-                    setLaunchingApp(null);
-                }
-                return;
-            }
+            // if (app.id === 'nuhaai') {
+            //     response = await ApiService.signInNuhaAI(NUHA_CREDENTIALS.email, NUHA_CREDENTIALS.password, app.id);
+            //     await new Promise(resolve => setTimeout(resolve, 1000));
+            //     if (response.success) {
+            //         launchApplication(appWithIframe);
+            //     } else {
+            //         setError(new Error(response.error || 'Failed to launch application'));
+            //         setIsLoading(false);
+            //         setLaunchingApp(null);
+            //     }
+            //     return;
+            // }
 
             launchApplication(appWithIframe);
 
@@ -141,93 +208,104 @@ export default function ApplicationHub() {
         closeApplication();
     };
 
-    // If iframe is active, show it instead of the hub
+    // If iframe is active, show it in the right content area
     if (showIframe && activeApp) {
         return (
-            <div className="mt-0 flex flex-col items-center justify-center font-sans">
-                <div className="w-full">
-                    {/* Header with back button */}
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center space-x-4">
-                            <button
-                                onClick={handleIframeBack}
-                                className="cursor-pointer p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+            <div 
+                className="flex flex-col font-sans" 
+                style={{ 
+                    backgroundColor: colors.background,
+                    height: 'calc(100vh - 80px)', // Account for top nav height
+                    maxHeight: 'calc(100vh - 80px)'
+                }}
+            >
+                {/* Header with back button */}
+                <div className="flex-shrink-0 px-0 pb-2 border-b" style={{ borderColor: colors.borderColor }}>
+                    <div className="flex items-center space-x-4">
+                        <button
+                            onClick={handleIframeBack}
+                            className="flex-shrink-0 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                            style={{ color: colors.textSecondary }}
+                            aria-label="Go back"
+                        >
+                            <ArrowLeftIcon className="w-5 h-5" />
+                        </button>
+
+                        <div className="flex-1 min-w-0">
+                            <h1
+                                className="text-xl font-semibold truncate"
+                                style={{ color: colors.textPrimary }}
+                            >
+                                {activeApp.name}
+                            </h1>
+                            <p
+                                className="text-sm truncate mt-0.5"
                                 style={{ color: colors.textSecondary }}
                             >
-                                <ArrowLeftIcon className="w-5 h-5" />
-                            </button>
-
-                            <div>
-                                <h1
-                                    className="text-xl font-semibold"
-                                    style={{ color: colors.textPrimary }}
-                                >
-                                    {activeApp.name}
-                                </h1>
-                                <p
-                                    className="text-sm"
-                                    style={{ color: colors.textSecondary }}
-                                >
-                                    {activeApp.description}
-                                </p>
-                            </div>
+                                {activeApp.description}
+                            </p>
                         </div>
                     </div>
+                </div>
 
-                    {/* Iframe Container with Loading State */}
-                    <div className="w-full h-[80vh] rounded-lg overflow-hidden border relative"
-                        style={{ borderColor: colors.borderColor }}>
-                        
-                        {/* Loading Overlay - shown while iframe is loading */}
-                        {isLoading && (
-                            <div className="absolute inset-0 bg-white dark:bg-gray-800 flex items-center justify-center z-10">
-                                <div className="text-center">
-                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4"
-                                        style={{ borderColor: colors.primary }}></div>
-                                    <p className="text-sm font-medium mb-2" style={{ color: colors.textPrimary }}>
-                                        Loading {activeApp.name}
-                                    </p>
-                                    <p className="text-xs" style={{ color: colors.textSecondary }}>
-                                        Please wait while the application initializes...
-                                    </p>
-                                    <div className="mt-4 w-48 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                        <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-                                    </div>
+                {/* Iframe Container - Takes remaining space */}
+                <div className="flex-1 relative overflow-hidden">
+                    {/* Loading Overlay */}
+                    {isLoading && (
+                        <div 
+                            className="absolute inset-0 flex items-center justify-center z-10"
+                            style={{ backgroundColor: colors.background }}
+                        >
+                            <div className="text-center p-6 rounded-lg shadow-lg" style={{ backgroundColor: colors.surface }}>
+                                <div 
+                                    className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4"
+                                    style={{ borderColor: colors.primary }}
+                                />
+                                <p className="text-sm font-medium mb-2" style={{ color: colors.textPrimary }}>
+                                    Loading {activeApp.name}
+                                </p>
+                                <p className="text-xs" style={{ color: colors.textSecondary }}>
+                                    Please wait while the application initializes...
+                                </p>
+                                <div className="mt-4 w-48 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div 
+                                        className="h-full rounded-full animate-pulse"
+                                        style={{ backgroundColor: colors.primary }}
+                                    />
                                 </div>
                             </div>
-                        )}
-                        
-                        {/* Iframe */}
-                        <iframe
-                            src={activeApp.iframeUrl}
-                            title={activeApp.name}
-                            className="w-full h-full border-0"
-                            allowFullScreen
-                            allow="camera; microphone; geolocation; encrypted-media"
-                            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
-                            onLoad={() => {
-                                // Clear timeout when iframe loads successfully
-                                if (timeoutId) {
-                                    clearTimeout(timeoutId);
-                                    setTimeoutId(null);
-                                }
-                                onIframeLoad();
-                            }}
-                            onError={() => {
-                                // Handle iframe loading errors
-                                if (timeoutId) {
-                                    clearTimeout(timeoutId);
-                                    setTimeoutId(null);
-                                }
-                                setError(new Error(`Failed to load ${activeApp.name}. Please check your connection and try again.`));
-                                setIsLoading(false);
-                            }}
-                            style={{ 
-                                opacity: iframeLoaded ? 1 : 0,
-                                transition: 'opacity 0.3s ease-in-out'
-                            }}
-                        />
-                    </div>
+                        </div>
+                    )}
+
+                    {/* Iframe */}
+                    <iframe
+                        ref={iframeRef}
+                        src={activeApp.iframeUrl}
+                        title={activeApp.name}
+                        className="w-full h-full border-0"
+                        allowFullScreen
+                        allow="camera; microphone; geolocation; encrypted-media; clipboard-read; clipboard-write"
+                        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals"
+                        onLoad={() => {
+                            if (timeoutId) {
+                                clearTimeout(timeoutId);
+                                setTimeoutId(null);
+                            }
+                            onIframeLoad();
+                        }}
+                        onError={() => {
+                            if (timeoutId) {
+                                clearTimeout(timeoutId);
+                                setTimeoutId(null);
+                            }
+                            setError(new Error(`Failed to load ${activeApp.name}. Please check your connection and try again.`));
+                            setIsLoading(false);
+                        }}
+                        style={{
+                            opacity: iframeLoaded ? 1 : 0,
+                            transition: 'opacity 0.3s ease-in-out'
+                        }}
+                    />
                 </div>
             </div>
         );

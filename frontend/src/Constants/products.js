@@ -7,7 +7,8 @@ import {
     DevicePhoneMobileIcon,
     IdentificationIcon,
     BeakerIcon,
-    MapPinIcon
+    MapPinIcon,
+    CodeBracketIcon
 } from '@heroicons/react/24/outline';
 
 const baseUrl = "http://192.168.18.10";
@@ -58,6 +59,83 @@ export const PeopleAnalyticsApis = {
             endpoint: ":8000/predict"
         }
     }
+};
+
+// Unified API Applications Configuration
+export const API_APPLICATIONS = [
+    {
+        id: 'people-analytics',
+        name: 'People Analytics',
+        description: 'AI-powered people detection and analysis APIs for demographic insights, gaze tracking, and facial analysis.',
+        icon: UserGroupIcon,
+        color: '#10B981',
+        route: '/people-analytics',
+        features: [
+            'Gender Detection',
+            'Ethnicity Detection', 
+            'Person Detection',
+            'Gaze Detection',
+            'Face Detection',
+            'Key Point Detection'
+        ],
+        stats: {
+            endpoints: 6,
+            accuracy: '95%+',
+            responseTime: '< 2s'
+        },
+        apiConfig: 'PeopleAnalyticsApis'
+    },
+    {
+        id: 'examination-center',
+        name: 'Examination Center',
+        description: 'AI-powered examination monitoring and detection APIs for academic integrity and security.',
+        icon: EyeIcon,
+        color: '#3B82F6',
+        route: '/examination-center',
+        features: [
+            'Head Detection',
+            'Standing Detection',
+            'Mobile Device Detection',
+            'ID Card Detection',
+            'Water Bottle Detection',
+            'Key Point Detection'
+        ],
+        stats: {
+            endpoints: 6,
+            accuracy: '98%+',
+            responseTime: '< 1.5s'
+        },
+        apiConfig: 'ExaminationCenterApis'
+    }
+];
+
+// Helper function to get API applications with dynamic endpoint counts
+export const getApiApplications = () => {
+    return API_APPLICATIONS.map(app => ({
+        ...app,
+        stats: {
+            ...app.stats,
+            endpoints: app.apiConfig === 'PeopleAnalyticsApis' 
+                ? Object.keys(PeopleAnalyticsApis.endpoints).length
+                : Object.keys(ExaminationCenterApis.endpoints).length
+        }
+    }));
+};
+
+// Helper function to get total endpoints across all applications
+export const getTotalEndpoints = () => {
+    return Object.keys(PeopleAnalyticsApis.endpoints).length + 
+           Object.keys(ExaminationCenterApis.endpoints).length;
+};
+
+// Helper function to get application by ID
+export const getApiApplicationById = (id) => {
+    return getApiApplications().find(app => app.id === id);
+};
+
+// Helper function to get application by route
+export const getApiApplicationByRoute = (route) => {
+    return getApiApplications().find(app => app.route === route);
 };
 
 export const ExaminationCenterApis = {

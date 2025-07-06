@@ -18,6 +18,7 @@ export const ApiService = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:5173'
                 },
                 body: JSON.stringify(obj)
             });
@@ -33,6 +34,8 @@ export const ApiService = {
 
             return { success: true, data };
         } catch (error) {
+            console.log("error:", error);
+
             return { success: false, error: error.message };
         }
     },

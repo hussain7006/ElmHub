@@ -9,8 +9,10 @@ import {
     VideoCameraIcon,
     LanguageIcon,
     InboxIcon,
-    CursorArrowRaysIcon
+    CursorArrowRaysIcon,
+    UserGroupIcon
 } from '@heroicons/react/24/outline';
+import { URL } from './url';
 
 // Tab configurations
 export const APPLICATION_HUB_TABS = [
@@ -46,7 +48,7 @@ export const APPLICATION_HUB_APPS = [
         tags: ['ai', 'assistant', 'chat', 'personal'],
         enabled: true,
         status: 'maintenance', // 'active', 'maintenance', 'beta', 'deprecated'
-        iframeUrl: 'https://nuha.ai:3000',
+        iframeUrl: URL.NUHA_AI,
         lastUpdated: '2024-01-15',
         version: '1.2.0'
     },
@@ -60,8 +62,7 @@ export const APPLICATION_HUB_APPS = [
         tags: ['ai', 'assistant', 'chat', 'personal'],
         enabled: true,
         status: 'active',
-        // iframeUrl: 'https://www.baleeg.com',
-        iframeUrl: 'http://138.197.186.229:5174/autism/',
+        iframeUrl: URL.AUTISM,
         lastUpdated: '2024-01-10',
     },
     {
@@ -74,9 +75,25 @@ export const APPLICATION_HUB_APPS = [
         tags: ['ai', 'assistant', 'chat', 'personal'],
         enabled: true,
         status: 'active',
+        iframeUrl: URL.BALEEG,
         lastUpdated: '2024-01-12',
-        iframeUrl: 'https://www.baleeg.com',
     },
+    {
+        id: 'people-analytics',
+        name: 'People Analytics',
+        description: 'Gain insights into your organization.',
+        icon: UserGroupIcon,
+        color: 'teal',
+        category: 'Analytics',
+        tags: ['analytics', 'people', 'team', 'organization', 'insights', 'hr'],
+        enabled: true,
+        status: 'beta',
+        lastUpdated: '2024-06-01',
+        // iframeUrl: 'http://localhost:5175/pa/',
+        iframeUrl: URL.PEOPLE_ANALYTICS,
+        version: '0.9.0'
+    },
+
     // { 
     //     id: 'assistant',
     //     name: 'Assistant', 
