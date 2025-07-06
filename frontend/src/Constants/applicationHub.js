@@ -100,6 +100,7 @@ export const APPLICATION_HUB_APPS = [
         iframeUrl: URL.PEOPLE_ANALYTICS,
         version: '0.9.0'
     },
+    
 
 ];
 
