@@ -4,6 +4,7 @@ import {
     BeakerIcon,
     UserIcon,
     SparklesIcon,
+    ChatBubbleLeftEllipsisIcon,
 } from '@heroicons/react/24/outline';
 
 export const sidebarItems = [
@@ -12,13 +13,14 @@ export const sidebarItems = [
         items: [
             // { name: 'Home', icon: HomeIcon, path: '/', disabled: false },
             { name: 'Home', icon: SparklesIcon, path: '/', disabled: false },
-            { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
-            { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: false },
+            // { name: 'Examination Center', icon: BeakerIcon, path: '/examination-center', disabled: false },
+            // { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/people-analytics', disabled: false },
         ]
     },
     {
         title: 'My Applications',
         items: [
+           
             { name: 'Examination Center', icon: BeakerIcon, path: '/products/examination', disabled: false },
             { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/products/peopleanalytics', disabled: false },
             // { name: 'Google', icon: ClipboardDocumentListIcon, path: '/products/Google', disabled: false },
