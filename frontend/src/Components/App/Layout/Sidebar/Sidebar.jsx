@@ -392,21 +392,47 @@ const Sidebar = () => {
                               delay: (index * 0.1) + (visibleItems.length * 0.05),
                               ease: "easeOut"
                             }}
+                            className="px-2 py-1"
                           >
                             <motion.button
                               onClick={toggleMyApplicationsExpansion}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              className="w-full flex items-center justify-center px-4 py-2 transition-colors cursor-pointer text-sm font-medium"
+                              whileHover={{ 
+                                scale: 1.02,
+                                backgroundColor: colors.accent + '15',
+                                boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.15), 0 2px 4px 0 rgba(0, 0, 0, 0.1)'
+                              }}
+                              whileTap={{ 
+                                scale: 0.98,
+                                backgroundColor: colors.accent + '25'
+                              }}
+                              className="w-full flex items-center justify-center px-3 py-2.5 rounded-lg transition-all duration-200 cursor-pointer text-sm font-medium border border-dashed relative overflow-hidden group hover:shadow-lg"
                               style={{
                                 color: colors.accent,
-                                ':hover': { backgroundColor: colors.accent + '10' }
+                                borderColor: colors.accent + '40',
+                                backgroundColor: 'transparent',
+                                boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
                               }}
                             >
-                              <motion.span
-                                animate={{ rotate: isMyApplicationsExpanded ? 180 : 0 }}
-                                transition={{ duration: 0.3, ease: "easeInOut" }}
-                                className="mr-2"
+                              {/* Subtle background gradient */}
+                              <motion.div
+                                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                style={{
+                                  background: `linear-gradient(135deg, ${colors.accent}08 0%, ${colors.accent}15 100%)`
+                                }}
+                              />
+                              <motion.div
+                                animate={{ 
+                                  rotate: isMyApplicationsExpanded ? 180 : 0,
+                                  y: isMyApplicationsExpanded ? 2 : 0
+                                }}
+                                transition={{ 
+                                  duration: 0.4, 
+                                  ease: "easeInOut",
+                                  type: "spring",
+                                  stiffness: 300,
+                                  damping: 20
+                                }}
+                                className="mr-2 flex items-center justify-center"
                               >
                                 <svg
                                   className="w-4 h-4"
@@ -417,12 +443,44 @@ const Sidebar = () => {
                                   <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    strokeWidth={2}
+                                    strokeWidth={2.5}
                                     d="M19 9l-7 7-7-7"
                                   />
                                 </svg>
+                              </motion.div>
+                              <motion.span
+                                animate={{ 
+                                  opacity: 1,
+                                  x: 0
+                                }}
+                                initial={{ 
+                                  opacity: 0.8,
+                                  x: -2
+                                }}
+                                transition={{ 
+                                  duration: 0.2,
+                                  ease: "easeOut"
+                                }}
+                                className="font-medium relative z-10"
+                              >
+                                {isMyApplicationsExpanded ? 'Show Less' : `Show ${section.items.length - INITIAL_APPS_TO_SHOW} More`}
                               </motion.span>
-                              {isMyApplicationsExpanded ? 'Show Less' : `Show ${section.items.length - INITIAL_APPS_TO_SHOW} More`}
+                              
+                              {/* Subtle dot indicator */}
+                              <motion.div
+                                animate={{ 
+                                  opacity: isMyApplicationsExpanded ? 0 : 1,
+                                  scale: isMyApplicationsExpanded ? 0 : [1, 1.2, 1]
+                                }}
+                                transition={{ 
+                                  duration: 0.3,
+                                  ease: "easeInOut",
+                                  repeat: isMyApplicationsExpanded ? 0 : Infinity,
+                                  repeatDelay: 2
+                                }}
+                                className="absolute top-1 right-2 w-1.5 h-1.5 rounded-full"
+                                style={{ backgroundColor: colors.accent }}
+                              />
                             </motion.button>
                           </motion.div>
                         )}

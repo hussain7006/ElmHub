@@ -13,84 +13,84 @@ export const PLATFORM_NAVIGATION_CONFIG = {
           description: "Access your applications",
           enabled: true
         },
-        {
-          name: "Assistant",
-          action: "navigateToAssistant",
-          description: "AI Assistant tools",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Explore",
-          action: "navigateToExplore",
-          description: "Explore new features",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Scribe",
-          action: "navigateToScribe",
-          description: "Writing and documentation tools",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Docs",
-          action: "navigateToDocs",
-          description: "Document management",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Recap",
-          action: "navigateToRecap",
-          description: "Meeting notes and summaries",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Trad",
-          action: "navigateToTrad",
-          description: "Translation services",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Actu",
-          action: "navigateToActu",
-          description: "Automated newsletters",
-          enabled: false // Disabled for future implementation
-        }
+        // {
+        //   name: "Assistant",
+        //   action: "navigateToAssistant",
+        //   description: "AI Assistant tools",
+        //   enabled: false // Disabled for future implementation
+        // },
+        // {
+        //   name: "Explore",
+        //   action: "navigateToExplore",
+        //   description: "Explore new features",
+        //   enabled: false // Disabled for future implementation
+        // },
+        // {
+        //   name: "Scribe",
+        //   action: "navigateToScribe",
+        //   description: "Writing and documentation tools",
+        //   enabled: false // Disabled for future implementation
+        // },
+        // {
+        //   name: "Docs",
+        //   action: "navigateToDocs",
+        //   description: "Document management",
+        //   enabled: false // Disabled for future implementation
+        // },
+        // {
+        //   name: "Recap",
+        //   action: "navigateToRecap",
+        //   description: "Meeting notes and summaries",
+        //   enabled: false // Disabled for future implementation
+        // },
+        // {
+        //   name: "Trad",
+        //   action: "navigateToTrad",
+        //   description: "Translation services",
+        //   enabled: false // Disabled for future implementation
+        // },
+        // {
+        //   name: "Actu",
+        //   action: "navigateToActu",
+        //   description: "Automated newsletters",
+        //   enabled: false // Disabled for future implementation
+        // }
       ]
     },
-    {
-      title: "Extension",
-      items: [
-        {
-          name: "Extension",
-          action: "navigateToExtension",
-          description: "Browser extensions",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Companion",
-          action: "navigateToCompanion",
-          description: "Delos companion app",
-          enabled: false // Disabled for future implementation
-        }
-      ]
-    },
-    {
-      title: "COLLABORATION",
-      items: [
-        {
-          name: "Organizations",
-          action: "navigateToOrganizations",
-          description: "Organization management",
-          enabled: false // Disabled for future implementation
-        },
-        {
-          name: "Teams",
-          action: "navigateToTeams",
-          description: "Team collaboration tools",
-          enabled: false // Disabled for future implementation
-        }
-      ]
-    }
+    // {
+    //   title: "Extension",
+    //   items: [
+    //     {
+    //       name: "Extension",
+    //       action: "navigateToExtension",
+    //       description: "Browser extensions",
+    //       enabled: false // Disabled for future implementation
+    //     },
+    //     {
+    //       name: "Companion",
+    //       action: "navigateToCompanion",
+    //       description: "Delos companion app",
+    //       enabled: false // Disabled for future implementation
+    //     }
+    //   ]
+    // },
+    // {
+    //   title: "COLLABORATION",
+    //   items: [
+    //     {
+    //       name: "Organizations",
+    //       action: "navigateToOrganizations",
+    //       description: "Organization management",
+    //       enabled: false // Disabled for future implementation
+    //     },
+    //     {
+    //       name: "Teams",
+    //       action: "navigateToTeams",
+    //       description: "Team collaboration tools",
+    //       enabled: false // Disabled for future implementation
+    //     }
+    //   ]
+    // }
   ]
 };
 

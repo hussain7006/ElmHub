@@ -106,13 +106,13 @@ const DelosTopNav = () => {
 
         return (
             <div
-                className="absolute top-full left-0 mt-0 w-xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-10 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
+                className="absolute top-full left-0 mt-0 w-45 bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 py-10 px-6 z-50 transform origin-top transition-all duration-300 ease-out scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"
                 style={{
                     backgroundColor: colors.surface,
                     borderColor: colors.borderColor
                 }}
             >
-                <div className="grid grid-cols-3 gap-8 px-8">
+                <div className="grid grid-cols-3 ">
                     {navItems[0].dropdown.columns.map((column, columnIndex) => (
                         <div key={column.title} className="space-y-4">
                             <h3
