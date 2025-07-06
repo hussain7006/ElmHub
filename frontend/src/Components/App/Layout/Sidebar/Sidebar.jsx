@@ -2,20 +2,61 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useThemeStore from '../../../../store/themeStore';
 import useSidebarStore from '../../../../store/sidebarStore';
+import useApplicationHubStore from '../../../../store/applicationHubStore';
 import logo from '/images/logo.png'
 import { sidebarItems } from '../../../../Constants/sidebarItems';
-import { useState } from 'react';
+import { APPLICATION_HUB_APPS } from '../../../../Constants/applicationHub';
+import { useState, useEffect } from 'react';
 
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebarStore();
   const { theme, toggleTheme, colors } = useThemeStore();
+  const { launchApplication, activeApp, closeApplication } = useApplicationHubStore();
   const navigate = useNavigate();
   const location = useLocation();
   const sidebarWidth = isCollapsed ? '80px' : '220px';
 
-  const [filteredSidebarItems, setFilteredSidebarItems] = useState(sidebarItems);
+  // Reset expansion state when sidebar is collapsed
+  useEffect(() => {
+    if (isCollapsed) {
+      setIsMyApplicationsExpanded(false);
+    }
+  }, [isCollapsed]);
+
+  // State for My Applications section expansion
+  const [isMyApplicationsExpanded, setIsMyApplicationsExpanded] = useState(false);
+  const INITIAL_APPS_TO_SHOW = 3;
+
+  // Add applications to the existing "My Applications" section
+  const allSidebarItems = sidebarItems.map(section => {
+    if (section.title === 'My Applications') {
+      // Add the applications to the existing My Applications section
+      const applicationItems = APPLICATION_HUB_APPS
+        .filter(app => app.enabled && app.status !== 'deprecated')
+        .map(app => ({
+          name: app.name,
+          icon: app.icon,
+          path: `/app/${app.id}`, // Virtual path for iframe apps
+          disabled: !app.enabled,
+          appData: app // Store the full app data for iframe launching
+        }));
+
+      return {
+        ...section,
+        items: [...section.items, ...applicationItems]
+      };
+    }
+    return section;
+  });
+
+  const [filteredSidebarItems, setFilteredSidebarItems] = useState(allSidebarItems);
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Toggle My Applications section expansion
+  const toggleMyApplicationsExpansion = () => {
+    setIsMyApplicationsExpanded(!isMyApplicationsExpanded);
+  };
 
   const handleSearch = (input) => {
     setSearchQuery(input);
@@ -23,6 +64,8 @@ const Sidebar = () => {
     // Show loading state immediately
     if (input.trim()) {
       setIsSearching(true);
+      // Reset expansion state when searching
+      setIsMyApplicationsExpanded(false);
     } else {
       setIsSearching(false);
     }
@@ -34,13 +77,13 @@ const Sidebar = () => {
     handleSearch._debounceTimeout = setTimeout(() => {
       if (!input.trim()) {
         // If search is empty, show all items
-        setFilteredSidebarItems(sidebarItems);
+        setFilteredSidebarItems(allSidebarItems);
         setIsSearching(false);
         return;
       }
 
       const searchTerm = input.toLowerCase().trim();
-      const filteredSidebarItems = sidebarItems.map((section) => {
+      const filteredSidebarItems = allSidebarItems.map((section) => {
         // Filter items within each section
         const filteredItems = section.items.filter((item) =>
           item.name.toLowerCase().includes(searchTerm)
@@ -59,6 +102,27 @@ const Sidebar = () => {
       setFilteredSidebarItems(filteredSidebarItems);
       setIsSearching(false);
     }, 400);
+  }
+
+  // Handle item click - either navigate or launch application
+  const handleItemClick = (item) => {
+    if (item.disabled) return;
+
+    if (item.appData) {
+      // Launch application in iframe
+      navigate('/');
+      launchApplication(item.appData);
+    } else {
+      // If clicking home and an app is active, close the app first
+      if (item.path === '/' && activeApp) {
+        closeApplication();
+      } else if (activeApp) {
+        // If navigating to any other route and an app is active, close the app
+        closeApplication();
+      }
+      // Navigate to regular route
+      navigate(item.path);
+    }
   }
 
   return (
@@ -232,86 +296,142 @@ const Sidebar = () => {
                     </div>
                   </motion.div>
                 ) : (
-                  filteredSidebarItems.map((section, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.3,
-                        delay: index * 0.1,
-                        ease: "easeOut"
-                      }}
-                      className="mb-2"
-                    >
-                      <AnimatePresence mode="wait">
-                        {!isCollapsed && (
-                          <motion.h2
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="px-4 mb-2 text-sm font-semibold uppercase tracking-wider truncate"
-                            style={{ color: colors.textSecondary }}
-                          >
-                            {section.title}
-                          </motion.h2>
-                        )}
-                      </AnimatePresence>
-                      {section.items.map((item, itemIndex) => (
-                        <motion.div
-                          key={itemIndex}
-                          initial={{ opacity: 0, x: -5 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: (index * 0.1) + (itemIndex * 0.05),
-                            ease: "easeOut"
-                          }}
-                        >
-                          {/* Main Product Item */}
-                          <motion.button
-                            whileHover={{ scale: item.disabled ? 1 : 1.02 }}
-                            whileTap={{ scale: item.disabled ? 1 : 0.98 }}
-                            onClick={() => navigate(item.path)}
-                            disabled={item.disabled}
-                            className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer 
-                              ${isCollapsed ? 'justify-center' : 'justify-start'} 
-                              ${location.pathname === item.path ? 'bg-opacity-10 font-bold tracking-wide ' : ''}`
-                            }
-                            style={{
-                              color: location.pathname === item.path ? colors.textPrimary : colors.textSecondary,
+                  filteredSidebarItems.map((section, index) => {
+                    // Special handling for My Applications section
+                    const isMyApplicationsSection = section.title === 'My Applications';
+                    const hasMoreApps = isMyApplicationsSection && section.items.length > INITIAL_APPS_TO_SHOW;
+                    const visibleItems = isMyApplicationsSection && !isMyApplicationsExpanded 
+                      ? section.items.slice(0, INITIAL_APPS_TO_SHOW) 
+                      : section.items;
 
-                              backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
-                              ':hover': { backgroundColor: colors.accent },
-                              cursor: item.disabled ? 'not-allowed' : 'pointer'
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: index * 0.1,
+                          ease: "easeOut"
+                        }}
+                        className="mb-2"
+                      >
+                        <AnimatePresence mode="wait">
+                          {!isCollapsed && (
+                            <motion.h2
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="px-4 mb-2 text-sm font-semibold uppercase tracking-wider truncate"
+                              style={{ color: colors.textSecondary }}
+                            >
+                              {section.title}
+                            </motion.h2>
+                          )}
+                        </AnimatePresence>
+                        
+                        {/* Render visible items */}
+                        {visibleItems.map((item, itemIndex) => (
+                          <motion.div
+                            key={itemIndex}
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: (index * 0.1) + (itemIndex * 0.05),
+                              ease: "easeOut"
                             }}
-                            title={item.name}
                           >
-                            <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
-                              <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
-                            </div>
-                            <AnimatePresence mode="wait">
-                              {!isCollapsed && (
-                                <motion.span
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  exit={{ opacity: 0 }}
-                                  transition={{ duration: 0.2 }}
-                                  className={`truncate text-sm`}
-                                >
-                                  {item.name}
-                                </motion.span>
-                              )}
-                            </AnimatePresence>
-                          </motion.button>
-                        </motion.div>
-                      ))}
+                            {/* Main Product Item */}
+                            <motion.button
+                              whileHover={{ scale: item.disabled ? 1 : 1.02 }}
+                              whileTap={{ scale: item.disabled ? 1 : 0.98 }}
+                              onClick={() => handleItemClick(item)}
+                              disabled={item.disabled}
+                              className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer 
+                                ${isCollapsed ? 'justify-center' : 'justify-start'} 
+                                ${(location.pathname === item.path && !activeApp) || (item.appData && activeApp?.id === item.appData?.id) ? 'bg-opacity-10 font-bold tracking-wide ' : ''}`
+                              }
+                              style={{
+                                color: (location.pathname === item.path && !activeApp) || (item.appData && activeApp?.id === item.appData?.id) ? colors.textPrimary : colors.textSecondary,
 
-                      {/* Divider */}
-                      <div className="h-1 w-full border-b mb-3" style={{ borderColor: colors.borderColor }}></div>
-                    </motion.div>
-                  ))
+                                backgroundColor: (location.pathname === item.path && !activeApp) || (item.appData && activeApp?.id === item.appData?.id) ? colors.accent : 'transparent',
+                                ':hover': { backgroundColor: colors.accent },
+                                cursor: item.disabled ? 'not-allowed' : 'pointer'
+                              }}
+                              title={item.name}
+                            >
+                              <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
+                                <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
+                              </div>
+                              <AnimatePresence mode="wait">
+                                {!isCollapsed && (
+                                  <motion.span
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className={`truncate text-sm`}
+                                  >
+                                    {item.name}
+                                  </motion.span>
+                                )}
+                              </AnimatePresence>
+                            </motion.button>
+                          </motion.div>
+                        ))}
+
+                        {/* Show More/Less button for My Applications section */}
+                        {isMyApplicationsSection && hasMoreApps && !isCollapsed && !isSearching && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: (index * 0.1) + (visibleItems.length * 0.05),
+                              ease: "easeOut"
+                            }}
+                          >
+                            <motion.button
+                              onClick={toggleMyApplicationsExpansion}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="w-full flex items-center justify-center px-4 py-2 transition-colors cursor-pointer text-sm font-medium"
+                              style={{
+                                color: colors.accent,
+                                ':hover': { backgroundColor: colors.accent + '10' }
+                              }}
+                            >
+                              <motion.span
+                                animate={{ rotate: isMyApplicationsExpanded ? 180 : 0 }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                className="mr-2"
+                              >
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 9l-7 7-7-7"
+                                  />
+                                </svg>
+                              </motion.span>
+                              {isMyApplicationsExpanded ? 'Show Less' : `Show ${section.items.length - INITIAL_APPS_TO_SHOW} More`}
+                            </motion.button>
+                          </motion.div>
+                        )}
+
+                        {/* Divider */}
+                        <div className="h-1 w-full border-b mb-3" style={{ borderColor: colors.borderColor }}></div>
+                      </motion.div>
+                    );
+                  })
                 )}
               </motion.div>
             )}

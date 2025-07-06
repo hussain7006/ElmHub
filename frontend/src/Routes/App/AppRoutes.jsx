@@ -55,10 +55,10 @@ export const appRoutes = [
         element: <API />
       },
       // External app integrations - dynamic routing
-      {
-        path: "products/:appName",
-        element: <ExternalApp />
-      },
+      // {
+      //   path: "products/:appName",
+      //   element: <ExternalApp />
+      // },
       // About pages
       {
         path: "about/company",

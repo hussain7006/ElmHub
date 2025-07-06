@@ -21,8 +21,8 @@ export const sidebarItems = [
         title: 'My Applications',
         items: [
            
-            { name: 'Examination Center', icon: BeakerIcon, path: '/products/examination', disabled: false },
-            { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/products/peopleanalytics', disabled: false },
+            // { name: 'Examination Center', icon: BeakerIcon, path: '/products/examination', disabled: false },
+            // { name: 'People Analytics', icon: ClipboardDocumentListIcon, path: '/products/peopleanalytics', disabled: false },
             // { name: 'Google', icon: ClipboardDocumentListIcon, path: '/products/Google', disabled: false },
         ]
     },

@@ -16,13 +16,13 @@ export const demos = {
         demos: {
             '1': {
                 id: 'basic-demo',
-                name: "Basic Demo",
+                name: "Demo",
                 subtitle: "Introduction to AI Detection",
                 description: "Get started with our AI detection system through this comprehensive introduction.",
                 duration: "3-5 minutes",
                 difficulty: "Beginner",
                 thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-                videoUrl: "/videos/examinationCenter/1.mp4",
+                videoUrl: "/videos/examinationCenter/exam.mp4",
                 features: [
                     "Head Detection Overview",
                     "Basic Image Processing",
@@ -45,77 +45,77 @@ export const demos = {
                 tags: ['basic', 'introduction', 'head detection', 'image processing', 'beginner'],
                 capabilities: ['Head Detection Overview', 'Basic Image Processing', 'Simple Detection Results']
             },
-            '2': {
-                id: 'api-testing-demo',
-                name: "API Testing Demo",
-                subtitle: "Interactive API Testing",
-                description: "Test our AI detection APIs with real-time image uploads and instant results.",
-                duration: "5-8 minutes",
-                difficulty: "Intermediate",
-                thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-                videoUrl: "/videos/examinationCenter/1.mp4",
-                features: [
-                    "Real-time API Testing",
-                    "Image Upload & Processing",
-                    "Detailed Results Analysis",
-                    "Error Handling"
-                ],
-                requirements: [
-                    "Modern web browser",
-                    "Stable internet connection",
-                    "Sample images for testing"
-                ],
-                instructions: [
-                    "Upload test images",
-                    "Test different API endpoints",
-                    "Analyze detection results",
-                    "Review error scenarios"
-                ],
-                technicalSpecs: {
-                    "API Endpoints": "6 RESTful endpoints",
-                    "Response Time": "< 2 seconds",
-                    "Accuracy": "95%+ detection rate",
-                    "Supported Formats": "JPEG, PNG, WebP",
-                    "Max File Size": "10MB per image"
-                },
-                tags: ['api', 'testing', 'interactive', 'image upload', 'real-time', 'intermediate'],
-                capabilities: ['Real-time API Testing', 'Image Upload & Processing', 'Detailed Results Analysis', 'Error Handling']
-            },
-            '3': {
-                id: 'realtime-demo',
-                name: "Real-time Demo",
-                subtitle: "Live Detection Processing",
-                description: "Experience real-time AI detection with live video feeds and instant processing.",
-                duration: "8-12 minutes",
-                difficulty: "Advanced",
-                thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
-                videoUrl: "/videos/examinationCenter/1.mp4",
-                features: [
-                    "Live Video Processing",
-                    "Real-time Detection",
-                    "Multi-object Tracking",
-                    "Performance Monitoring"
-                ],
-                requirements: [
-                    "Modern web browser",
-                    "High-speed internet",
-                    "Webcam access (optional)"
-                ],
-                instructions: [
-                    "Connect to live video feed",
-                    "Observe real-time processing",
-                    "Monitor detection accuracy",
-                    "Analyze performance metrics"
-                ],
-                technicalSpecs: {
-                    "Processing Speed": "Real-time (30 FPS)",
-                    "Detection Range": "Multiple objects",
-                    "Accuracy": "97%+ detection rate",
-                    "Latency": "< 100ms"
-                },
-                tags: ['real-time', 'live', 'video processing', 'multi-object', 'tracking', 'advanced'],
-                capabilities: ['Live Video Processing', 'Real-time Detection', 'Multi-object Tracking', 'Performance Monitoring']
-            }
+            // '2': {
+            //     id: 'api-testing-demo',
+            //     name: "API Testing Demo",
+            //     subtitle: "Interactive API Testing",
+            //     description: "Test our AI detection APIs with real-time image uploads and instant results.",
+            //     duration: "5-8 minutes",
+            //     difficulty: "Intermediate",
+            //     thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
+            //     videoUrl: "/videos/examinationCenter/exam.mp4",
+            //     features: [
+            //         "Real-time API Testing",
+            //         "Image Upload & Processing",
+            //         "Detailed Results Analysis",
+            //         "Error Handling"
+            //     ],
+            //     requirements: [
+            //         "Modern web browser",
+            //         "Stable internet connection",
+            //         "Sample images for testing"
+            //     ],
+            //     instructions: [
+            //         "Upload test images",
+            //         "Test different API endpoints",
+            //         "Analyze detection results",
+            //         "Review error scenarios"
+            //     ],
+            //     technicalSpecs: {
+            //         "API Endpoints": "6 RESTful endpoints",
+            //         "Response Time": "< 2 seconds",
+            //         "Accuracy": "95%+ detection rate",
+            //         "Supported Formats": "JPEG, PNG, WebP",
+            //         "Max File Size": "10MB per image"
+            //     },
+            //     tags: ['api', 'testing', 'interactive', 'image upload', 'real-time', 'intermediate'],
+            //     capabilities: ['Real-time API Testing', 'Image Upload & Processing', 'Detailed Results Analysis', 'Error Handling']
+            // },
+            // '3': {
+            //     id: 'realtime-demo',
+            //     name: "Real-time Demo",
+            //     subtitle: "Live Detection Processing",
+            //     description: "Experience real-time AI detection with live video feeds and instant processing.",
+            //     duration: "8-12 minutes",
+            //     difficulty: "Advanced",
+            //     thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
+            //     videoUrl: "/videos/examinationCenter/exam.mp4",
+            //     features: [
+            //         "Live Video Processing",
+            //         "Real-time Detection",
+            //         "Multi-object Tracking",
+            //         "Performance Monitoring"
+            //     ],
+            //     requirements: [
+            //         "Modern web browser",
+            //         "High-speed internet",
+            //         "Webcam access (optional)"
+            //     ],
+            //     instructions: [
+            //         "Connect to live video feed",
+            //         "Observe real-time processing",
+            //         "Monitor detection accuracy",
+            //         "Analyze performance metrics"
+            //     ],
+            //     technicalSpecs: {
+            //         "Processing Speed": "Real-time (30 FPS)",
+            //         "Detection Range": "Multiple objects",
+            //         "Accuracy": "97%+ detection rate",
+            //         "Latency": "< 100ms"
+            //     },
+            //     tags: ['real-time', 'live', 'video processing', 'multi-object', 'tracking', 'advanced'],
+            //     capabilities: ['Live Video Processing', 'Real-time Detection', 'Multi-object Tracking', 'Performance Monitoring']
+            // }
         }
     },
     'people-analytics': {
@@ -130,13 +130,13 @@ export const demos = {
         demos: {
             '1': {
                 id: 'overview-demo',
-                name: "Overview Demo",
+                name: "Demo",
                 subtitle: "Introduction to People Analytics",
                 description: "Learn about our people analytics capabilities and use cases.",
                 duration: "4-6 minutes",
                 difficulty: "Beginner",
                 thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
-                videoUrl: "/videos/peopleAnalytics/1.mp4",
+                videoUrl: "/videos/peopleAnalytics/pa.mp4",
                 features: [
                     "Behavioral Analysis Overview",
                     "Crowd Detection Basics",
@@ -159,75 +159,75 @@ export const demos = {
                 tags: ['overview', 'introduction', 'behavioral analysis', 'crowd detection', 'beginner'],
                 capabilities: ['Behavioral Analysis Overview', 'Crowd Detection Basics', 'Analytics Dashboard Preview']
             },
-            '2': {
-                id: 'advanced-analytics-demo',
-                name: "Advanced Analytics",
-                subtitle: "Deep Dive into Analytics",
-                description: "Explore advanced analytics features including behavioral classification and pattern recognition.",
-                duration: "6-10 minutes",
-                difficulty: "Intermediate",
-                thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
-                videoUrl: "/videos/peopleAnalytics/1.mp4",
-                features: [
-                    "Advanced Behavioral Analysis",
-                    "Pattern Recognition",
-                    "Predictive Analytics",
-                    "Custom Metrics"
-                ],
-                requirements: [
-                    "Modern web browser",
-                    "Stable internet connection",
-                    "Sample data sets"
-                ],
-                instructions: [
-                    "Review advanced features",
-                    "Analyze behavioral patterns",
-                    "Explore predictive models",
-                    "Customize analytics parameters"
-                ],
-                technicalSpecs: {
-                    "Processing Speed": "Real-time (30 FPS)",
-                    "Detection Range": "Up to 100 people",
-                    "Accuracy": "92%+ behavior classification",
-                    "Data Retention": "Configurable (30-365 days)"
-                },
-                tags: ['advanced', 'analytics', 'pattern recognition', 'predictive', 'behavioral', 'intermediate'],
-                capabilities: ['Advanced Behavioral Analysis', 'Pattern Recognition', 'Predictive Analytics', 'Custom Metrics']
-            },
-            '3': {
-                id: 'dashboard-demo',
-                name: "Dashboard Demo",
-                subtitle: "Analytics Dashboard Walkthrough",
-                description: "Navigate through our comprehensive analytics dashboard with real-time data visualization.",
-                duration: "5-8 minutes",
-                difficulty: "Intermediate",
-                thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
-                videoUrl: "/videos/peopleAnalytics/1.mp4",
-                features: [
-                    "Real-time Dashboard",
-                    "Interactive Charts",
-                    "Data Export",
-                    "Custom Reports"
-                ],
-                requirements: [
-                    "Modern web browser",
-                    "Stable internet connection"
-                ],
-                instructions: [
-                    "Navigate dashboard interface",
-                    "Explore data visualizations",
-                    "Generate custom reports",
-                    "Export analytics data"
-                ],
-                technicalSpecs: {
-                    "Dashboard Updates": "Real-time",
-                    "Chart Types": "15+ visualization types",
-                    "Export Formats": "PDF, CSV, Excel",
-                    "Integration": "REST API + WebSocket"
-                },
-                tags: ['dashboard', 'visualization', 'charts', 'data export', 'reports', 'intermediate'],
-                capabilities: ['Real-time Dashboard', 'Interactive Charts', 'Data Export', 'Custom Reports']
-            }
+            // '2': {
+            //     id: 'advanced-analytics-demo',
+            //     name: "Advanced Analytics",
+            //     subtitle: "Deep Dive into Analytics",
+            //     description: "Explore advanced analytics features including behavioral classification and pattern recognition.",
+            //     duration: "6-10 minutes",
+            //     difficulty: "Intermediate",
+            //     thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
+            //     videoUrl: "/videos/peopleAnalytics/pa.mp4",
+            //     features: [
+            //         "Advanced Behavioral Analysis",
+            //         "Pattern Recognition",
+            //         "Predictive Analytics",
+            //         "Custom Metrics"
+            //     ],
+            //     requirements: [
+            //         "Modern web browser",
+            //         "Stable internet connection",
+            //         "Sample data sets"
+            //     ],
+            //     instructions: [
+            //         "Review advanced features",
+            //         "Analyze behavioral patterns",
+            //         "Explore predictive models",
+            //         "Customize analytics parameters"
+            //     ],
+            //     technicalSpecs: {
+            //         "Processing Speed": "Real-time (30 FPS)",
+            //         "Detection Range": "Up to 100 people",
+            //         "Accuracy": "92%+ behavior classification",
+            //         "Data Retention": "Configurable (30-365 days)"
+            //     },
+            //     tags: ['advanced', 'analytics', 'pattern recognition', 'predictive', 'behavioral', 'intermediate'],
+            //     capabilities: ['Advanced Behavioral Analysis', 'Pattern Recognition', 'Predictive Analytics', 'Custom Metrics']
+            // },
+            // '3': {
+            //     id: 'dashboard-demo',
+            //     name: "Dashboard Demo",
+            //     subtitle: "Analytics Dashboard Walkthrough",
+            //     description: "Navigate through our comprehensive analytics dashboard with real-time data visualization.",
+            //     duration: "5-8 minutes",
+            //     difficulty: "Intermediate",
+            //     thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
+            //     videoUrl: "/videos/peopleAnalytics/pa.mp4",
+            //     features: [
+            //         "Real-time Dashboard",
+            //         "Interactive Charts",
+            //         "Data Export",
+            //         "Custom Reports"
+            //     ],
+            //     requirements: [
+            //         "Modern web browser",
+            //         "Stable internet connection"
+            //     ],
+            //     instructions: [
+            //         "Navigate dashboard interface",
+            //         "Explore data visualizations",
+            //         "Generate custom reports",
+            //         "Export analytics data"
+            //     ],
+            //     technicalSpecs: {
+            //         "Dashboard Updates": "Real-time",
+            //         "Chart Types": "15+ visualization types",
+            //         "Export Formats": "PDF, CSV, Excel",
+            //         "Integration": "REST API + WebSocket"
+            //     },
+            //     tags: ['dashboard', 'visualization', 'charts', 'data export', 'reports', 'intermediate'],
+            //     capabilities: ['Real-time Dashboard', 'Interactive Charts', 'Data Export', 'Custom Reports']
+            // }
         }
     }
 };
