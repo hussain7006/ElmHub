@@ -6,6 +6,7 @@ import {
     UserGroupIcon,
     AcademicCapIcon,
     MicrophoneIcon,
+    PhoneIcon,
 } from '@heroicons/react/24/outline';
 import { URL } from './url';
 
@@ -17,15 +18,15 @@ export const APPLICATION_HUB_TABS = [
         icon: Squares2X2Icon,
         description: 'Browse and access your applications'
     },
-    {
-        id: 'news',
-        name: 'News',
-        icon: NewspaperIcon,
-        description: 'Latest news and updates'
-    },
+    // {
+    //     id: 'news',
+    //     name: 'News',
+    //     icon: NewspaperIcon,
+    //     description: 'Latest news and updates'
+    // },
     {
         id: 'tutorials',
-        name: 'Tutorials',
+        name: 'Demos',
         icon: PlayIcon,
         description: 'Helpful tutorials and guides'
     },
@@ -77,7 +78,7 @@ export const APPLICATION_HUB_APPS = [
         id: 'callbot',
         name: 'Callbot',
         description: 'Call center AI assistant.',
-        icon: MicrophoneIcon,
+        icon: PhoneIcon,
         color: 'green',
         category: 'AI Tools',
         tags: ['ai', 'assistant', 'chat', 'personal'],
@@ -91,7 +92,7 @@ export const APPLICATION_HUB_APPS = [
         name: 'People Analytics',
         description: 'Gain insights into your organization.',
         icon: UserGroupIcon,
-        color: 'teal',
+        color: 'red',
         category: 'Analytics',
         tags: ['analytics', 'people', 'team', 'organization', 'insights', 'hr'],
         enabled: true,
@@ -164,19 +165,7 @@ export const APPLICATION_STATUS_CONFIG = {
     }
 };
 
-// Tab content configurations
-export const APPLICATION_HUB_CONTENT = {
-    news: {
-        title: 'News Feed',
-        description: 'Latest news and updates will be displayed in this section.',
-        placeholder: 'No news available at the moment.'
-    },
-    tutorials: {
-        title: 'Tutorials Library',
-        description: 'Browse our collection of helpful tutorials and guides.',
-        placeholder: 'Tutorials will be available soon.'
-    }
-};
+
 
 // Component configuration
 export const APPLICATION_HUB_CONFIG = {

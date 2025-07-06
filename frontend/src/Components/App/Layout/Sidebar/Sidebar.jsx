@@ -300,8 +300,8 @@ const Sidebar = () => {
                     // Special handling for My Applications section
                     const isMyApplicationsSection = section.title === 'My Applications';
                     const hasMoreApps = isMyApplicationsSection && section.items.length > INITIAL_APPS_TO_SHOW;
-                    const visibleItems = isMyApplicationsSection && !isMyApplicationsExpanded 
-                      ? section.items.slice(0, INITIAL_APPS_TO_SHOW) 
+                    const visibleItems = isMyApplicationsSection && !isMyApplicationsExpanded
+                      ? section.items.slice(0, INITIAL_APPS_TO_SHOW)
                       : section.items;
 
                     return (
@@ -330,7 +330,7 @@ const Sidebar = () => {
                             </motion.h2>
                           )}
                         </AnimatePresence>
-                        
+
                         {/* Render visible items */}
                         {visibleItems.map((item, itemIndex) => (
                           <motion.div
@@ -396,21 +396,15 @@ const Sidebar = () => {
                           >
                             <motion.button
                               onClick={toggleMyApplicationsExpansion}
-                              whileHover={{ 
-                                scale: 1.02,
-                                backgroundColor: colors.accent + '15',
-                                boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.15), 0 2px 4px 0 rgba(0, 0, 0, 0.1)'
-                              }}
-                              whileTap={{ 
+                              whileTap={{
                                 scale: 0.98,
-                                backgroundColor: colors.accent + '25'
                               }}
-                              className="w-full flex items-center justify-center px-3 py-2.5 rounded-lg transition-all duration-200 cursor-pointer text-sm font-medium border border-dashed relative overflow-hidden group hover:shadow-lg"
+                              className="w-full flex items-center justify-center px-3 py-2.5 rounded-lg transition-all duration-200 cursor-pointer text-sm font-medium border border-dashed relative overflow-hidden group"
                               style={{
                                 color: colors.accent,
                                 borderColor: colors.accent + '40',
                                 backgroundColor: 'transparent',
-                                boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+                                // boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
                               }}
                             >
                               {/* Subtle background gradient */}
@@ -421,12 +415,12 @@ const Sidebar = () => {
                                 }}
                               />
                               <motion.div
-                                animate={{ 
+                                animate={{
                                   rotate: isMyApplicationsExpanded ? 180 : 0,
                                   y: isMyApplicationsExpanded ? 2 : 0
                                 }}
-                                transition={{ 
-                                  duration: 0.4, 
+                                transition={{
+                                  duration: 0.4,
                                   ease: "easeInOut",
                                   type: "spring",
                                   stiffness: 300,
@@ -449,15 +443,15 @@ const Sidebar = () => {
                                 </svg>
                               </motion.div>
                               <motion.span
-                                animate={{ 
+                                animate={{
                                   opacity: 1,
                                   x: 0
                                 }}
-                                initial={{ 
+                                initial={{
                                   opacity: 0.8,
                                   x: -2
                                 }}
-                                transition={{ 
+                                transition={{
                                   duration: 0.2,
                                   ease: "easeOut"
                                 }}
@@ -465,22 +459,7 @@ const Sidebar = () => {
                               >
                                 {isMyApplicationsExpanded ? 'Show Less' : `Show ${section.items.length - INITIAL_APPS_TO_SHOW} More`}
                               </motion.span>
-                              
-                              {/* Subtle dot indicator */}
-                              <motion.div
-                                animate={{ 
-                                  opacity: isMyApplicationsExpanded ? 0 : 1,
-                                  scale: isMyApplicationsExpanded ? 0 : [1, 1.2, 1]
-                                }}
-                                transition={{ 
-                                  duration: 0.3,
-                                  ease: "easeInOut",
-                                  repeat: isMyApplicationsExpanded ? 0 : Infinity,
-                                  repeatDelay: 2
-                                }}
-                                className="absolute top-1 right-2 w-1.5 h-1.5 rounded-full"
-                                style={{ backgroundColor: colors.accent }}
-                              />
+
                             </motion.button>
                           </motion.div>
                         )}

@@ -21,7 +21,7 @@ export const demos = {
                 description: "Get started with our AI detection system through this comprehensive introduction.",
                 duration: "3-5 minutes",
                 difficulty: "Beginner",
-                thumbnailImage: "/images/thumbnail/examinationCenter/1.png",
+                thumbnailImage: "/images/thumbnail/examinationCenter/exam.png",
                 videoUrl: "/videos/examinationCenter/exam.mp4",
                 features: [
                     "Head Detection Overview",
@@ -135,7 +135,7 @@ export const demos = {
                 description: "Learn about our people analytics capabilities and use cases.",
                 duration: "4-6 minutes",
                 difficulty: "Beginner",
-                thumbnailImage: "/images/thumbnail/peopleAnalytics/1.png",
+                thumbnailImage: "/images/thumbnail/peopleAnalytics/pa.png",
                 videoUrl: "/videos/peopleAnalytics/pa.mp4",
                 features: [
                     "Behavioral Analysis Overview",
@@ -228,6 +228,37 @@ export const demos = {
             //     tags: ['dashboard', 'visualization', 'charts', 'data export', 'reports', 'intermediate'],
             //     capabilities: ['Real-time Dashboard', 'Interactive Charts', 'Data Export', 'Custom Reports']
             // }
+        }
+    },
+    'autism': {
+        id: 'autism',
+        title: "Autism",
+        subtitle: "AI-Powered Autism Detection",
+        icon: BeakerIcon,
+        color: "#3B82F6",
+        description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
+        category: 'Product Demos',
+        tags: ['autism', 'detection', 'ai', 'monitoring', 'analysis', 'computer vision'],
+        demos: {
+            '1': {
+                id: 'basic-demo',
+                name: "Demo",
+                subtitle: "Introduction to Autism Detection",
+                description: "Get started with our AI detection system through this comprehensive introduction.",
+                duration: "3-5 minutes",
+                difficulty: "Beginner",
+                thumbnailImage: "/images/thumbnail/autism/autism.png",
+                videoUrl: "/videos/autism/autism.mp4",
+                features: [
+                    "Autism Detection Overview",
+                    "Basic Image Processing",
+                    "Simple Detection Results"
+                ],
+                requirements: [
+                    "Modern web browser",
+                    "Stable internet connection"
+                ],
+            }
         }
     }
 };

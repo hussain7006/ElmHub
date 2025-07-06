@@ -9,7 +9,6 @@ import {
     APPLICATION_HUB_TABS,
     APPLICATION_HUB_APPS,
     getApplicationHubColorScheme,
-    APPLICATION_HUB_CONTENT,
     APPLICATION_HUB_CONFIG,
     getApplicationStatusConfig
 } from '../../../../Constants/applicationHub';
@@ -17,6 +16,7 @@ import { ApiService } from '../../../../services/api';
 import { CookieUtils } from '../../../../utils/cookies';
 import { NUHA_CREDENTIALS } from '../../../../Constants/nuha';
 import { removeLocalStorage } from '../../../../utils/localStorage';
+import Tutorials from '../../../../Pages/App/Tutorials/Tutorials';
 
 // The main ApplicationHub component
 export default function ApplicationHub() {
@@ -211,9 +211,9 @@ export default function ApplicationHub() {
     // If iframe is active, show it in the right content area
     if (showIframe && activeApp) {
         return (
-            <div 
-                className="flex flex-col font-sans" 
-                style={{ 
+            <div
+                className="flex flex-col font-sans"
+                style={{
                     backgroundColor: colors.background,
                     height: 'calc(100vh - 80px)', // Account for top nav height
                     maxHeight: 'calc(100vh - 80px)'
@@ -252,12 +252,12 @@ export default function ApplicationHub() {
                 <div className="flex-1 relative overflow-hidden">
                     {/* Loading Overlay */}
                     {isLoading && (
-                        <div 
+                        <div
                             className="absolute inset-0 flex items-center justify-center z-10"
                             style={{ backgroundColor: colors.background }}
                         >
                             <div className="text-center p-6 rounded-lg shadow-lg" style={{ backgroundColor: colors.surface }}>
-                                <div 
+                                <div
                                     className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4"
                                     style={{ borderColor: colors.primary }}
                                 />
@@ -268,7 +268,7 @@ export default function ApplicationHub() {
                                     Please wait while the application initializes...
                                 </p>
                                 <div className="mt-4 w-48 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                    <div 
+                                    <div
                                         className="h-full rounded-full animate-pulse"
                                         style={{ backgroundColor: colors.primary }}
                                     />
@@ -486,47 +486,9 @@ export default function ApplicationHub() {
                         )}
                     </div>
                 );
-            case 'news':
-                return (
-                    <div
-                        className="p-4 rounded-lg"
-                        style={{ backgroundColor: colors.surface }}
-                    >
-
-                        <h3
-                            className="text-lg font-semibold"
-                            style={{ color: colors.textPrimary }}
-                        >
-                            {APPLICATION_HUB_CONTENT.news.title}
-                        </h3>
-                        <p
-                            className="mt-2"
-                            style={{ color: colors.textSecondary }}
-                        >
-                            {APPLICATION_HUB_CONTENT.news.description}
-                        </p>
-
-                    </div>
-                );
             case 'tutorials':
                 return (
-                    <div
-                        className="p-4 rounded-lg"
-                        style={{ backgroundColor: colors.surface }}
-                    >
-                        <h3
-                            className="text-lg font-semibold"
-                            style={{ color: colors.textPrimary }}
-                        >
-                            {APPLICATION_HUB_CONTENT.tutorials.title}
-                        </h3>
-                        <p
-                            className="mt-2"
-                            style={{ color: colors.textSecondary }}
-                        >
-                            {APPLICATION_HUB_CONTENT.tutorials.description}
-                        </p>
-                    </div>
+                    <Tutorials />
                 );
             default:
                 return null;

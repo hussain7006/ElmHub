@@ -5,6 +5,8 @@ import {
     UserIcon,
     SparklesIcon,
     ChatBubbleLeftEllipsisIcon,
+    AcademicCapIcon,
+    UserGroupIcon,
 } from '@heroicons/react/24/outline';
 
 export const sidebarItems = [
@@ -37,8 +39,14 @@ export const sidebarItems = [
             },
             {
                 name: 'People Analytics',
-                icon: ClipboardDocumentListIcon,
+                icon: UserGroupIcon,
                 path: '/demo/people-analytics',
+                disabled: false
+            },
+            {
+                name: 'Autism',
+                icon: AcademicCapIcon,
+                path: '/demo/autism',
                 disabled: false
             }
         ]

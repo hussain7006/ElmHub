@@ -24,7 +24,7 @@ const DelosTopNav = () => {
         },
         { name: "API" },
         { name: "Security" },
-        { name: "Demos" },
+        // { name: "Demos" },
         { name: "Pricing" },
         { name: "About us", dropdown: ["Company", "Contact"] },
     ];

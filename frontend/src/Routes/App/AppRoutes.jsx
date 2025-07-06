@@ -9,6 +9,7 @@ const HomeNew = lazy(() => import("../../Pages/App/HomeNew/HomeNew"));
 const ExaminationCenter = lazy(() => import("../../Pages/App/Products/ExaminationCenter/ExaminationCenter"));
 const PeopleAnalytics = lazy(() => import("../../Pages/App/Products/PeopleAnalytics/PeopleAnalytics"));
 const ProductDemos = lazy(() => import("../../Pages/App/ProductDemos/ProductDemos"));
+const Tutorials = lazy(() => import("../../Pages/App/Tutorials/Tutorials"));
 
 // About pages
 const Company = lazy(() => import("../../Pages/App/About/Company"));
@@ -47,8 +48,12 @@ export const appRoutes = [
         element: <ProductDemos />
       },
       {
-        path: "api",
-        element: <API />
+        path: "tutorials",
+        element: <Tutorials />
+      },
+      {
+        path: "tutorials/:tutorialId",
+        element: <Tutorials />
       },
       {
         path: "api",
