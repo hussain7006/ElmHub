@@ -2,20 +2,53 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useThemeStore from '../../../../store/themeStore';
 import useSidebarStore from '../../../../store/sidebarStore';
+import useApplicationHubStore from '../../../../store/applicationHubStore';
 import logo from '/images/logo.png'
 import { sidebarItems } from '../../../../Constants/sidebarItems';
-import { useState } from 'react';
+import { APPLICATION_HUB_APPS } from '../../../../Constants/applicationHub';
+import { useState, useEffect } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebarStore();
   const { theme, toggleTheme, colors } = useThemeStore();
+  const { launchApplication, activeApp, closeApplication } = useApplicationHubStore();
   const navigate = useNavigate();
   const location = useLocation();
   const sidebarWidth = isCollapsed ? '80px' : '220px';
 
-  const [filteredSidebarItems, setFilteredSidebarItems] = useState(sidebarItems);
+  // State for My Applications section expansion
+  const [isMyApplicationsExpanded, setIsMyApplicationsExpanded] = useState(false);
+  const [filteredSidebarItems, setFilteredSidebarItems] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Add applications to the existing "My Applications" section
+  const allSidebarItems = sidebarItems.map(section => {
+    if (section.title === 'My Applications') {
+      // Add the applications to the existing My Applications section
+      const applicationItems = APPLICATION_HUB_APPS
+        .filter(app => app.enabled && app.status !== 'deprecated')
+        .map(app => ({
+          name: app.name,
+          icon: app.icon,
+          path: `/app/${app.id}`, // Virtual path for iframe apps
+          disabled: !app.enabled,
+          appData: app // Store the full app data for iframe launching
+        }));
+
+      return {
+        ...section,
+        items: [...section.items, ...applicationItems]
+      };
+    }
+    return section;
+  });
+
+  // Initialize filtered items
+  useEffect(() => {
+    setFilteredSidebarItems(allSidebarItems);
+  }, [allSidebarItems]);
 
   const handleSearch = (input) => {
     setSearchQuery(input);
@@ -34,13 +67,13 @@ const Sidebar = () => {
     handleSearch._debounceTimeout = setTimeout(() => {
       if (!input.trim()) {
         // If search is empty, show all items
-        setFilteredSidebarItems(sidebarItems);
+        setFilteredSidebarItems(allSidebarItems);
         setIsSearching(false);
         return;
       }
 
       const searchTerm = input.toLowerCase().trim();
-      const filteredSidebarItems = sidebarItems.map((section) => {
+      const filteredSidebarItems = allSidebarItems.map((section) => {
         // Filter items within each section
         const filteredItems = section.items.filter((item) =>
           item.name.toLowerCase().includes(searchTerm)
@@ -60,6 +93,179 @@ const Sidebar = () => {
       setIsSearching(false);
     }, 400);
   }
+
+  // Handle item click - either navigate or launch application
+  const handleItemClick = (item) => {
+    if (item.disabled) return;
+
+    if (item.appData) {
+      // Launch application in iframe
+      navigate('/');
+      launchApplication(item.appData);
+    } else {
+      // If clicking home and an app is active, close the app first
+      if (item.path === '/' && activeApp) {
+        closeApplication();
+      } else if (activeApp) {
+        // If navigating to any other route and an app is active, close the app
+        closeApplication();
+      }
+      // Navigate to regular route
+      navigate(item.path);
+    }
+  }
+
+  // Toggle My Applications expansion
+  const toggleMyApplications = () => {
+    setIsMyApplicationsExpanded(!isMyApplicationsExpanded);
+  };
+
+  // Render section items with special handling for My Applications
+  const renderSectionItems = (section, sectionIndex) => {
+    const isMyApplicationsSection = section.title === 'My Applications';
+    const hasMoreThanThreeApps = section.items.length > 3;
+    
+    // For My Applications section, show only first 3 items when collapsed
+    const visibleItems = isMyApplicationsSection && !isMyApplicationsExpanded && hasMoreThanThreeApps 
+      ? section.items.slice(0, 3) 
+      : section.items;
+
+    return (
+      <>
+        {visibleItems.map((item, itemIndex) => {
+          // Calculate if this item is part of the "hidden" items that appear on expansion
+          const isHiddenItem = isMyApplicationsSection && hasMoreThanThreeApps && itemIndex >= 3;
+          
+          return (
+            <motion.div
+              key={`${item.name}-${itemIndex}`}
+              initial={{ 
+                opacity: 0, 
+                x: isHiddenItem ? -10 : -5, 
+                height: 0,
+                scale: isHiddenItem ? 0.95 : 1
+              }}
+              animate={{ 
+                opacity: 1, 
+                x: 0, 
+                height: 'auto',
+                scale: 1,
+                transition: {
+                  duration: 0.4,
+                  delay: isHiddenItem ? (itemIndex - 3) * 0.1 : (sectionIndex * 0.1) + (itemIndex * 0.05),
+                  ease: "easeOut"
+                }
+              }}
+              exit={{ 
+                opacity: 0, 
+                x: -10, 
+                height: 0,
+                scale: 0.95,
+                transition: {
+                  duration: 0.3,
+                  ease: "easeIn"
+                }
+              }}
+                            layout
+            >
+              {/* Main Product Item */}
+              <motion.button
+                whileHover={{ scale: item.disabled ? 1 : 1.02 }}
+                whileTap={{ scale: item.disabled ? 1 : 0.98 }}
+                onClick={() => handleItemClick(item)}
+                disabled={item.disabled}
+                className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer 
+                  ${isCollapsed ? 'justify-center' : 'justify-start'} 
+                  ${(location.pathname === item.path && !activeApp) || (item.appData && activeApp?.id === item.appData?.id) ? 'bg-opacity-10 font-bold tracking-wide ' : ''}`
+              }
+              style={{
+                color: (location.pathname === item.path && !activeApp) || (item.appData && activeApp?.id === item.appData?.id) ? colors.textPrimary : colors.textSecondary,
+                backgroundColor: (location.pathname === item.path && !activeApp) || (item.appData && activeApp?.id === item.appData?.id) ? colors.accent : 'transparent',
+                ':hover': { backgroundColor: colors.accent },
+                cursor: item.disabled ? 'not-allowed' : 'pointer'
+              }}
+              title={item.name}
+            >
+              <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
+                <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
+              </div>
+              <AnimatePresence mode="wait">
+                {!isCollapsed && (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className={`truncate text-sm`}
+                  >
+                    {item.name}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </motion.div>
+        );
+        })}
+
+        {/* Show More/Less button for My Applications section */}
+        {isMyApplicationsSection && hasMoreThanThreeApps && !isCollapsed && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            layout
+            className="mt-1"
+          >
+            <motion.button
+              onClick={toggleMyApplications}
+              whileHover={{ 
+                scale: 1.02,
+                backgroundColor: colors.accent + '15'
+              }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full flex items-center justify-center px-4 py-2 rounded-lg transition-all duration-200 cursor-pointer group border border-transparent hover:border-opacity-20"
+              style={{
+                color: colors.textSecondary,
+                borderColor: colors.accent + '30'
+              }}
+            >
+              <div className="flex items-center">
+                <span className="text-xs font-medium mr-2">
+                  {isMyApplicationsExpanded ? 'Show Less' : `Show ${section.items.length - 3} More`}
+                </span>
+                <div className="relative w-4 h-4 flex items-center justify-center">
+                  <AnimatePresence mode="wait">
+                    {isMyApplicationsExpanded ? (
+                      <motion.div
+                        key="up"
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 5 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                      >
+                        <ChevronUpIcon className="w-4 h-4" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="down"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                      >
+                        <ChevronDownIcon className="w-4 h-4" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.button>
+          </motion.div>
+        )}
+      </>
+    );
+  };
 
   return (
     <motion.div
@@ -243,70 +449,40 @@ const Sidebar = () => {
                         ease: "easeOut"
                       }}
                       className="mb-2"
+                      layout
                     >
                       <AnimatePresence mode="wait">
                         {!isCollapsed && (
-                          <motion.h2
+                          <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="px-4 mb-2 text-sm font-semibold uppercase tracking-wider truncate"
-                            style={{ color: colors.textSecondary }}
+                            className="px-4 mb-2 flex items-center justify-between"
                           >
-                            {section.title}
-                          </motion.h2>
+                            <motion.h2
+                              className="text-sm font-semibold uppercase tracking-wider truncate"
+                              style={{ color: colors.textSecondary }}
+                            >
+                              {section.title}
+                            </motion.h2>
+                            {section.title === 'My Applications' && section.items.length > 3 && (
+                              <motion.span
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="text-xs px-2 py-1 rounded-full"
+                                style={{ 
+                                  backgroundColor: colors.accent + '20',
+                                  color: colors.accent 
+                                }}
+                              >
+                                {isMyApplicationsExpanded ? section.items.length : '3+'}
+                              </motion.span>
+                            )}
+                          </motion.div>
                         )}
                       </AnimatePresence>
-                      {section.items.map((item, itemIndex) => (
-                        <motion.div
-                          key={itemIndex}
-                          initial={{ opacity: 0, x: -5 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: (index * 0.1) + (itemIndex * 0.05),
-                            ease: "easeOut"
-                          }}
-                        >
-                          {/* Main Product Item */}
-                          <motion.button
-                            whileHover={{ scale: item.disabled ? 1 : 1.02 }}
-                            whileTap={{ scale: item.disabled ? 1 : 0.98 }}
-                            onClick={() => navigate(item.path)}
-                            disabled={item.disabled}
-                            className={`w-full flex items-center px-4 ${isCollapsed ? 'py-2' : 'py-1'} transition-colors cursor-pointer 
-                              ${isCollapsed ? 'justify-center' : 'justify-start'} 
-                              ${location.pathname === item.path ? 'bg-opacity-10 font-bold tracking-wide ' : ''}`
-                            }
-                            style={{
-                              color: location.pathname === item.path ? colors.textPrimary : colors.textSecondary,
-
-                              backgroundColor: location.pathname === item.path ? colors.accent : 'transparent',
-                              ':hover': { backgroundColor: colors.accent },
-                              cursor: item.disabled ? 'not-allowed' : 'pointer'
-                            }}
-                            title={item.name}
-                          >
-                            <div className={`flex items-center ${isCollapsed ? 'mx-auto' : 'mr-3'}`}>
-                              <item.icon className={`w-5 h-5 flex-shrink-0 ${location.pathname === item.path ? 'text-white' : ''}`} />
-                            </div>
-                            <AnimatePresence mode="wait">
-                              {!isCollapsed && (
-                                <motion.span
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  exit={{ opacity: 0 }}
-                                  transition={{ duration: 0.2 }}
-                                  className={`truncate text-sm`}
-                                >
-                                  {item.name}
-                                </motion.span>
-                              )}
-                            </AnimatePresence>
-                          </motion.button>
-                        </motion.div>
-                      ))}
+                      {renderSectionItems(section, index)}
 
                       {/* Divider */}
                       <div className="h-1 w-full border-b mb-3" style={{ borderColor: colors.borderColor }}></div>
