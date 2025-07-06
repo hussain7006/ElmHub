@@ -3,14 +3,9 @@ import {
     NewspaperIcon,
     PlayIcon,
     ChatBubbleLeftEllipsisIcon,
-    MagnifyingGlassIcon,
-    PencilSquareIcon,
-    DocumentTextIcon,
-    VideoCameraIcon,
-    LanguageIcon,
-    InboxIcon,
-    CursorArrowRaysIcon,
-    UserGroupIcon
+    UserGroupIcon,
+    AcademicCapIcon,
+    MicrophoneIcon,
 } from '@heroicons/react/24/outline';
 import { URL } from './url';
 
@@ -56,7 +51,7 @@ export const APPLICATION_HUB_APPS = [
         id: 'autism',
         name: 'Autism',
         description: 'AI tools for autism',
-        icon: ChatBubbleLeftEllipsisIcon,
+        icon: AcademicCapIcon,
         color: 'blue',
         category: 'AI Tools',
         tags: ['ai', 'assistant', 'chat', 'personal'],
@@ -69,7 +64,7 @@ export const APPLICATION_HUB_APPS = [
         id: 'baleeg',
         name: 'Baleeg',
         description: 'Your personal AI assistant.',
-        icon: ChatBubbleLeftEllipsisIcon,
+        icon: MicrophoneIcon,
         color: 'orange',
         category: 'AI Tools',
         tags: ['ai', 'assistant', 'chat', 'personal'],

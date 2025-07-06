@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useThemeStore from '../../../../store/themeStore';
 import useSidebarStore from '../../../../store/sidebarStore';
 import useApplicationHubStore from '../../../../store/applicationHubStore';
+import useApplicationHubStore from '../../../../store/applicationHubStore';
 import logo from '/images/logo.png'
 import { sidebarItems } from '../../../../Constants/sidebarItems';
 import { APPLICATION_HUB_APPS } from '../../../../Constants/applicationHub';
@@ -11,6 +12,7 @@ import { useState, useEffect } from 'react';
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebarStore();
   const { theme, toggleTheme, colors } = useThemeStore();
+  const { launchApplication, activeApp, closeApplication } = useApplicationHubStore();
   const { launchApplication, activeApp, closeApplication } = useApplicationHubStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,11 +80,13 @@ const Sidebar = () => {
       if (!input.trim()) {
         // If search is empty, show all items
         setFilteredSidebarItems(allSidebarItems);
+        setFilteredSidebarItems(allSidebarItems);
         setIsSearching(false);
         return;
       }
 
       const searchTerm = input.toLowerCase().trim();
+      const filteredSidebarItems = allSidebarItems.map((section) => {
       const filteredSidebarItems = allSidebarItems.map((section) => {
         // Filter items within each section
         const filteredItems = section.items.filter((item) =>
