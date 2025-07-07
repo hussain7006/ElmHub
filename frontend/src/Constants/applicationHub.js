@@ -170,7 +170,7 @@ export const APPLICATION_STATUS_CONFIG = {
 // Component configuration
 export const APPLICATION_HUB_CONFIG = {
     defaultActiveTab: 'applications',
-    applicationsPerPage: 4,
+    applicationsPerPage: 8,
     animationDelay: 0.1,
     animationDuration: 0.3,
     gridConfig: {
