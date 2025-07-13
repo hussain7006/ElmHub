@@ -7,6 +7,7 @@ import {
     AcademicCapIcon,
     MicrophoneIcon,
     PhoneIcon,
+    MapIcon,
 } from '@heroicons/react/24/outline';
 import { URL } from './url';
 
@@ -99,6 +100,20 @@ export const APPLICATION_HUB_APPS = [
         status: 'beta',
         lastUpdated: '2024-06-01',
         iframeUrl: URL.PEOPLE_ANALYTICS,
+        version: '0.9.0'
+    },
+    {
+        id: 'sage',
+        name: 'Sage',
+        description: 'AI tools for your business',
+        icon: MapIcon,
+        color: 'green',
+        category: 'AI Tools',
+        tags: ['ai', 'assistant', 'chat', 'personal'],
+        enabled: true,
+        status: 'beta',
+        lastUpdated: '2024-06-01',
+        iframeUrl: URL.SAGE,
         version: '0.9.0'
     },
     
