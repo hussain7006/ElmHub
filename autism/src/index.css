@@ -1,0 +1,511 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --card-bg: 255, 255, 255;
+  --card-border: 229, 231, 235;
+  --input-bg: 255, 255, 255;
+  --input-border: 209, 213, 219;
+  --text-primary: 17, 24, 39;
+  --text-secondary: 107, 114, 128;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-track: #f1f5f9;
+}
+
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+  --card-bg: 31, 41, 55;
+  --card-border: 55, 65, 81;
+  --input-bg: 31, 41, 55;
+  --input-border: 55, 65, 81;
+  --text-primary: 243, 244, 246;
+  --text-secondary: 156, 163, 175;
+  --scrollbar-thumb: #4b5563;
+  --scrollbar-track: #1f2937;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  min-height: 100vh;
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--text-secondary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--text-primary));
+}
+
+/* Card styles */
+.card {
+  background-color: rgb(var(--card-bg));
+  border-color: rgb(var(--card-border));
+}
+
+/* Input styles */
+input, select, textarea {
+  background-color: rgb(var(--input-bg));
+  border-color: rgb(var(--input-border));
+  color: rgb(var(--text-primary));
+}
+
+/* Text styles */
+.text-primary {
+  color: rgb(var(--text-primary));
+}
+
+.text-secondary {
+  color: rgb(var(--text-secondary));
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: rgb(59, 130, 246);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: rgb(37, 99, 235);
+}
+
+/* Dark mode specific styles */
+.dark .btn-primary {
+  background-color: rgb(37, 99, 235);
+}
+
+.dark .btn-primary:hover {
+  background-color: rgb(29, 78, 216);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: #4a5568;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #2d3748;
+}
+
+/* Calendar Styles */
+.react-calendar {
+  width: 100%;
+  border: none;
+  font-family: inherit;
+}
+
+.react-calendar button {
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.react-calendar__tile--active {
+  background: var(--primary-color) ;
+  color: white ;
+}
+
+.react-calendar__tile--hasActive {
+  background: var(--primary-color) ;
+  color: white ;
+}
+
+.react-calendar__tile.has-session {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  font-weight: bold;
+}
+
+/* Dark mode calendar styles */
+.dark .react-calendar {
+  background-color: transparent;
+  color: white;
+}
+
+.dark .react-calendar__tile {
+  color: white;
+}
+
+.dark .react-calendar__tile:enabled:hover,
+.dark .react-calendar__tile:enabled:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .react-calendar__tile--now {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .react-calendar__tile.has-session {
+  background-color: rgba(var(--primary-rgb), 0.3);
+}
+
+.dark .react-calendar__navigation button:enabled:hover,
+.dark .react-calendar__navigation button:enabled:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .react-calendar__month-view__days__day--weekend {
+  color: #ff8080;
+}
+
+.dark .react-calendar__month-view__days__day--neighboringMonth {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* FullCalendar Styles */
+.fc {
+  --fc-border-color: var(--border-color);
+  --fc-button-bg-color: var(--primary-color);
+  --fc-button-border-color: var(--primary-color);
+  --fc-button-hover-bg-color: var(--primary-dark);
+  --fc-button-hover-border-color: var(--primary-dark);
+  --fc-button-active-bg-color: var(--primary-dark);
+  --fc-button-active-border-color: var(--primary-dark);
+}
+
+.fc .fc-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+}
+
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.fc .fc-daygrid-day-number {
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.fc .fc-daygrid-day-top {
+  flex-direction: row;
+}
+
+.fc-theme-standard td, 
+.fc-theme-standard th,
+.fc-theme-standard .fc-scrollgrid {
+  border-color: var(--border-color);
+}
+
+/* Dark theme styles */
+.fc-dark {
+  --fc-border-color: rgba(255, 255, 255, 0.1);
+  --fc-button-text-color: #fff;
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: rgba(255, 255, 255, 0.1);
+  --fc-neutral-text-color: #fff;
+  --fc-today-bg-color: rgba(255, 255, 255, 0.05);
+}
+
+.fc-dark .fc-daygrid-day-number {
+  color: #fff;
+}
+
+.fc-dark .fc-col-header-cell {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.fc-dark .fc-toolbar-title {
+  color: #fff;
+}
+
+.fc-dark .fc-event {
+  border-radius: 4px;
+}
+
+/* Event styles */
+.fc-event {
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.fc-event:hover {
+  transform: scale(1.02);
+}
+
+.fc-daygrid-event-dot {
+  display: none;
+}
+
+/* Calendar container styles */
+.calendar-container {
+  height: 100% ;
+}
+
+.calendar-container .fc-view {
+  background: transparent;
+}
+
+.calendar-container .fc-header-toolbar {
+  margin-bottom: 1rem ;
+}
+
+.calendar-container .fc-toolbar-title {
+  font-size: 1rem ;
+  font-weight: 600;
+}
+
+.calendar-container .fc-button {
+  padding: 0.375rem 0.75rem ;
+  font-size: 0.875rem ;
+}
+
+/* Scrollbar styles for the details section */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Smooth scroll behavior */
+.overflow-x-auto {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Card hover effect */
+.hover\:shadow-lg:hover {
+  transform: translateY(-2px);
+}
+
+/* Video stream styles */
+.aspect-video {
+  position: relative;
+ /* padding-bottom: 56.25%;*/ /* 16:9 Aspect Ratio */
+}
+
+.aspect-video video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Modal animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Aspect ratio container */
+.aspect-w-16 {
+  position: relative;
+  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+  --tw-aspect-w: 16;
+}
+
+.aspect-h-9 {
+  --tw-aspect-h: 9;
+}
+
+.aspect-w-16 > * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Video element styles */
+video {
+  background-color: black;
+}
+
+/* FullCalendar Custom Theme */
+.fc-theme-custom {
+  --fc-border-color: #e5e7eb; /* gray-200 */
+  --fc-button-text-color: #ffffff; /* white text for buttons */
+  --fc-button-bg-color: #0284c7; /* primary-600 */
+  --fc-button-border-color: #0284c7; /* primary-600 */
+  --fc-button-hover-bg-color: #0369a1; /* primary-700 */
+  --fc-button-hover-border-color: #0369a1; /* primary-700 */
+  --fc-button-active-bg-color: #075985; /* primary-800 */
+  --fc-button-active-border-color: #075985; /* primary-800 */
+  --fc-today-bg-color: #f0f9ff; /* light blue background for today */
+}
+
+/* Base calendar styles */
+.fc {
+  @apply text-gray-900; /* Dark text for light mode */
+}
+
+/* Calendar header and title */
+.fc .fc-toolbar-title {
+  @apply text-gray-900 text-lg font-semibold;
+}
+
+/* Button styles */
+.fc .fc-button {
+  @apply text-black text-sm px-3 py-1 rounded-md font-medium shadow-sm;
+}
+
+.fc .fc-button-primary {
+  @apply bg-blue-600 border-blue-600 hover:bg-blue-700 hover:border-blue-700;
+}
+
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  @apply bg-blue-700 border-blue-700 shadow-inner;
+}
+
+/* Today button specific */
+.fc .fc-today-button {
+  @apply text-white;
+}
+
+/* Calendar grid and events */
+.fc .fc-daygrid-day {
+  @apply cursor-pointer hover:bg-gray-50 transition-colors;
+}
+
+.fc .fc-daygrid-day-number {
+  @apply text-gray-900; /* Dark text for date numbers */
+}
+
+.fc .fc-event {
+  @apply cursor-pointer border-none bg-blue-100;
+}
+
+.fc .fc-event-title {
+  @apply text-blue-700 font-medium px-1;
+}
+
+/* Dark mode overrides */
+.dark .fc-theme-custom {
+  --fc-border-color: #374151; /* gray-700 */
+  --fc-button-bg-color: #0ea5e9; /* primary-500 */
+  --fc-button-border-color: #0ea5e9; /* primary-500 */
+  background-color: #1f2937; /* gray-800 */
+}
+
+.dark .fc {
+  @apply text-gray-100;
+}
+
+.dark .fc .fc-toolbar-title {
+  @apply text-gray-100;
+}
+
+.dark .fc .fc-daygrid-day-number {
+  @apply text-gray-100;
+}
+
+.dark .fc .fc-daygrid-day {
+  @apply hover:bg-gray-700;
+}
+
+.dark .fc .fc-event {
+  @apply bg-blue-900;
+}
+
+.dark .fc .fc-event-title {
+  @apply text-blue-300;
+}
+
+.dark .fc-theme-custom .fc-day-today {
+  background-color: #374151 ; /* gray-700 */
+}
+
+/* Additional styles for better visibility */
+.fc .fc-day-today {
+  background-color: #f0f9ff ; /* light blue for today in light mode */
+}
+
+.fc .fc-day-header {
+  @apply font-semibold text-gray-900 dark:text-gray-100;
+}
+
+.fc .fc-button:disabled {
+  @apply opacity-50 cursor-not-allowed text-black;
+}
+
+.dark .fc .fc-button:disabled {
+  @apply opacity-50 cursor-not-allowed text-white;
+}
+
+/* Calendar event styling */
+.calendar-event {
+  @apply bg-blue-100 border-blue-200 dark:bg-blue-900 dark:border-blue-800;
+}
+
+.fc-event-title {
+  @apply text-blue-700 dark:text-blue-300 font-medium ;
+}
+
+.fc-event {
+  @apply cursor-pointer border-none ;
+}
+
+.fc-event:hover {
+  @apply bg-blue-200 dark:bg-blue-800 ;
+}
+
+/* Make sure events are visible */
+.fc-daygrid-event-harness {
+  @apply z-10;
+}
