@@ -1,6 +1,10 @@
 import {
     BeakerIcon,
     ClipboardDocumentListIcon,
+    MapIcon,
+    ChatBubbleLeftEllipsisIcon,
+    MicrophoneIcon,
+    PhoneIcon
 } from '@heroicons/react/24/outline';
 
 export const demos = {
@@ -118,7 +122,7 @@ export const demos = {
             // }
         }
     },
-    'people-analytics': {
+    'people-analytics': { 
         id: 'people-analytics',
         title: "People Analytics",
         subtitle: "Advanced Human Behavior Analysis",
@@ -235,7 +239,7 @@ export const demos = {
         title: "Autism",
         subtitle: "AI-Powered Autism Detection",
         icon: BeakerIcon,
-        color: "#3B82F6",
+        color: "#bc87ed",
         description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
         category: 'Product Demos',
         tags: ['autism', 'detection', 'ai', 'monitoring', 'analysis', 'computer vision'],
@@ -260,7 +264,124 @@ export const demos = {
                 ],
             }
         }
+    },
+    'sage': {
+        id: 'sage',
+        title: "Sage",
+        subtitle: "AI-Powered Sage Detection",
+        icon: MapIcon,
+        color: "#eb8034",
+        description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
+        category: 'Product Demos',
+        tags: ['sage', 'map', 'ai', 'monitoring', 'analysis', 'computer vision'],
+        demos: {
+            '1': {
+                id: 'basic-demo',
+                name: "Demo",
+                subtitle: "Introduction to Autism Detection",
+                description: "Get started with our AI detection system through this comprehensive introduction.",
+                duration: "3-5 minutes",
+                difficulty: "Beginner",
+                thumbnailImage: "/images/thumbnail/sage/sage.png",
+                videoUrl: "/videos/sage/sage.mp4",
+                features: [
+                    "Autism Detection Overview",
+                    "Basic Image Processing",
+                    "Simple Detection Results"
+                ],
+                requirements: [
+                    "Modern web browser",
+                    "Stable internet connection"
+                ],
+            }
+        }
+    },
+    'nuha-ai': {
+        id: 'nuha-ai',
+        title: "Nuha AI",
+        subtitle: "AI-Powered Nuha AI Detection",
+        icon: ChatBubbleLeftEllipsisIcon,
+        color: "#333333",
+        description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
+        category: 'Product Demos',
+        tags: ['nuha', 'llm', 'ai', 'monitoring', 'analysis', 'computer vision'],
+        demos: {
+            '1': {
+                id: 'basic-demo',
+                name: "Demo",
+                subtitle: "Introduction to Nuha AI Detection",
+                description: "Get started with our AI detection system through this comprehensive introduction.",
+                duration: "3-5 minutes",
+                difficulty: "Beginner",
+                thumbnailImage: "/images/thumbnail/nuha/nuha.png",
+                videoUrl: "/videos/nuha/nuha.mp4",
+                features: [
+                    "Nuha AI Detection Overview",
+                    "Basic Image Processing",
+                    "Simple Detection Results"
+                ],
+                requirements: [
+                    "Modern web browser",
+                    "Stable internet connection"
+                ],
+            }
+        }
+    },
+    'baleeg': {
+        id: 'baleeg',
+        title: "Baleeg",
+        subtitle: "AI-Powered Baleeg Detection",
+        icon: MicrophoneIcon,
+        color: "#43ade8",
+        description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
+        category: 'Product Demos',
+        tags: ['baleeg', 'llm', 'ai', 'monitoring', 'analysis', 'computer vision'],
+        demos: {
+            '1': {
+                id: 'basic-demo',
+                name: "Demo",
+                subtitle: "Introduction to Baleeg Detection",
+                description: "Get started with our audio processing system through this comprehensive introduction.",
+                duration: "3-5 minutes",
+                difficulty: "Beginner",
+                thumbnailImage: "/images/thumbnail/baleeg/baleeg.png",
+                videoUrl: "/videos/baleeg/baleeg.mp4",
+                features: [
+                    "Baleeg audio Overview",
+                    "Basic audio Processing",
+                    "Simple audio Results"
+                ],
+            }
+        }
+    },
+    'callbot': {
+        id: 'callbot',
+        title: "Callbot",
+        subtitle: "AI-Powered Callbot",
+        icon: PhoneIcon,
+        color: "#1da850",
+        description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
+        category: 'Product Demos',
+        tags: ['callbot', 'llm', 'ai', 'monitoring', 'analysis', 'computer vision'],
+        demos: {
+            '1': {
+                id: 'basic-demo',
+                name: "Demo",   
+                subtitle: "Introduction to Callbot",
+                description: "Get started with our audio processing system through this comprehensive introduction.",
+                duration: "3-5 minutes",
+                difficulty: "Beginner",
+                thumbnailImage: "/images/thumbnail/callbot/callbot.png",
+                videoUrl: "/videos/callbot/callbot.mp4",
+                features: [
+                    "Callbot audio Overview",
+                    "Basic audio Processing",
+                    "Simple audio Results"
+                ],
+            }
+        }
     }
+    
 };
 
 // Helper function to search through demos

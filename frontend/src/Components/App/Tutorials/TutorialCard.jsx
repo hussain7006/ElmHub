@@ -74,7 +74,7 @@ const TutorialCard = ({ tutorial, colors, onClick, index, itemVariants }) => {
                     }}
                 >
                     {/* Status badge */}
-                    <div className="absolute top-4 right-4 z-10">
+                    {/* <div className="absolute top-4 right-4 z-10">
                         <span 
                             className="px-2 py-1 text-xs font-medium rounded-full"
                             style={{
@@ -84,7 +84,7 @@ const TutorialCard = ({ tutorial, colors, onClick, index, itemVariants }) => {
                         >
                             {tutorial.status}
                         </span>
-                    </div>
+                    </div> */}
 
                     {/* Icon overlay */}
                     {/* <div className="absolute inset-0 flex items-center justify-center">
@@ -110,7 +110,7 @@ const TutorialCard = ({ tutorial, colors, onClick, index, itemVariants }) => {
                             <img 
                                 src={tutorial.thumbnail} 
                                 alt={tutorial.title}
-                                className="w-full h-full object-contain"
+                                className="w-full h-full object-cover"
                             />
                         </div>
                     )}
