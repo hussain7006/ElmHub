@@ -1,15 +1,15 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   # Autism React Application
   autism:
     build:
-      context: ./autism
+      context: ./autism/frontend
       dockerfile: Dockerfile
     ports:
       - "5174:5174"
     volumes:
-      - ./autism:/app
+      - ./autism/frontend:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
@@ -23,6 +23,48 @@ services:
       timeout: 3s
       retries: 3
       start_period: 5s
+
+  
+  backend:
+    build:
+      context: ./autism/backend/backend
+      dockerfile: Dockerfile
+    container_name: autism-backend
+    ports:
+      - "7000:7000"
+    environment:
+      - DATABASE_URL=/app/autism_db.db
+      - CORS_ORIGINS=http://localhost:5174
+    volumes:
+      - ./autism/backend/autism_db.db:/app/autism_db.db
+      - ./autism/backend/backend/generated_reports:/app/generated_reports
+      - ./autism/backend/backend/report_generator:/app/report_generator
+    depends_on:
+      - ai-server
+    networks:
+      - autism-network
+    restart: unless-stopped
+
+  # AI Server for Gaze Tracking
+  ai-server:
+    build:
+      context: ./autism/backend/AI_Server
+      dockerfile: Dockerfile
+    container_name: autism-ai-server
+    ports:
+      - "7001:7001"
+    environment:
+      - DATABASE_URL=/app/autism_db.db
+      - UPLOAD_DIR=/app/uploads
+      - CORS_ORIGINS=http://localhost:5174
+    volumes:
+      - ./autism/backend/autism_db.db:/app/autism_db.db
+      - ./autism/backend/AI_Server/uploads:/app/uploads
+      - ./autism/backend/backend/yolov5s.pt:/app/yolov5s.pt
+    networks:
+      - autism-network
+    restart: unless-stopped
+
 
   # People Analytics React Application
   people-analytics:
@@ -112,3 +154,10 @@ services:
 networks:
   elm-network:
     driver: bridge
+  
+  autism-network:
+    driver: bridge
+
+volumes:
+  uploads:
+  generated_reports: 

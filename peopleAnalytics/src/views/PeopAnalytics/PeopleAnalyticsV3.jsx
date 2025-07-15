@@ -577,7 +577,7 @@ const PeopleAnalyticsV3 = () => {
   const [models, setModels] = useState([
     { name: "line", label: "Line", roi: false, line: true, enableSwitch: false, show: false },
     { name: "tracking", label: "Tracking", roi: true, enableSwitch: false, show: true },
-    { name: "gaze", label: "Gaze", roi: true, enableSwitch: true, show: true },
+    { name: "gaze", label: "Gaze", roi: true, enableSwitch: true, show: false },
     { name: "gender", label: "Gender", roi: false, enableSwitch: true, show: true },
     { name: "ethnicity", label: "Ethnicity", roi: false, enableSwitch: true, show: true },
     // { name: "action", label: "Action", roi: false, enableSwitch: true, show: true },
@@ -808,7 +808,7 @@ const PeopleAnalyticsV3 = () => {
 
           <div className='w-full flex flex-col gap-4'>
 
-            <div style={{ border: `1px solid ${colors?.borderColor}`, borderRadius: 5, padding: "5px 12px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            {/* <div style={{ border: `1px solid ${colors?.borderColor}`, borderRadius: 5, padding: "5px 12px", width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontSize: "0.9em" }}>{t('debug-mode')}</span>
               {
                 <span>
@@ -821,7 +821,7 @@ const PeopleAnalyticsV3 = () => {
                   />
                 </span>
               }
-            </div>
+            </div> */}
             <LoadingButton
               loading={isConfigUpdating}
               loadingPosition="start"

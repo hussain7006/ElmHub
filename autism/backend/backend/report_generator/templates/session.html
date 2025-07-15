@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+
+    html,body{margin:0;padding:0;height:100%}
+
+    body{
+      font-family:'Cairo',sans-serif;
+      direction:rtl;
+      color:#000;
+    }
+
+    /* ---------- PAGE LAYOUT ---------- */
+    .page{
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;  /* top-bar | content | footer-bar */
+      height:100%;
+      box-sizing:border-box;
+      /* padding:0 60px;                 same side padding everywhere   */
+    }
+
+    /* ---------- TOP BAR ---------- */
+    .top-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      height:5%;
+      margin-bottom: 2%;
+    }
+    .logo{
+      width:80px;
+      height:auto;
+    }
+    .top-label{
+      font-size:10pt;
+      color:#888;
+    }
+
+    /* ---------- CONTENT BLOCK (empty placeholder) ---------- */
+    .content-block{
+      flex:1;                         /* takes remaining space          */
+      display:flex;
+      flex-direction:column;
+      justify-content:space-around;         /* keeps future content centred   */
+      align-items:flex-start;
+      gap:1px;
+    }
+
+    .title h1{
+      font-size: 1.4em;
+      margin:0;
+    }
+.title-and-section{
+  width: 98%;
+}
+    /* --- Section 1 ---------------------------------------------------------------------*/
+    .section-1 {
+    background-color: #f2f7fb;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-right: 2px;
+    direction: rtl;
+    width: 100%;
+    box-shadow: 0 0px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .info-block {
+    text-align: right;
+  }
+
+  .info-label {
+    color: gray;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .info-value {
+    color: #0076a5;
+    font-size: 16px;
+  }
+
+  .behavior-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: top;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .behavior-label {
+    text-align: right;
+    color: gray;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .behavior-value {
+    /* border: 2px solid red; */
+    width: 70%;
+    text-align: right;
+    color: #0076a5;
+    font-size: 14px;
+  }
+
+  
+
+
+
+/* --- Section 2 ---------------------------------------------------------------------*/
+
+.section-2 {
+  background-color: #fefefe ;
+  padding: 10px;
+  margin-right: 2px;
+  border-radius: 8px;
+  direction: rtl;
+  width: 98%;
+  box-shadow: 0 0px 6px rgba(0, 0, 0, 0.06); /* this line adds the shadow */
+  
+}
+.section-2-title {
+  font-size: 1.2em;
+  color: gray;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+.section-2-body {
+  font-size: 14px;
+  color: #000000;
+  line-height: 1.8;
+  text-align: right;
+  white-space: pre-line;
+}
+
+
+/* --- Section 3 ---------------------------------------------------------------------*/
+
+.section-3 {
+  background-color: #fefefe;
+  padding: 10px;
+  margin-right: 2px;
+  border-radius: 8px;
+  direction: rtl;
+  width: 98%;
+  box-shadow: 0 0px 6px rgba(0, 0, 0, 0.06);
+}
+
+.section-3-title {
+  font-size: 1.2em;
+  color: gray;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+.section-3-list {
+  font-size: 14px;
+  color: #000;
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  line-height: 2;
+}
+    /* ---------- FOOTER BAR ---------- */
+    .footer-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      height:40px;                    /* a bit shorter than top-bar     */
+      color:#888;
+    }
+    .botton-label{
+      font-size:8pt;
+    }
+    .logo-footer{
+      width:55px;                     /* smaller logo                   */
+      height:auto;
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- ░░ TOP BAR ░░ -->
+    <div class="top-bar">
+      <img src="{{ session.logo_base64 }}" class="logo" />
+      <div class="top-label">{{ session.top_label }}</div>
+    </div>
+
+    <!-- ░░ MAIN CONTENT ░░ (add your session blocks here later) -->
+    <div class="content-block">
+      <div class="title-and-section">
+
+      
+      <div class="title"><h1>{{session.title}}</h1></div>
+      <div class="section-1">
+        <!-- First Row with 3 fields -->
+        <div class="info-row">
+          <div class="info-block">
+            <div class="info-label">تاريخ الجلسة</div>
+            <div class="info-value">{{session.child_info.date}}</div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">الوقت</div>
+            <div class="info-value">{{session.child_info.time}}</div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">مدة الجلسة</div>
+            <div class="info-value">{{session.child_info.duration}}</div>
+          </div>
+        </div>
+      
+        <!-- Second Row with 4 fields -->
+        <div class="info-row">
+          <div class="info-block">
+            <div class="info-label">اسم الطفل</div>
+            <div class="info-value">{{session.child_info.child_name}}</div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">العمر</div>
+            <div class="info-value">{{session.child_info.age}}</div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">الجنس</div>
+            <div class="info-value">{{session.child_info.gender}}</div>
+          </div>
+          <div class="info-block">
+            <div class="info-label">شدة الاضطراب</div>
+            <div class="info-value">{{session.child_info.severity}}</div>
+          </div>
+        </div>
+      
+        <!-- Third Row with label and value -->
+        <div class="behavior-row">
+          <div class="behavior-label">السلوكيات المصاحبة:</div>
+          <div class="behavior-value">{{session.behavior_observed}}</div>
+        </div>
+      </div>
+    </div>
+
+
+      <!-- Section 2: Summary -->
+      <div class="section-2">
+        <div class="section-2-title">{{session.session_summary_heading}}</div>
+        <div class="section-2-body">{{session.session_summary_text}}</div>
+      </div>
+
+
+      <!-- Section 2: Results -->
+      <div class="section-3">
+        <div class="section-3-title">{{session.analysis_heading}}</div>
+        {% for item in session.analysis_items %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </div>
+      <!-- Example placeholder -->
+      <!-- <h1>{{ session.title }}</h1> -->
+    </div>
+
+    <!-- ░░ FOOTER BAR ░░ -->
+    <div class="footer-bar">
+      <img src="{{ session.logo_base64 }}" class="logo-footer" />
+      <div class="botton-label">الصفحة الأولى</div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,1 +1,0 @@
-export const aiServer = "http://localhost:7000";

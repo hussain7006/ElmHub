@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="" readonly="0" foreign_keys="" case_sensitive_like="" temp_store="" wal_autocheckpoint="" synchronous=""/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3258"/><column_width id="4" width="0"/></tab_structure><tab_browse><table title="." custom_title="0" dock_id="4" table="0,0:"/><dock_state state="000000ff00000000fd0000000100000002000004e60000037ffc0100000004fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500330100000000000004e60000000000000000fb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000011800ffffff000004e60000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">-- USERS --
+-- CREATE TABLE users (
+--     id INTEGER PRIMARY KEY,
+--     email TEXT NOT NULL UNIQUE,
+--     username TEXT,
+--     password TEXT NOT NULL,
+--     role TEXT NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+-- 
+-- PARENT PROFILES --
+-- CREATE TABLE parent_profiles (
+--     user_id INTEGER PRIMARY KEY,
+--     first_name TEXT,
+--     last_name TEXT,
+--     phone_num TEXT,
+--     language TEXT,
+--     FOREIGN KEY (user_id) REFERENCES users(id)
+-- );
+-- 
+-- SPECIALIST PROFILES --
+-- CREATE TABLE spec_profiles (
+--     user_id INTEGER PRIMARY KEY,
+--     bio TEXT,
+--     specialization TEXT,
+--     first_name TEXT,
+--     last_name TEXT,
+--     phone_num TEXT,
+--     language TEXT,
+--     FOREIGN KEY (user_id) REFERENCES users(id)
+-- );
+-- 
+-- CHILD PROFILES --
+-- CREATE TABLE child_profiles (
+--     user_id INTEGER PRIMARY KEY,
+--     parent_id INTEGER NOT NULL,
+--     first_name TEXT,
+--     last_name TEXT,
+--     phone_num TEXT,
+--     language TEXT,
+--     FOREIGN KEY (user_id) REFERENCES users(id),
+--     FOREIGN KEY (parent_id) REFERENCES users(id)
+-- );
+-- 
+-- SERVICES --
+-- CREATE TABLE services (
+--     id INTEGER PRIMARY KEY,
+--     spec_id INTEGER,
+--     title TEXT NOT NULL,
+--     description TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (spec_id) REFERENCES users(id)
+-- );
+-- 
+-- ACTIVITIES --
+-- CREATE TABLE activities (
+--     id INTEGER PRIMARY KEY,
+--     title TEXT NOT NULL,
+--     description TEXT
+-- );
+-- 
+-- SERVICE ACTIVITIES (Many-to-Many) --
+-- CREATE TABLE service_activities (
+--     id INTEGER PRIMARY KEY,
+--     service_id INTEGER NOT NULL,
+--     activity_id INTEGER NOT NULL,
+--     is_required BOOLEAN DEFAULT 1,
+--     activity_order INTEGER,
+--     FOREIGN KEY (service_id) REFERENCES services(id),
+--     FOREIGN KEY (activity_id) REFERENCES activities(id)
+-- );
+-- 
+-- SESSIONS --
+-- CREATE TABLE sessions (
+--     id INTEGER PRIMARY KEY,
+--     service_id INTEGER,
+--     created_by INTEGER,
+--     spec_id INTEGER,
+--     child_id INTEGER,
+--     parent_id INTEGER,
+--     description TEXT,
+--     start_time TIMESTAMP,
+--     end_time TIMESTAMP,
+--     status TEXT,
+-- 	report_path TEXT,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (service_id) REFERENCES services(id),
+--     FOREIGN KEY (created_by) REFERENCES users(id),
+--     FOREIGN KEY (spec_id) REFERENCES users(id),
+--     FOREIGN KEY (child_id) REFERENCES users(id),
+--     FOREIGN KEY (parent_id) REFERENCES users(id)
+-- );
+-- 
+-- SESSION BOOKED ACTIVITIES --
+-- CREATE TABLE session_booked_activities (
+--     id INTEGER PRIMARY KEY,
+--     activity_id INTEGER NOT NULL,
+--     session_id INTEGER NOT NULL,
+--     is_completed BOOLEAN DEFAULT 0,
+--     FOREIGN KEY (activity_id) REFERENCES activities(id),
+--     FOREIGN KEY (session_id) REFERENCES sessions(id)
+-- );
+
+-- SESSION Alerts --
+-- CREATE TABLE session_activities_record (
+--     booked_activity_id INTEGER NOT NULL,
+--     session_id INTEGER NOT NULL,
+-- 	alert_type TEXT,
+-- 	title TEXT,
+-- 	message TEXT,
+-- 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (booked_activity_id) REFERENCES session_booked_activities(id),
+--     FOREIGN KEY (session_id) REFERENCES sessions(id)
+
+-- );
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
