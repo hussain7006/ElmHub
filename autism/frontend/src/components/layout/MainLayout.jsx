@@ -30,7 +30,7 @@ const MainLayout = () => {
 
         {/* Main Content with smooth transition */}
         <motion.main
-          animate={{ marginLeft: isSidebarOpen ? 256 : 0, }}
+          animate={{ marginLeft: isSidebarOpen ? 256 : 35, }}
           transition={{
             type: "spring",
             stiffness: 300,
@@ -45,7 +45,7 @@ const MainLayout = () => {
           }}
         >
           <motion.div
-            className="flex-1 flex flex-col p-4"
+            className="flex-1 flex flex-col p-4 overflow-y-auto"
             animate={{
               paddingLeft: isSidebarOpen ? "1rem" : "1.5rem",
             }}

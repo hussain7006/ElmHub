@@ -85,8 +85,8 @@ export default function Sidebar() {
         <motion.aside
             initial={false}
             animate={{
-                width: isSidebarOpen ? 256 : 0,
-                x: isSidebarOpen ? 0 : -256,
+                width: isSidebarOpen ? 256 : 50,
+                x: isSidebarOpen ? 0 : 0,
             }}
             transition={{
                 type: "spring",
@@ -98,10 +98,10 @@ export default function Sidebar() {
           ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} shadow-lg`}
         >
             <motion.nav
-                className="h-full"
+                className="h-full "
                 animate={{
-                    opacity: isSidebarOpen ? 1 : 0,
-                    x: isSidebarOpen ? 0 : -20,
+                    // opacity: isSidebarOpen ? 1 : 0,
+                    // x: isSidebarOpen ? 0 : -20,
                 }}
                 transition={{
                     duration: 0.3,
@@ -109,19 +109,50 @@ export default function Sidebar() {
                     delay: isSidebarOpen ? 0.2 : 0,
                 }}
             >
+                <div className={`absolute top-1 ${isSidebarOpen ? 'right-1' : 'left-[5px]'} hover:bg-gray-500 rounded-full z-50`}>
+                    <button
+                        onClick={() => toggleSidebar()}
+                        className="p-2 rounded-md hover:bg-opacity-80 transition-all duration-300 ease-in-out cursor-pointer"
+                        aria-label="Toggle Sidebar"
+                    >
+                        <motion.div
+                            animate={{ rotate: isSidebarOpen ? 0 : 180 }}
+                            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                        >
+                            {/* {isSidebarOpen ? (
+                                // Left arrow (close) */}
+                            <svg
+                                className={`w-6 h-6 ${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-white`}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M15 19l-7-7 7-7"
+                                />
+                            </svg>
+                            {/* ) : null} */}
+
+                        </motion.div>
+                    </button>
+                </div>
                 {/* Selected Item Indicator */}
                 <div
-                    className="p-4 border-b"
+                    className="p-6 border-b"
                     style={{
                         borderColor: theme === 'dark' ? colors.gray[700] : colors.gray[200]
                     }}
                 >
-                    {filteredNavItems.map((item) => (
+                    {/* {filteredNavItems.map((item) => (
                         activeSidebarItem === item.id && (
                             <div
                                 key={item.id}
                                 className="flex items-center gap-3 p-3 rounded-lg bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
                                 style={{
+                                    display: isSidebarOpen ? 'block' : 'none',
                                     // background: theme === 'dark' ? colors.primary.dark : colors.primary.light,
                                     // color: 'white'
                                 }}
@@ -130,10 +161,12 @@ export default function Sidebar() {
                                 <span className="font-bold text-lg">{item.label}</span>
                             </div>
                         )
-                    ))}
+                    ))} */}
                 </div>
 
-                <div className="p-4">
+                <div className={isSidebarOpen ? `p-4` : `p-0`} style={{
+                    // display: isSidebarOpen ? 'block' : 'none',
+                }}>
                     <ul className="space-y-2">
                         {filteredNavItems.map((item) => (
                             <motion.li
@@ -142,6 +175,7 @@ export default function Sidebar() {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
                                 transition={{ duration: 0.2 }}
+                                title={item.label}
                             >
                                 <button
                                     onClick={async () => {
