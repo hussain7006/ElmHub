@@ -11,9 +11,30 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Set work directory
 WORKDIR /app
 
-# Install minimal system dependencies
+# Install system dependencies including those needed for Playwright
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
+    wget \
+    gnupg \
+    ca-certificates \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libatspi2.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libdrm2 \
+    libgbm1 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libxss1 \
+    libxtst6 \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies in layers for better caching
@@ -28,15 +49,28 @@ RUN pip install --no-cache-dir fastapi uvicorn
 # Install remaining dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
-
-# Create necessary directories
-RUN mkdir -p generated_reports uploads
+# Install Playwright dependencies as root (since --with-deps requires root)
+RUN playwright install-deps
 
 # Create non-root user for security
 RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Create necessary directories and set ownership
+RUN mkdir -p generated_reports uploads /home/appuser/.cache
+RUN chown -R appuser:appuser /app /home/appuser
+
+# Switch to appuser to install Playwright browsers
+USER appuser
+
+# Install Playwright browsers as appuser (without --with-deps since deps are already installed)
+RUN playwright install
+
+# Copy application code (as root first, then change ownership)
+USER root
+COPY . .
 RUN chown -R appuser:appuser /app
+
+# Switch back to appuser for running the application
 USER appuser
 
 # Expose port
