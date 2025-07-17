@@ -989,7 +989,7 @@ def get_session_id(session_id, db):
 
 async def fetch_activity_info(session_id: int, activity_ids: list, user_id: int):
     print("in fetch_activity_info")
-    url = "http://nuha.ai:7001/get_activity_info"
+    url = "https://nuha.ai:7001/get_activity_info"
     data = {"user_id": user_id, "session_id": session_id, "activity_ids": activity_ids}
 
     async with httpx.AsyncClient() as client:
