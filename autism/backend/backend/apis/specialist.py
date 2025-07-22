@@ -989,7 +989,7 @@ def get_session_id(session_id, db):
 
 async def fetch_activity_info(session_id: int, activity_ids: list, user_id: int):
     print("in fetch_activity_info")
-    url = "https://nuha.ai:7001/get_activity_info"
+    url = os.getenv("NUHA_API_URL", "https://nuha.ai:7001/get_activity_info")
     data = {"user_id": user_id, "session_id": session_id, "activity_ids": activity_ids}
 
     async with httpx.AsyncClient() as client:
@@ -1006,7 +1006,7 @@ async def fetch_activity_info(session_id: int, activity_ids: list, user_id: int)
 
 client = OpenAI(
     # This is the default and can be omitted
-    api_key="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"
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 
 # Define the system and user messages
