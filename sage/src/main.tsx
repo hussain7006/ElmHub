@@ -9,7 +9,7 @@ import {
 import "./index.css";
 import App from "./App.tsx";
 import { IframeConfigProvider } from "./context/IframeConfigContext";
-const API_KEY = "AIzaSyC0pi36NCYygUaAbn3wQrrmjtairvWDxGY";
+const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
