@@ -989,25 +989,40 @@ def get_session_id(session_id, db):
 
 async def fetch_activity_info(session_id: int, activity_ids: list, user_id: int):
     print("in fetch_activity_info")
-    url = os.getenv("NUHA_API_URL", "https://nuha.ai:7001/get_activity_info")
+    url = os.getenv("AUTISM_AI_SERVER", "http://autism-ai-server:7001/get_activity_info")
+    print("--------------------------------")
+    print("fetch_activity_info")
+    print("url:", url)
+    print("--------------------------------")
     data = {"user_id": user_id, "session_id": session_id, "activity_ids": activity_ids}
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.post(url, json=data)
+            response = await client.post(url, json=data, timeout=30.0)
             print('response:', response)
             response.raise_for_status()  # Raises exception for HTTP errors (4xx, 5xx)
-            return response.json()
+            result = response.json()
+            print('gaze_data structure:', json.dumps(result, indent=2))
+            return result
         except httpx.HTTPStatusError as exc:
             print(f"Error response {exc.response.status_code}: {exc.response.text}")
+            return None
         except httpx.RequestError as exc:
             print(f"Request error: {exc}")
+            return None
 
 
 client = OpenAI(
     # This is the default and can be omitted
     api_key=os.getenv("OPENAI_API_KEY")
 )
+
+# Debug: Check if API key is loaded
+api_key = os.getenv("OPENAI_API_KEY")
+if api_key:
+    print(f"OpenAI API key loaded: {api_key[:20]}...{api_key[-10:] if len(api_key) > 30 else 'short'}")
+else:
+    print("OpenAI API key not found!")
 
 # Define the system and user messages
 system_prompt = "You are a Gaze Behavior Analysis Doctor who specializes in cognitive psychology and human-computer interaction. You analyze student performance in digital games using eye-tracking data and behavioral metrics. Your role is to produce expert-level notes and feedback about the student’s attention, decision-making, focus, and behavioral patterns, based on the provided structured JSON data. Respond in Arabic language."
@@ -1054,28 +1069,67 @@ async def close_sessions(
     input_temp["session"]["child_info"]["time"] = dt.strftime("%H:%M")
     input_temp["session"]["behavior_observed"] = body.get("comments")
     gaze_data = await fetch_activity_info(session_id, temp["activities"], 1)
-    user_prompt = f"""
-    Analyze the following JSON data and provide behavioral and cognitive observations in a report format.
+    
+    # Debug: Print activity information
+    print(f"Session ID: {session_id}")
+    print(f"Activities: {temp['activities']}")
+    print(f"Gaze data received: {gaze_data is not None}")
+    
+    # Handle case when AI server is not available
+    if gaze_data is None:
+        report = "Unable to generate report: AI server is not available. Please try again later."
+        print("AI server not available, using fallback report")
+    else:
+        # Check if the expected data structure exists
+        if "data" not in gaze_data:
+            report = "Unable to generate report: Invalid data structure received from AI server."
+            print("Invalid data structure - no 'data' key found in gaze_data")
+        elif not gaze_data["data"]:
+            report = "Unable to generate report: No activity data available from AI server."
+            print("No activity data available in gaze_data['data']")
+        else:
+            # Get the first available activity data
+            available_activity_ids = list(gaze_data["data"].keys())
+            first_activity_id = available_activity_ids[0] if available_activity_ids else None
+            
+            if first_activity_id is None:
+                report = "Unable to generate report: No valid activity data found."
+                print("No valid activity ID found in gaze_data['data']")
+            else:
+                print(f"Using activity data for ID: {first_activity_id}")
+                user_prompt = f"""
+                Analyze the following JSON data and provide behavioral and cognitive observations in a report format.
 
-    ```json
-    {json.dumps(gaze_data["data"]["3"], indent=2)}
-    """
-    # response = openai.ChatCompletion.create(
-    #     model="gpt-4.1-mini",  # or "gpt-4o" if available
-    #     messages=[
-    #         {"role": "system", "content": system_prompt},
-    #         {"role": "user", "content": user_prompt},
-    #     ],
-    #     temperature=0.3,
-    #     max_tokens=1500,
-    # )
-    response = client.responses.create(
-        model="gpt-4o",
-        instructions=system_prompt,
-        input=user_prompt,
-    )
-    report = response.output_text
-    print(report)
+                ```json
+                {json.dumps(gaze_data["data"][first_activity_id], indent=2)}
+                """
+                try:
+                    # Try with gpt-4o first
+                    try:
+                        response = client.responses.create(
+                            model="gpt-4o",
+                            instructions=system_prompt,
+                            input=user_prompt,
+                        )
+                        report = response.output_text
+                    except Exception as e1:
+                        print(f"GPT-4o failed: {e1}")
+                        # Fallback to gpt-3.5-turbo with chat completions
+                        response = client.chat.completions.create(
+                            model="gpt-3.5-turbo",
+                            messages=[
+                                {"role": "system", "content": system_prompt},
+                                {"role": "user", "content": user_prompt}
+                            ],
+                            max_tokens=1500,
+                            temperature=0.3
+                        )
+                        report = response.choices[0].message.content
+                    
+                    print(report)
+                except Exception as e:
+                    print(f"OpenAI API error: {e}")
+                    report = f"Unable to generate AI report due to API error: {str(e)}. Please check your OpenAI API key and try again."
     input_temp["session"]["session_summary_text"] = report
     pdf_path = await generate_pdf_from_named_data(session_id, input_temp)
     # print(temp)

@@ -1,3 +1,9 @@
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
 from fastapi import FastAPI, Depends, WebSocket, WebSocketDisconnect
 from apis.auth import router as auth_router
 from apis.specialist import router as specialist_router
@@ -48,4 +54,13 @@ async def verify_jwt_middleware(request: Request, call_next):
 @app.get("/protected")
 def protected_route(user=Depends(get_current_user)):
     return {"message": "You are authenticated", "user": user}
+
+@app.get("/env-check")
+def check_environment():
+    """Check if environment variables are loaded correctly"""
+    return {
+        "openai_api_key_loaded": bool(os.getenv("OPENAI_API_KEY")),
+        "autism_ai_server_loaded": bool(os.getenv("AUTISM_AI_SERVER")),
+        "autism_ai_server_url": os.getenv("AUTISM_AI_SERVER", "Not set")
+    }
 

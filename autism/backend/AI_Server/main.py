@@ -117,7 +117,7 @@ def get_activity_info():
 
         print("User ID:", user_id)
         print("Session ID:", session_id)
-        print("Activity IDs:", activity_ids)
+        # print("Activity IDs:", activity_ids)
 
         totalData = {}
 

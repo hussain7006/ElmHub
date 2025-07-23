@@ -67,6 +67,7 @@ RUN playwright install
 
 # Copy application code (as root first, then change ownership)
 USER root
+COPY .env .
 COPY . .
 RUN chown -R appuser:appuser /app
 
