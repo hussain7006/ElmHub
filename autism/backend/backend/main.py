@@ -19,7 +19,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],  # Allow all origins
+    allow_origins=["http://localhost:5174", "http://141.148.187.5:5174"],  # Allow all origins
     allow_credentials=True,  # Allow cookies and headers (e.g., Authorization)
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
