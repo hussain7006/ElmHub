@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:7000';
+export const API_URL = 'http://localhost:7002';
 // export const API_URL = 'http://138.197.186.229:7001';
 
 export const signupApiUrl = `${API_URL}/auth/signup`;

@@ -48,9 +48,9 @@ This folder contains the backend implementation for the project using **FastAPI*
    - The `--reload` flag enables hot-reloading for development.
 
 6. **Access the API**:
-   - Open your browser and navigate to `http://127.0.0.1:7000` to access the API.
-   - Visit `http://127.0.0.1:7000/docs` for the interactive Swagger UI documentation.
-   - Visit `http://127.0.0.1:7000/redoc` for the ReDoc documentation.
+   - Open your browser and navigate to `http://127.0.0.1:7002` to access the API.
+   - Visit `http://127.0.0.1:7002/docs` for the interactive Swagger UI documentation.
+   - Visit `http://127.0.0.1:7002/redoc` for the ReDoc documentation.
 
 ## Project Structure
 

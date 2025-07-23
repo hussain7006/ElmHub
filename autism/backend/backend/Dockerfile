@@ -75,11 +75,11 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 # Expose port
-EXPOSE 7000
+EXPOSE 7002
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:7000/docs || exit 1
+    CMD curl -f http://localhost:7002/docs || exit 1
 
 # Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7000", "--reload"] 
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7002", "--reload"] 

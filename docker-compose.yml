@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
     container_name: autism-backend
     ports:
-      - "7000:7000"
+      - "7002:7002"
     env_file:
       - ./autism/backend/backend/.env
     environment:

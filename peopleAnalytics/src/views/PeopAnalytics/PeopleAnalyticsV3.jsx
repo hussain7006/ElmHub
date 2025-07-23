@@ -61,9 +61,9 @@ const PeopleAnalyticsV3 = () => {
   let colors = useSelector((data) => data.colors)
   let theme = useSelector((data) => data.theme)
 
-  console.log("PA colors", colors);
-  console.log("PA theme", theme);
-  console.log("PA showHeader", showHeader);
+  // console.log("PA colors", colors);
+  // console.log("PA theme", theme);
+  // console.log("PA showHeader", showHeader);
 
 
   // const startStreamButtonRef = useRef(null);

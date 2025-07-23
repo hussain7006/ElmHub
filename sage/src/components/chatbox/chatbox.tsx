@@ -112,7 +112,8 @@ const Chatbox = ({
   // Establish WebSocket connection
   const connectWebSocket = () => {
     ws.current = new WebSocket(
-      `ws://127.0.0.1:8000/ws/${uniqueUserId.current}`
+      // `ws://127.0.0.1:8000/ws/${uniqueUserId.current}`
+      `ws://141.148.187.5:7500/ws/${uniqueUserId.current}`
     );
     // ws.current = new WebSocket(
     //   `ws://149.130.223.204:8030/ws/${uniqueUserId.current}`
