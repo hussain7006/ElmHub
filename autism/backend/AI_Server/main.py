@@ -286,7 +286,7 @@ def status():
     return jsonify({
         "status": "running",
         "service": "ai-server",
-        "port": 7001,
+        "port": 8003,
         "endpoints": [
             "/health (GET) - Health check",
             "/check (POST) - Gaze analysis",
@@ -550,4 +550,4 @@ def save_merged_data(
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=7001, threaded=True)
+    app.run(debug=False, host='0.0.0.0', port=8003, threaded=True)

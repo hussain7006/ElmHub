@@ -146,7 +146,7 @@ export const ExaminationCenterApis = {
             description: "Detect and analyze head positions and movements in real-time",
             icon: EyeIcon,
             color: "#3B82F6",
-            endpoint: ":8001/predict",
+            endpoint: ":8007/predict",
             parameters: {
                 image: { type: "file", label: "Upload Image", required: true }
             }

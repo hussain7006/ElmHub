@@ -58,7 +58,7 @@ function GroupedBarChart({
   //       if (selectedDate.length != 0) {
   //         // If a date is selected, use the selected date's file path
   //         filePath = `D:\\people_counting_analytics\\json_data\\camera_${cameraIndex}\\${selectedDate}_data.json`;
-  //         url = `http://192.168.100.114:8001/stream/get_data?file_path=${encodeURIComponent(filePath)}`;
+  //         url = `http://192.168.100.114:8007/stream/get_data?file_path=${encodeURIComponent(filePath)}`;
   //         // console.log("selected date", selectedDate);
   //       } else {
   //         // If no date is selected, use the latest available data

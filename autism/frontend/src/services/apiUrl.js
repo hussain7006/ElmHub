@@ -1,5 +1,5 @@
-export const API_URL = 'http://141.148.187.5:7002';
-// export const API_URL = 'http://138.197.186.229:7001';
+export const API_URL = 'http://141.148.187.5:8002';
+// export const API_URL = 'http://138.197.186.229:8003';
 
 export const signupApiUrl = `${API_URL}/auth/signup`;
 export const loginApiUrl = `${API_URL}/auth/login`;

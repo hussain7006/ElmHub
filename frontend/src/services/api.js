@@ -18,7 +18,7 @@ export const ApiService = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173'
+                    'Access-Control-Allow-Origin': 'http://localhost:8007'
                 },
                 body: JSON.stringify(obj)
             });

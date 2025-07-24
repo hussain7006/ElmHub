@@ -36,4 +36,4 @@ To start the development server, run:
 yarn dev
 ```
 
-This will open the application in your browser at `http://localhost:5173` (or another available port).
+This will open the application in your browser at `http://localhost:8007` (or another available port).

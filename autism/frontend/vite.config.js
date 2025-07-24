@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   // base: '/autism/', // Change this to your repository name if needed
   server: {
-    port: 5174,
+    port: 8001,
     host: '0.0.0.0',
     allowedHosts: 'all',
   },

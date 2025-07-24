@@ -1,1 +1,1 @@
-export const aiServer = "http://127.0.0.1:7001";
+export const aiServer = "http://127.0.0.1:8003";

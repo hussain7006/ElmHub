@@ -989,7 +989,7 @@ def get_session_id(session_id, db):
 
 async def fetch_activity_info(session_id: int, activity_ids: list, user_id: int):
     print("in fetch_activity_info")
-    url = os.getenv("AUTISM_AI_SERVER", "http://autism-ai-server:7001/get_activity_info")
+    url = os.getenv("AUTISM_AI_SERVER", "http://autism-ai-server:8003/get_activity_info")
     print("--------------------------------")
     print("fetch_activity_info")
     print("url:", url)

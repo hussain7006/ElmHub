@@ -17,16 +17,16 @@ RUN npm install --force
 COPY . .
 
 # Expose development port
-EXPOSE 5173
+EXPOSE 8007
 
 # Set environment variables
 ENV NODE_ENV=development
 ENV VITE_HOST=0.0.0.0
-ENV VITE_PORT=5173
+ENV VITE_PORT=8007
 
 # Health check for development
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:5173/ || exit 1
+  CMD curl -f http://localhost:8007/ || exit 1
 
 # Start development server
 CMD ["npm", "run", "dev"] 

@@ -155,7 +155,7 @@ if $BUILD_CMD -t "$FULL_IMAGE_NAME" .; then
     # Show run command
     echo ""
     print_status "To run the container:"
-    echo "docker run -p 7001:7001 -v \$(pwd)/uploads:/app/uploads $FULL_IMAGE_NAME"
+    echo "docker run -p 8003:8003 -v \$(pwd)/uploads:/app/uploads $FULL_IMAGE_NAME"
     
 else
     print_error "Failed to build Docker image"
