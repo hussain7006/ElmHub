@@ -107,7 +107,7 @@ export const APPLICATION_HUB_APPS = [
         name: 'Sage',
         description: 'AI tools for your business',
         icon: MapIcon,
-        color: 'green',
+        color: 'cyan',
         category: 'AI Tools',
         tags: ['ai', 'assistant', 'chat', 'personal'],
         enabled: true,
@@ -116,7 +116,20 @@ export const APPLICATION_HUB_APPS = [
         iframeUrl: URL.SAGE,
         version: '0.9.0'
     },
-    
+    {
+        id: 'dga',
+        name: 'DGA',
+        description: 'AI tools for your business',
+        icon: MicrophoneIcon,
+        color: 'indigo',
+        category: 'AI Tools',
+        tags: ['ai', 'assistant', 'chat', 'personal'],
+        enabled: true,
+        status: 'beta',
+        lastUpdated: '2024-06-01',
+        iframeUrl: URL.DGA,
+        version: '0.0.0'
+    }
 
 ];
 

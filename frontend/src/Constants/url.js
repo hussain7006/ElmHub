@@ -6,4 +6,5 @@ export const URL = {
     CALLBOT: 'https://baleeg.com:4001/',
     PEOPLE_ANALYTICS: 'http://141.148.187.5:5175/pa/',
     SAGE: 'http://141.148.187.5:5176/sage/',
+    DGA: 'https://baleeg.com:6300/',
 }
