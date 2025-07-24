@@ -380,6 +380,33 @@ export const demos = {
                 ],
             }
         }
+    },
+    'dga': {
+        id: 'dga',
+        title: "DGA",
+        subtitle: "AI-Powered DGA",
+        icon: MicrophoneIcon,
+        color: "#1da850",
+        description: "Experience our comprehensive AI detection system that can identify and analyze various objects and patterns in real-time.",
+        category: 'Product Demos',
+        tags: ['dga', 'llm', 'ai', 'monitoring', 'analysis', 'computer vision'],
+        demos: {
+            '1': {
+                id: 'basic-demo',
+                name: "Demo",   
+                subtitle: "Introduction to DGA",
+                description: "Get started with our audio processing system through this comprehensive introduction.",
+                duration: "3-5 minutes",
+                difficulty: "Beginner",
+                thumbnailImage: "/images/thumbnail/dga/dga.png",
+                videoUrl: "/videos/dga/dga.mp4",
+                features: [
+                    "DGA audio Overview",
+                    "Basic audio Processing",
+                    "Simple audio Results"
+                ],
+            }
+        }
     }
     
 };
