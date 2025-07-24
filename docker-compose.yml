@@ -19,7 +19,6 @@ services:
       - VITE_PORT=8001
     networks:
       - elm-network
-    image: hussain7006/autism
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/"]
       interval: 30s
@@ -33,7 +32,6 @@ services:
       context: ./autism/backend/backend
       dockerfile: Dockerfile
     container_name: autism-backend
-    image: hussain7006/autism-backend
     ports:
       - "8002:8002"
     env_file:
@@ -59,7 +57,6 @@ services:
       context: ./autism/backend/AI_Server
       dockerfile: Dockerfile
     container_name: autism-ai-server
-    image: hussain7006/autism-ai-server
     ports:
       - "8003:8003"
     environment:
@@ -79,7 +76,6 @@ services:
     build:
       context: ./peopleAnalytics
       dockerfile: Dockerfile
-    image: hussain7006/people-analytics
     ports:
       - "8006:8006"
     volumes:
@@ -103,7 +99,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: hussain7006/elmhub
     ports:
       - "8007:8007"
     volumes:
@@ -127,7 +122,6 @@ services:
     build:
       context: ./sage
       dockerfile: Dockerfile
-    image: hussain7006/sage
     ports:
       - "8008:8008"
     env_file:
@@ -149,20 +143,20 @@ services:
       start_period: 5s
 
   # Nginx Reverse Proxy
-  # nginx:
-  #   image: nginx:alpine
-  #   ports:
-  #     - "9000:80"
-  #   volumes:
-  #     - ./frontend/dist:/usr/share/nginx/html
-  #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
-  #   networks:
-  #     - elm-network
-  #   depends_on:
-  #     - autism
-  #     - people-analytics
-  #     - sage
-  #     - elmhub
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "9000:80"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - elm-network
+    depends_on:
+      - autism
+      - people-analytics
+      - sage
+      - elmhub
 
 networks:
   elm-network:
