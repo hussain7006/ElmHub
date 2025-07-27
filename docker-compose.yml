@@ -95,27 +95,27 @@ services:
       start_period: 5s
 
   # Elmhub React Application
-  elmhub:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "8007:8007"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - VITE_HOST=0.0.0.0
-      - VITE_PORT=8007
-    networks:
-      - elm-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8007/"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 5s
+  # elmhub:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8007:8007"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   environment:
+  #     - NODE_ENV=development
+  #     - VITE_HOST=0.0.0.0
+  #     - VITE_PORT=8007
+  #   networks:
+  #     - elm-network
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8007/"]
+  #     interval: 30s
+  #     timeout: 3s
+  #     retries: 3
+  #     start_period: 5s
 
   # Sage React Application
   sage:
