@@ -5,8 +5,8 @@ export const constants = {
     camera_2_live: true,
 
 
-    cam1IP: "http://localhost:8004",
-    helperBackend: "http://localhost:8005",
+    cam1IP: "http://150.136.144.219:8004",
+    helperBackend: "http://150.136.144.219:8005",
 
 
 
