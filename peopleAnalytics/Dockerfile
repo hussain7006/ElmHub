@@ -1,5 +1,5 @@
 # Development Dockerfile for People Analytics React Application
-FROM node:18-alpine
+FROM node:20.13.1-alpine
 
 # Set working directory
 WORKDIR /app
@@ -9,9 +9,12 @@ RUN apk add --no-cache curl
 
 # Copy package files
 COPY package.json ./
+COPY package-lock.json* ./
 
-# Install all dependencies (including dev dependencies)
-RUN npm install --force
+# Install dependencies for the target platform
+RUN npm cache clean --force && \
+    npm install --force && \
+    npm install @rollup/rollup-linux-x64-musl --force
 
 # Copy source code
 COPY . .
@@ -23,6 +26,7 @@ EXPOSE 8006
 ENV NODE_ENV=development
 ENV VITE_HOST=0.0.0.0
 ENV VITE_PORT=8006
+
 
 # Health check for development
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
