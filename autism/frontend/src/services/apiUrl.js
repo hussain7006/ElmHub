@@ -1,4 +1,4 @@
-export const API_URL = 'http://141.148.187.5:8002';
+export const API_URL = 'http://150.136.144.219:8002';
 // export const API_URL = 'http://138.197.186.229:8003';
 
 export const signupApiUrl = `${API_URL}/auth/signup`;
