@@ -10,7 +10,12 @@ export default defineConfig({
     port: 8001,
     host: '0.0.0.0',
     allowedHosts: ['autism.baleeg.com', 'localhost'],
-    // Disable HMR for production HTTPS setup
-    hmr: false
+    // Configure WebSocket for domain access
+    hmr: {
+      host: 'autism.baleeg.com',
+      port: 443,
+      protocol: 'wss',
+      clientPort: 443
+    }
   },
 })
