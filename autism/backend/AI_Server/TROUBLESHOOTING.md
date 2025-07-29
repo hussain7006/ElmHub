@@ -13,7 +13,7 @@ docker ps
 # Check AI server logs
 docker logs autism-ai-server
 
-# Check if port 8003 is exposed
+# Check if port 8002 is exposed
 docker port autism-ai-server
 ```
 
@@ -28,13 +28,13 @@ python test_server.py
 ### Manual Testing
 ```bash
 # Test health check
-curl http://localhost:8003/check
+curl http://localhost:8002/check
 
 # Test status endpoint
-curl http://localhost:8003/status
+curl http://localhost:8002/status
 
 # Test reset endpoint
-curl http://localhost:8003/reset
+curl http://localhost:8002/reset
 ```
 
 ## 🔍 Step 3: Common Issues and Solutions
@@ -69,10 +69,10 @@ docker logs --tail 50 autism-ai-server
 ### Check Network
 ```bash
 # Check if port is listening
-netstat -an | grep 8003
+netstat -an | grep 8002
 
 # Test from inside container
-docker exec -it autism-ai-server curl http://localhost:8003/check
+docker exec -it autism-ai-server curl http://localhost:8002/check
 ```
 
 ### Check Environment Variables
@@ -100,10 +100,10 @@ docker-compose up --build
 
 ```bash
 # Run container manually for testing
-docker run -p 8003:8003 -v $(pwd)/uploads:/app/uploads autism-ai-server
+docker run -p 8002:8002 -v $(pwd)/uploads:/app/uploads autism-ai-server
 
 # Test from another terminal
-curl http://localhost:8003/status
+curl http://localhost:8002/status
 ```
 
 ## 📋 Expected Behavior
@@ -127,7 +127,7 @@ curl http://localhost:8003/status
 ```yaml
 ai-server:
   ports:
-    - "8003:8003"  # Should be this
+    - "8002:8002"  # Should be this
   environment:
     - CORS_ORIGINS=http://localhost:8001  # Should match frontend
 ```
@@ -145,7 +145,7 @@ If nothing works, try this minimal setup:
 ```bash
 # Create minimal test container
 docker run -d --name test-ai \
-  -p 8003:8003 \
+  -p 8002:8002 \
   -e FLASK_ENV=production \
   autism-ai-server
 
@@ -153,13 +153,13 @@ docker run -d --name test-ai \
 docker logs test-ai
 
 # Test connectivity
-curl http://localhost:8003/check
+curl http://localhost:8002/check
 ```
 
 ## 📞 Still Having Issues?
 
 1. **Check Docker Desktop** - Ensure it's running
-2. **Check Windows Firewall** - Port 8003 might be blocked
+2. **Check Windows Firewall** - Port 8002 might be blocked
 3. **Check antivirus** - Some antivirus software blocks Docker
 4. **Restart Docker** - Sometimes Docker needs a restart
 5. **Check system resources** - Ensure enough RAM/CPU
@@ -173,5 +173,5 @@ docker system prune -f
 docker-compose up --build
 
 # Test immediately
-curl http://localhost:8003/status
+curl http://localhost:8002/status
 ``` 

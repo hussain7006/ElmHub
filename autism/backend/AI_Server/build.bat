@@ -132,7 +132,7 @@ if "%PUSH%"=="true" (
 REM Show run command
 echo.
 echo [INFO] To run the container:
-echo docker run -p 8003:8003 -v %cd%/uploads:/app/uploads %FULL_IMAGE_NAME%
+echo docker run -p 8002:8002 -v %cd%/uploads:/app/uploads %FULL_IMAGE_NAME%
 
 exit /b 0
 

@@ -33,13 +33,13 @@ services:
       dockerfile: Dockerfile
     container_name: autism-backend
     ports:
-      - "8002:8002"
+      - "8003:8003"
     env_file:
       - ./autism/backend/backend/.env
     environment:
       - DATABASE_URL=/app/autism_db.db
       - CORS_ORIGINS=http://localhost:8001
-      - AUTISM_AI_SERVER=http://autism-ai-server:8003/get_activity_info
+      - AUTISM_AI_SERVER=http://autism-ai-server:8002/get_activity_info
       - OPENAI_API_KEY=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
     volumes:
       - ./autism/backend/autism_db.db:/app/autism_db.db
@@ -58,7 +58,7 @@ services:
       dockerfile: Dockerfile
     container_name: autism-ai-server
     ports:
-      - "8003:8003"
+      - "8002:8002"
     environment:
       - DATABASE_URL=/app/autism_db.db
       - UPLOAD_DIR=/app/uploads
@@ -123,7 +123,7 @@ services:
       context: ./sage
       dockerfile: Dockerfile
     ports:
-      - "8008:8008"
+      - "8004:8004"
     env_file:
       - ./sage/.env
     volumes:
@@ -132,11 +132,11 @@ services:
     environment:
       - NODE_ENV=development
       - VITE_HOST=0.0.0.0
-      - VITE_PORT=8008
+      - VITE_PORT=8004
     networks:
       - elm-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8008/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8004/"]
       interval: 30s
       timeout: 3s
       retries: 3

@@ -58,7 +58,7 @@ build.bat
 ```bash
 cd AI_Server
 docker build -t autism-ai-server .
-docker run -p 8003:8003 -v $(pwd)/uploads:/app/uploads autism-ai-server
+docker run -p 8002:8002 -v $(pwd)/uploads:/app/uploads autism-ai-server
 ```
 
 ## 🔧 Build Options
@@ -109,7 +109,7 @@ docker run -p 8003:8003 -v $(pwd)/uploads:/app/uploads autism-ai-server
 
 The container includes a health check endpoint:
 ```bash
-curl http://localhost:8003/check
+curl http://localhost:8002/check
 ```
 
 Health check configuration:
@@ -129,7 +129,7 @@ ai-server:
     dockerfile: Dockerfile
   container_name: autism-ai-server
   ports:
-    - "8003:8003"
+    - "8002:8002"
   environment:
     - DATABASE_URL=/app/autism_db.db
     - UPLOAD_DIR=/app/uploads
@@ -170,7 +170,7 @@ python main.py
 docker build -t ai-server-dev .
 
 # Run with volume mount for code changes
-docker run -p 8003:8003 -v $(pwd):/app ai-server-dev
+docker run -p 8002:8002 -v $(pwd):/app ai-server-dev
 ```
 
 ### 3. Production Build
@@ -179,7 +179,7 @@ docker run -p 8003:8003 -v $(pwd):/app ai-server-dev
 ./build.sh -t production
 
 # Run production container
-docker run -p 8003:8003 -v $(pwd)/uploads:/app/uploads autism-ai-server:production
+docker run -p 8002:8002 -v $(pwd)/uploads:/app/uploads autism-ai-server:production
 ```
 
 ## 🐛 Troubleshooting
@@ -190,7 +190,7 @@ docker run -p 8003:8003 -v $(pwd)/uploads:/app/uploads autism-ai-server:producti
 3. **Permission Issues**: Ensure build script is executable
 
 ### Runtime Issues
-1. **Port Conflicts**: Check if port 8003 is available
+1. **Port Conflicts**: Check if port 8002 is available
 2. **Volume Mounts**: Ensure uploads directory exists
 3. **Dependencies**: Verify all system libraries are included
 

@@ -193,7 +193,7 @@ export const ExaminationCenterApis = {
             description: "Detect and track key points and landmarks in images",
             icon: MapPinIcon,
             color: "#EF4444",
-            endpoint: ":8002/predict",
+            endpoint: ":8003/predict",
             parameters: {
                 image: { type: "file", label: "Upload Image", required: true }
             }

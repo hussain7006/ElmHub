@@ -5,6 +5,6 @@ export const URL = {
     BALEEG: 'https://nuha.ai:3001/',
     CALLBOT: 'https://baleeg.com:4001/',
     PEOPLE_ANALYTICS: 'http://150.136.144.219:8006/pa/',
-    SAGE: 'http://150.136.144.219:8008/sage/',
+    SAGE: 'http://150.136.144.219:8004/sage/',
     DGA: 'https://baleeg.com:6300/',
 }
