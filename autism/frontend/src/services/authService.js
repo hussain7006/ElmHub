@@ -42,9 +42,9 @@ export const loginUser = async (email, password) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, FETCH',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      // 'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, FETCH',
+      // 'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     },
     body: JSON.stringify({ email, password }),
     credentials: 'include',
