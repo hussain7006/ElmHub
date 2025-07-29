@@ -28,14 +28,14 @@ import "./PeopleAnalyticsV3.css"
 import axios from 'axios';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css';
-import AreaChart from '../../components/charts/AreaChart.jsx';
+// import AreaChart from '../../components/charts/AreaChart.jsx';
 import TrendCard from '../../components/trendCard/TrendCard.jsx';
 import GoogelMapComponent from '../../components/googleMap/GoogelMapComponent.jsx';
 import Swal from 'sweetalert2';
 import PersonSearchModal from '../../components/PersonSearchModal/PersonSearchModal.jsx';
 // import { Settings } from '@mui/icons-material';
 import SelectROI from '../../components/SelectROI/SelectROI.jsx';
-import MaleFemaleAreaChart from '../../components/charts/MaleFemaleAreaChart.jsx';
+// import MaleFemaleAreaChart from '../../components/charts/MaleFemaleAreaChart.jsx';
 import GazeChart from '../../components/charts/GazeChart.jsx';
 import { MobileMenu } from '../../components/mobileMenu/MobileMenu.jsx';
 // import GazeHighChart from '../../components/charts/GazeHighChart.jsx';
@@ -1459,12 +1459,12 @@ const PeopleAnalyticsV3 = () => {
                 (tempModelsState.gender) &&
                 (tempModelsState.gaze ?
                   <div id="donutChart" className="doughtnut graph">
-                    <MaleFemaleAreaChart title={"GENDER"} type="male" chartData={areaChartData} cameraIndex={cameraIndex} />
+                    {/* <MaleFemaleAreaChart title={"GENDER"} type="male" chartData={areaChartData} cameraIndex={cameraIndex} /> */}
                   </div>
                   :
 
                   <div id="donutChart" className="doughtnut graph" >
-                    <AreaChart title={"MALE"} type="male" chartData={areaChartData} cameraIndex={cameraIndex} />
+                    {/* <AreaChart title={"MALE"} type="male" chartData={areaChartData} cameraIndex={cameraIndex} /> */}
                   </div>)
               }
 
@@ -1477,7 +1477,7 @@ const PeopleAnalyticsV3 = () => {
                   :
                   tempModelsState.gender &&
                   <div id="groupBarChart" className='graph'>
-                    <AreaChart title={"FEMALE"} type='female' chartData={areaChartData} cameraIndex={cameraIndex} />
+                    {/* <AreaChart title={"FEMALE"} type='female' chartData={areaChartData} cameraIndex={cameraIndex} /> */}
                   </div>
               }
 
