@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 8006,
     host: '0.0.0.0',
-    allowedHosts: 'all',
+    allowedHosts: ['people-analytics.baleeg.com', 'localhost'],
     // Uncomment and configure if you need API proxy
     // proxy: {
     //   '/api': 'http://localhost:4000'
