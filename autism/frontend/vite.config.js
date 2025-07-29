@@ -9,13 +9,13 @@ export default defineConfig({
   server: {
     port: 8001,
     host: '0.0.0.0',
-    // allowedHosts: ['all'],
     allowedHosts: ['autism.baleeg.com', 'localhost'],
-    // // Configure WebSocket for domain access
-    // hmr: {
-    //   host: 'autism.baleeg.com',
-    //   port: 80,
-    //   protocol: 'ws'
-    // }
+    // Configure WebSocket for domain access
+    hmr: {
+      host: 'autism.baleeg.com',
+      port: 80,
+      protocol: 'ws',
+      clientPort: 80
+    }
   },
 })
