@@ -1,7 +1,5 @@
-// Use relative URLs to work with nginx proxy
-export const API_URL = '';
 // export const API_URL = 'https://autism.baleeg.com';
-// export const API_URL = 'http://150.136.144.219:8003';
+export const API_URL = 'http://150.136.144.219:8003';
 // export const API_URL = 'http://138.197.186.229:8002';
 
 export const signupApiUrl = `${API_URL}/auth/signup`;
