@@ -19,7 +19,7 @@ const ParentBookedSessions = () => {
   if (isLoading) {
     return (
       <div className="w-full h-20 flex items-center justify-center">
-        <img src="/loading_gif.gif" alt="Loading..." />
+                        <img src="/autism/loading_gif.gif" alt="Loading..." />
       </div>
     );
   }

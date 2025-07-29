@@ -21,7 +21,7 @@ const Header = () => {
                 color: theme === 'dark' ? colors.gray[50] : colors.gray[50]
             }}>
             <div className="flex items-center space-x-3">
-                <img src="/logo.png" alt="GazeVLM Logo" className="h-8 w-8" />
+                <img src="/autism/logo.png" alt="GazeVLM Logo" className="h-8 w-8" />
                 <h1 className="text-xl font-bold">
                     GazeVLM
                 </h1>

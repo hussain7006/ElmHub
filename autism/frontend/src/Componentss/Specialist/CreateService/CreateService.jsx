@@ -218,7 +218,7 @@ export default function CreateService() {
                                 </div>
                                 {isDataLoading ? (
                                     <div className="w-full h-20 flex items-center justify-center">
-                                        <img src="/loading_gif.gif" />
+                                        <img src="/autism/loading_gif.gif" />
                                     </div>
                                 ) : (
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">

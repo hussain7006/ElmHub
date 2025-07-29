@@ -19,7 +19,7 @@ export default function ServicesList() {
         <div className={`overflow-y-auto ${showHeader ? 'max-h-[calc(100vh-240px)]' : 'max-h-[calc(100vh-100px)]'} px-2 grid grid-cols-1 md:grid-cols-2 gap-6`}>
             {isLoading && (
                 <div className="w-full h-20 flex items-center justify-center">
-                    <img src="/loading_gif.gif" />
+                    <img src="/autism/loading_gif.gif" />
                 </div>
             )}
             {!isLoading &&

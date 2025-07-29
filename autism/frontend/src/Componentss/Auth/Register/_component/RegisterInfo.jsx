@@ -15,7 +15,7 @@ export default function RegisterInfo() {
                 transition={{ duration: 0.5 }}
                 className="w-full max-w-lg"
             >
-                <img src="/signup_bg_img.svg" alt="" className='w-full h-100 ' />
+                <img src="/autism/signup_bg_img.svg" alt="" className='w-full h-100 ' />
                 <div className="text-center mt-8">
                     <h3 className={`text-2xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>
                         Create Your Account
