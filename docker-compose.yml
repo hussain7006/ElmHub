@@ -18,7 +18,7 @@ services:
       - VITE_HOST=0.0.0.0
       - VITE_PORT=8001
     networks:
-      - elm-network
+      - autism-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/"]
       interval: 30s
