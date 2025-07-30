@@ -9,6 +9,15 @@ export default defineConfig({
     port: 8004,
     host: '0.0.0.0',
     // allowedHosts: ['all'],
-    allowedHosts: ['sage.baleeg.com', 'localhost'],
+    allowedHosts: [
+      'localhost',
+      'sage.baleeg.com',
+      'sage.baleeg.com/sage',
+      'sage.baleeg.com/sage/',  
+      'http://150.136.144.219', 
+      'http://150.136.144.219:8004',
+      'http://150.136.144.219:8004/sage',
+      'http://150.136.144.219:8004/sage/',
+    ],
   }
 })
