@@ -5,8 +5,10 @@ export const constants = {
     camera_2_live: true,
 
 
-    cam1IP: "http://150.136.144.219:8007",
-    helperBackend: "http://150.136.144.219:8008",
+    // cam1IP: "http://150.136.144.219:8007",
+    // helperBackend: "http://150.136.144.219:8008",
+    cam1IP: "https://people-analytics-ai.baleeg.com",
+    helperBackend: "https://people-analytics-helper.baleeg.com",
 
 
 
