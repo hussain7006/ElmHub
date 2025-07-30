@@ -4,7 +4,7 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-from fastapi import FastAPI, Depends, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Depends, status, WebSocket, WebSocketDisconnect
 from apis.auth import router as auth_router
 from apis.specialist import router as specialist_router
 from apis.parent import router as parent_router
@@ -67,4 +67,4 @@ def check_environment():
 @app.get("/health")
 def health_check():
     """Simple health check endpoint for Docker"""
-    return {"status": "healthy", "service": "backend"}
+    return JSONResponse(status_code=status.HTTP_200_OK, content={"status": "healthy", "service": "backend"})
