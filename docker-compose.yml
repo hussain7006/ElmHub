@@ -1,21 +1,26 @@
 # version: '3.8'
 
 services:
-  # Autism React Application (Production Build)
+  # Autism React Application
   autism:
     build:
       context: ./autism/frontend
       dockerfile: Dockerfile
     ports:
-      - "8001:80"
+      - "8001:8001"
     env_file:
       - ./autism/frontend/.env
+    volumes:
+      - ./autism/frontend:/app
+      - /app/node_modules
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
+      - VITE_HOST=0.0.0.0
+      - VITE_PORT=8001
     networks:
       - autism-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
       interval: 30s
       timeout: 3s
       retries: 3
