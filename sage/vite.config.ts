@@ -13,11 +13,15 @@ export default defineConfig({
       'localhost',
       'sage.baleeg.com',
       'sage.baleeg.com/sage',
-      'sage.baleeg.com/sage/',  
-      'http://150.136.144.219', 
+      'sage.baleeg.com/sage/',
+      'http://150.136.144.219',
       'http://150.136.144.219:8004',
       'http://150.136.144.219:8004/sage',
       'http://150.136.144.219:8004/sage/',
     ],
+    hmr: {
+      host: 'sage.baleeg.com',
+      protocol: 'wss',
+    },
   }
 })
