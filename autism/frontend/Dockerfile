@@ -1,32 +1,39 @@
-# Development Dockerfile for People Analytics React Application
-FROM node:18-alpine
+# Production Dockerfile for Autism React Application
+FROM node:18-alpine AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies for development
+# Install dependencies for building
 RUN apk add --no-cache curl
 
 # Copy package files
 COPY package*.json ./
 
-# Install all dependencies (including dev dependencies)
+# Install all dependencies (including dev dependencies for building)
 RUN npm install --force
 
 # Copy source code
 COPY . .
 
-# Expose development port
-EXPOSE 8001
+# Build the application
+RUN npm run build
 
-# Set environment variables
-ENV NODE_ENV=development
-ENV VITE_HOST=0.0.0.0
-ENV VITE_PORT=8001
+# Production stage
+FROM nginx:alpine
 
-# Health check for development
+# Copy built files from builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Health check for production
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8001/ || exit 1
+  CMD curl -f http://localhost/ || exit 1
 
-# Start development server
-CMD ["npm", "run", "dev"] 
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"] 
