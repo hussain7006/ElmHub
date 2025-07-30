@@ -64,3 +64,7 @@ def check_environment():
         "autism_ai_server_url": os.getenv("AUTISM_AI_SERVER", "Not set")
     }
 
+@app.get("/health")
+def health_check():
+    """Simple health check endpoint for Docker"""
+    return {"status": "healthy", "service": "backend"}
