@@ -24,7 +24,7 @@
    npm run dev
    ```
 
-2. Open your browser and navigate to the local development server URL (usually `http://localhost:8007`).
+2. Open your browser and navigate to the local development server URL (usually `http://localhost:[PORT]`).
 
 
 
