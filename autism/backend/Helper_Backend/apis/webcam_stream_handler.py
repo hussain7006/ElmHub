@@ -100,6 +100,8 @@ def read_main():
           <script>
             const sessionId = "abc123";
             const WS_URL = `ws://${location.host}/ws/stream/${sessionId}`;
+            console.log('WS_URL')
+            console.log(WS_URL)
             let ws = null;
             let intervalId = null;
 
