@@ -28,7 +28,7 @@ import "./PeopleAnalyticsV3.css"
 import axios from 'axios';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css';
-// import AreaChart from '../../components/charts/AreaChart.jsx';
+import AreaChart from '../../components/charts/AreaChart.jsx';
 import TrendCard from '../../components/trendCard/TrendCard.jsx';
 import GoogelMapComponent from '../../components/googleMap/GoogelMapComponent.jsx';
 import Swal from 'sweetalert2';
@@ -672,6 +672,8 @@ const PeopleAnalyticsV3 = () => {
   }
   useEffect(() => { i18n.changeLanguage(langReducer) }, [langReducer])
   // ------ language change stuff ------
+
+  useEffect(() => { }, [camera1StreamInfo])
 
   return (
     <main style={{
@@ -1464,7 +1466,7 @@ const PeopleAnalyticsV3 = () => {
                   :
 
                   <div id="donutChart" className="doughtnut graph" >
-                    {/* <AreaChart title={"MALE"} type="male" chartData={areaChartData} cameraIndex={cameraIndex} /> */}
+                    <AreaChart title={"MALE"} type="male" chartData={areaChartData} cameraIndex={cameraIndex} />
                   </div>)
               }
 
@@ -1477,7 +1479,7 @@ const PeopleAnalyticsV3 = () => {
                   :
                   tempModelsState.gender &&
                   <div id="groupBarChart" className='graph'>
-                    {/* <AreaChart title={"FEMALE"} type='female' chartData={areaChartData} cameraIndex={cameraIndex} /> */}
+                    <AreaChart title={"FEMALE"} type='female' chartData={areaChartData} cameraIndex={cameraIndex} />
                   </div>
               }
 
